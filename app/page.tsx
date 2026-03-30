@@ -3,7 +3,7 @@ import WaitlistForm from '../components/WaitlistForm'
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-sky-50 via-amber-50/30 to-teal-50">
+    <main className="min-h-screen bg-gradient-to-b from-[#0a1628] via-[#0f2a1a] to-[#0a1628]">
       {/* Hero */}
       <section className="relative px-6 pt-16 pb-12 sm:pt-24 sm:pb-16">
         <div className="max-w-2xl mx-auto text-center">
@@ -15,18 +15,18 @@ export default function Home() {
             className="mx-auto mb-8"
             priority
           />
-          <p className="text-xl sm:text-2xl text-teal-700 font-medium mb-10">
+          <p className="text-xl sm:text-2xl text-emerald-300 font-medium mb-10">
             Aprender puede ser una aventura.
           </p>
 
           {/* Carta de induccion */}
           <div className="max-w-lg mx-auto mb-12 space-y-4 text-center">
-            <p className="text-lg sm:text-xl text-stone-600 leading-relaxed">
+            <p className="text-lg sm:text-xl text-slate-300 leading-relaxed">
               Acompaña a Fuzzy el solenodonte y sus amigos
               en una isla llena de juegos que enseñan
               y se adaptan al ritmo de cada niño.
             </p>
-            <p className="text-lg text-stone-700 font-medium">
+            <p className="text-lg text-white/90 font-medium">
               Pronto podrás explorarla.<br />
               Deja tu correo y sé de los primeros en llegar.
             </p>
@@ -40,7 +40,7 @@ export default function Home() {
       {/* Features preview */}
       <section className="px-6 py-16 sm:py-20">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl font-bold text-stone-800 text-center mb-12">
+          <h2 className="text-2xl sm:text-3xl font-bold text-white text-center mb-12">
             Que van a encontrar en la isla
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
@@ -54,7 +54,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="px-6 py-10 text-center">
-        <p className="text-stone-400 text-sm">
+        <p className="text-slate-500 text-sm">
           Isla Curiosa &mdash; Hecho con amor en Republica Dominicana
         </p>
       </footer>
@@ -64,9 +64,9 @@ export default function Home() {
 
 function FeatureCard({ icon, title }: { icon: string; title: string }) {
   return (
-    <div className="flex flex-col items-center text-center p-5 rounded-2xl bg-white/60 border border-stone-100 shadow-sm">
+    <div className="flex flex-col items-center text-center p-5 rounded-2xl bg-white/10 border border-white/10 backdrop-blur-sm">
       <span className="text-3xl mb-2">{icon}</span>
-      <span className="text-sm font-semibold text-stone-700">{title}</span>
+      <span className="text-sm font-semibold text-white/90">{title}</span>
     </div>
   )
 }

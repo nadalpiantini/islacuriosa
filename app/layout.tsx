@@ -1,7 +1,19 @@
 import '../styles/globals.css'
-import { Inter } from 'next/font/google'
+import { Baloo_2, Comic_Neue } from 'next/font/google'
 
-const inter = Inter({ subsets: ['latin'] })
+const baloo2 = Baloo_2({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-baloo',
+  display: 'swap',
+})
+
+const comicNeue = Comic_Neue({
+  subsets: ['latin'],
+  weight: ['300', '400', '700'],
+  variable: '--font-comic',
+  display: 'swap',
+})
 
 export const metadata = {
   title: 'Isla Curiosa — Educacion animada del Caribe',
@@ -27,8 +39,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="es">
-      <body className={inter.className}>{children}</body>
+    <html lang="es" className={`${baloo2.variable} ${comicNeue.variable}`}>
+      <body className="font-body min-h-screen">
+        {children}
+      </body>
     </html>
   )
 }

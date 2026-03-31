@@ -38,7 +38,7 @@ export default function WaitlistForm() {
     return (
       <div className="w-full max-w-md mx-auto text-center py-6 px-4">
         <div className="text-4xl mb-3">🏝️</div>
-        <p className="text-lg font-semibold text-stone-800">{message}</p>
+        <p className="text-lg font-semibold text-emerald-300">{message}</p>
       </div>
     )
   }
@@ -52,12 +52,12 @@ export default function WaitlistForm() {
           placeholder="Tu correo electronico"
           value={email}
           onChange={(e) => { setEmail(e.target.value); setStatus('idle') }}
-          className="flex-1 px-5 py-4 rounded-xl border-2 border-stone-200 bg-white text-stone-800 text-lg placeholder:text-stone-400 focus:outline-none focus:border-coral focus:ring-2 focus:ring-coral/30 transition-all"
+          className="flex-1 px-5 py-4 rounded-xl border-2 border-white/15 bg-white/10 text-white text-lg placeholder:text-slate-400 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30 backdrop-blur-sm transition-all"
         />
         <button
           type="submit"
           disabled={status === 'loading'}
-          className="px-8 py-4 rounded-xl bg-coral text-white text-lg font-bold hover:bg-coral-dark active:scale-[0.97] transition-all disabled:opacity-60 disabled:cursor-not-allowed shadow-lg shadow-coral/25"
+          className="px-8 py-4 rounded-xl bg-emerald-500 text-white text-lg font-bold hover:bg-emerald-400 active:scale-[0.97] transition-all disabled:opacity-60 disabled:cursor-not-allowed shadow-lg shadow-emerald-500/30 cursor-pointer"
         >
           {status === 'loading' ? 'Enviando...' : 'Quiero entrar'}
         </button>
@@ -65,7 +65,7 @@ export default function WaitlistForm() {
       {status === 'error' && (
         <p className="mt-3 text-red-500 text-sm text-center">{message}</p>
       )}
-      <p className="mt-4 text-stone-400 text-sm text-center">
+      <p className="mt-4 text-slate-500 text-sm text-center">
         Sin spam. Solo novedades de la isla.
       </p>
     </form>

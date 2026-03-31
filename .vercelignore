@@ -3,3 +3,8 @@
 .env.development.local
 .env.test.local
 .env.production.local
+items/
+lib/game-engine.ts
+lib/isla-data.ts
+ralph_*.js
+change_nameservers.sh

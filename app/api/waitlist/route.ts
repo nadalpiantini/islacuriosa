@@ -56,9 +56,10 @@ export async function POST(request: Request) {
       message: 'Te anotamos! Pronto sabrás de nosotros.',
       ok: true,
     })
-  } catch {
+  } catch (err) {
+    console.error('[WAITLIST] Unexpected error:', err)
     return NextResponse.json(
-      { error: 'Error procesando tu solicitud' },
+      { error: 'Error procesando tu solicitud', detail: String(err) },
       { status: 500 }
     )
   }

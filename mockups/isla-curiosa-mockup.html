@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Isla Curiosa — Mockups</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Comic+Neue:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --primary: #2563EB;
+    --cta: #F97316;
+    --cta-dark: #EA580C;
+    --secondary: #3B82F6;
+    --bg: #F8FAFC;
+    --text: #1E293B;
+    --card: #FFFFFF;
+    --border: #E2E8F0;
+    --ocean-light: #BAE6FD;
+    --ocean: #0EA5E9;
+    --ocean-deep: #0369A1;
+    --island-green: #22C55E;
+    --island-dark: #15803D;
+    --sand: #FDE68A;
+    --coral-light: #FED7AA;
+
+    /* Clay shadows */
+    --clay-shadow:
+      4px 4px 0px rgba(0,0,0,0.08),
+      inset 0 -2px 4px rgba(0,0,0,0.04),
+      inset 0 2px 4px rgba(255,255,255,0.6);
+    --clay-shadow-pressed:
+      2px 2px 0px rgba(0,0,0,0.06),
+      inset 0 -1px 2px rgba(0,0,0,0.04),
+      inset 0 1px 2px rgba(255,255,255,0.4);
+  }
+
+  body {
+    font-family: 'Comic Neue', cursive, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5 {
+    font-family: 'Baloo 2', cursive, sans-serif;
+  }
+
+  /* ===== NAV MOCKUP SELECTOR ===== */
+  .mockup-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: #1E293B;
+    padding: 12px 16px;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .mockup-nav button {
+    font-family: 'Comic Neue', sans-serif;
+    padding: 8px 16px;
+    border: 2px solid #475569;
+    border-radius: 12px;
+    background: transparent;
+    color: #94A3B8;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+  .mockup-nav button.active {
+    background: var(--cta);
+    border-color: var(--cta);
+    color: white;
+  }
+  .mockup-nav button:hover { border-color: var(--cta); color: white; }
+
+  .screen { display: none; padding-top: 56px; }
+  .screen.active { display: block; }
+
+  /* ===== SCREEN 1: ISLA MAPA ===== */
+  .isla-screen {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #7DD3FC 0%, #38BDF8 30%, #0EA5E9 60%, #0284C7 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .isla-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .isla-header h1 {
+    color: white;
+    font-size: 28px;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+  }
+
+  .isla-map {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    aspect-ratio: 3/4;
+  }
+
+  /* Island shape */
+  .isla-body {
+    position: absolute;
+    top: 8%;
+    left: 10%;
+    width: 80%;
+    height: 75%;
+    background: linear-gradient(135deg, #4ADE80, #22C55E, #15803D);
+    border-radius: 60% 50% 55% 45% / 50% 60% 40% 55%;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2), inset 0 -8px 16px rgba(0,0,0,0.1);
+    border: 3px solid rgba(255,255,255,0.2);
+  }
+  /* Sand edges */
+  .isla-body::after {
+    content: '';
+    position: absolute;
+    bottom: -2%;
+    left: 5%;
+    width: 90%;
+    height: 15%;
+    background: linear-gradient(0deg, #FDE68A, transparent);
+    border-radius: 0 0 60% 60%;
+    opacity: 0.6;
+  }
+
+  /* Zone pins */
+  .zone-pin {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s ease-out;
+    z-index: 10;
+  }
+  .zone-pin:active { transform: scale(0.93); }
+  .zone-pin:hover { transform: scale(1.12); }
+
+  .zone-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid white;
+    box-shadow: var(--clay-shadow), 0 2px 8px rgba(0,0,0,0.2);
+    font-size: 18px;
+    color: white;
+  }
+  .zone-label {
+    margin-top: 4px;
+    font-family: 'Baloo 2', cursive;
+    font-size: 10px;
+    font-weight: 700;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+    white-space: nowrap;
+    text-align: center;
+    max-width: 70px;
+  }
+  .zone-pin.locked .zone-icon { opacity: 0.45; filter: grayscale(0.6); }
+  .zone-pin.locked .zone-label { opacity: 0.45; }
+  .zone-lock { font-size: 10px; margin-top: 1px; }
+
+  /* Zone detail panel */
+  .zone-panel {
+    position: fixed;
+    bottom: 72px;
+    left: 12px;
+    right: 12px;
+    background: white;
+    border-radius: 24px;
+    padding: 20px;
+    box-shadow: 0 -4px 24px rgba(0,0,0,0.15);
+    border: 3px solid var(--border);
+    z-index: 100;
+  }
+  .zone-panel-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .zone-panel-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 22px;
+    box-shadow: var(--clay-shadow);
+    border: 3px solid rgba(255,255,255,0.3);
+  }
+  .zone-panel h3 { font-size: 20px; line-height: 1.2; }
+  .zone-panel .real-place { font-size: 13px; color: #64748B; font-weight: 700; }
+  .zone-panel p { font-size: 15px; color: #475569; line-height: 1.5; margin: 8px 0 16px; }
+  .zone-panel .explore-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: var(--cta);
+    color: white;
+    border: 3px solid var(--cta-dark);
+    border-radius: 16px;
+    font-family: 'Baloo 2', cursive;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: var(--clay-shadow);
+    transition: all 0.15s;
+    text-align: center;
+    text-decoration: none;
+  }
+  .zone-panel .explore-btn:active {
+    transform: scale(0.97);
+    box-shadow: var(--clay-shadow-pressed);
+  }
+
+  /* ===== SCREEN 2: ZONA ===== */
+  .zona-screen {
+    min-height: 100vh;
+    background: var(--bg);
+  }
+  .zona-header {
+    background: linear-gradient(135deg, #0EA5E9, #2563EB);
+    padding: 20px;
+    color: white;
+  }
+  .zona-back { color: rgba(255,255,255,0.7); font-size: 14px; font-weight: 700; text-decoration: none; }
+  .zona-header h1 { font-size: 28px; margin-top: 8px; }
+  .zona-header .place { font-size: 14px; opacity: 0.8; }
+
+  .episodios-grid {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .episode-card {
+    background: var(--card);
+    border: 3px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--clay-shadow);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .episode-card:active { transform: scale(0.98); box-shadow: var(--clay-shadow-pressed); }
+
+  .episode-thumb {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, #BAE6FD, #7DD3FC);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .episode-thumb svg { width: 48px; height: 48px; color: white; opacity: 0.8; }
+  .episode-duration {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .episode-info { padding: 16px; }
+  .episode-info h3 { font-size: 17px; margin-bottom: 4px; }
+  .episode-info p { font-size: 13px; color: #64748B; }
+  .episode-meta {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .episode-badge {
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    border: 2px solid;
+  }
+  .badge-games { background: #EFF6FF; color: var(--primary); border-color: #BFDBFE; }
+  .badge-pdf { background: #FFF7ED; color: var(--cta); border-color: var(--coral-light); }
+
+  /* ===== SCREEN 3: EPISODIO ===== */
+  .episodio-screen {
+    min-height: 100vh;
+    background: var(--bg);
+  }
+  .video-container {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #0F172A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .play-btn {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--cta);
+    border: 4px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    cursor: pointer;
+  }
+  .play-btn svg { width: 32px; height: 32px; color: white; margin-left: 4px; }
+
+  .episodio-content { padding: 20px; }
+  .episodio-content h1 { font-size: 24px; margin-bottom: 4px; }
+  .episodio-content .ep-meta { color: #64748B; font-size: 14px; margin-bottom: 16px; }
+
+  .section-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: 20px;
+    margin: 24px 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title svg { width: 22px; height: 22px; color: var(--primary); }
+
+  .games-row {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .game-card {
+    min-width: 140px;
+    background: var(--card);
+    border: 3px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    text-align: center;
+    box-shadow: var(--clay-shadow);
+    cursor: pointer;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .game-card:active { transform: scale(0.95); box-shadow: var(--clay-shadow-pressed); }
+  .game-card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    margin: 0 auto 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+  }
+  .game-card h4 { font-size: 13px; font-weight: 700; }
+
+  .pdf-download {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: #FFF7ED;
+    border: 3px solid var(--coral-light);
+    border-radius: 16px;
+    box-shadow: var(--clay-shadow);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .pdf-download:active { transform: scale(0.98); }
+  .pdf-icon {
+    width: 52px;
+    height: 52px;
+    background: var(--cta);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    box-shadow: var(--clay-shadow);
+    flex-shrink: 0;
+  }
+  .pdf-download h4 { font-size: 15px; margin-bottom: 2px; }
+  .pdf-download p { font-size: 12px; color: #64748B; }
+
+  /* ===== SCREEN 4: COMPONENTS ===== */
+  .components-screen {
+    min-height: 100vh;
+    background: var(--bg);
+    padding: 20px;
+  }
+  .comp-section { margin-bottom: 32px; }
+  .comp-section h2 { font-size: 22px; margin-bottom: 16px; color: var(--text); }
+
+  .clay-card {
+    background: var(--card);
+    border: 3px solid var(--border);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: var(--clay-shadow);
+    margin-bottom: 12px;
+  }
+  .clay-card.accent {
+    background: #EFF6FF;
+    border-color: #BFDBFE;
+  }
+  .clay-card.highlight {
+    background: #FFF7ED;
+    border-color: var(--coral-light);
+  }
+
+  .clay-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 24px;
+    border-radius: 16px;
+    font-family: 'Baloo 2', cursive;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    box-shadow: var(--clay-shadow);
+    border: 3px solid;
+    min-height: 44px;
+    min-width: 44px;
+  }
+  .clay-btn:active { transform: scale(0.97); box-shadow: var(--clay-shadow-pressed); }
+  .clay-btn.primary { background: var(--primary); color: white; border-color: #1D4ED8; }
+  .clay-btn.cta { background: var(--cta); color: white; border-color: var(--cta-dark); }
+  .clay-btn.ghost { background: transparent; color: var(--text); border-color: var(--border); }
+  .clay-btn.sm { padding: 8px 16px; font-size: 14px; border-radius: 12px; }
+  .clay-btn.lg { padding: 18px 32px; font-size: 20px; border-radius: 20px; }
+
+  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+
+  .color-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .color-swatch {
+    aspect-ratio: 1;
+    border-radius: 16px;
+    border: 3px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: var(--clay-shadow);
+  }
+  .color-swatch span { font-size: 10px; margin-top: 4px; opacity: 0.7; }
+
+  .font-sample h3 { margin-bottom: 4px; }
+  .font-baloo { font-family: 'Baloo 2', cursive; }
+  .font-comic { font-family: 'Comic Neue', cursive; }
+
+  /* ===== BOTTOM NAV ===== */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 3px solid var(--border);
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+    z-index: 500;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.06);
+  }
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 4px 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    min-width: 64px;
+    min-height: 44px;
+    justify-content: center;
+  }
+  .nav-item.active { color: var(--primary); }
+  .nav-item:not(.active) { color: #94A3B8; }
+  .nav-item svg { width: 24px; height: 24px; }
+  .nav-item span { font-size: 11px; font-weight: 700; font-family: 'Baloo 2', cursive; }
+
+  /* Clouds decoration */
+  .cloud {
+    position: absolute;
+    background: rgba(255,255,255,0.4);
+    border-radius: 50%;
+    z-index: 1;
+  }
+</style>
+</head>
+<body>
+
+<!-- Mockup Navigator -->
+<nav class="mockup-nav">
+  <button class="active" onclick="showScreen('isla')">Isla (Home)</button>
+  <button onclick="showScreen('zona')">Zona</button>
+  <button onclick="showScreen('episodio')">Episodio</button>
+  <button onclick="showScreen('components')">Components</button>
+</nav>
+
+<!-- ===== SCREEN 1: ISLA MAPA ===== -->
+<div id="screen-isla" class="screen active">
+  <div class="isla-screen">
+    <div class="isla-header">
+      <h1>Isla Curiosa</h1>
+    </div>
+
+    <div class="isla-map">
+      <!-- Island body -->
+      <div class="isla-body"></div>
+
+      <!-- Clouds -->
+      <div class="cloud" style="width:80px;height:30px;top:5%;left:15%;"></div>
+      <div class="cloud" style="width:60px;height:22px;top:3%;left:70%;"></div>
+
+      <!-- Zone pins -->
+      <div class="zone-pin" style="top:18%;left:55%;" onclick="showPanel('bahia')">
+        <div class="zone-icon" style="background:var(--ocean);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20"><path d="M2 12h2a8 8 0 0 1 8 8"/><path d="M2 8h6a8 8 0 0 1 8 8"/><path d="M2 4h10a8 8 0 0 1 8 8"/></svg>
+        </div>
+        <div class="zone-label">La Bahia</div>
+      </div>
+
+      <div class="zone-pin" style="top:25%;left:30%;" onclick="showPanel('cuevas')">
+        <div class="zone-icon" style="background:#15803D;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div class="zone-label">Las Cuevas</div>
+      </div>
+
+      <div class="zone-pin" style="top:35%;left:68%;" onclick="showPanel('fuerte')">
+        <div class="zone-icon" style="background:#92400E;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20"><path d="M3 21h18"/><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/><path d="M9 21v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4"/></svg>
+        </div>
+        <div class="zone-label">El Fuerte</div>
+      </div>
+
+      <div class="zone-pin" style="top:20%;left:75%;" onclick="showPanel('montana')">
+        <div class="zone-icon" style="background:#7C3AED;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>
+        </div>
+        <div class="zone-label">La Montana</div>
+      </div>
+
+      <div class="zone-pin" style="top:45%;left:42%;" onclick="showPanel('valle')">
+        <div class="zone-icon" style="background:#059669;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20"><path d="M12 3v18"/><path d="M5 12h14"/><rect x="4" y="4" width="16" height="16" rx="2"/></svg>
+        </div>
+        <div class="zone-label">El Valle</div>
+      </div>
+
+      <div class="zone-pin" style="top:55%;left:22%;" onclick="showPanel('cascada')">
+        <div class="zone-icon" style="background:#0891B2;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20"><path d="M12 2v20"/><path d="M2 12h10"/><path d="m7 7 5 5-5 5"/></svg>
+        </div>
+        <div class="zone-label">La Cascada</div>
+      </div>
+
+      <div class="zone-pin locked" style="top:60%;left:65%;">
+        <div class="zone-icon" style="background:#DC2626;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/></svg>
+        </div>
+        <div class="zone-label">Cueva del Arte</div>
+        <div class="zone-lock">🔒</div>
+      </div>
+
+      <div class="zone-pin locked" style="top:50%;left:82%;">
+        <div class="zone-icon" style="background:#0369A1;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20"><path d="M2 12h2a8 8 0 0 1 8 8"/><circle cx="12" cy="8" r="4"/></svg>
+        </div>
+        <div class="zone-label">El Arrecife</div>
+        <div class="zone-lock">🔒</div>
+      </div>
+
+      <div class="zone-pin locked" style="top:70%;left:45%;">
+        <div class="zone-icon" style="background:#475569;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        </div>
+        <div class="zone-label">El Pueblo</div>
+        <div class="zone-lock">🔒</div>
+      </div>
+
+      <div class="zone-pin locked" style="top:40%;left:15%;">
+        <div class="zone-icon" style="background:#1D4ED8;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+        </div>
+        <div class="zone-label">El Lago</div>
+        <div class="zone-lock">🔒</div>
+      </div>
+    </div>
+
+    <!-- Zone detail panel (sample) -->
+    <div class="zone-panel" id="zone-panel" style="display:none;">
+      <div class="zone-panel-header">
+        <div class="zone-panel-icon" id="panel-icon" style="background:var(--ocean);"></div>
+        <div>
+          <h3 id="panel-name">La Bahia</h3>
+          <div class="real-place" id="panel-place">Bahia de Samana, RD</div>
+        </div>
+      </div>
+      <p id="panel-desc">Donde las ballenas vienen a cantar. Sientate a ver los episodios de Fuzzy y sus amigos.</p>
+      <div class="explore-btn">Explorar esta zona</div>
+    </div>
+  </div>
+
+  <!-- Bottom Nav -->
+  <div class="bottom-nav">
+    <div class="nav-item active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+      <span>Isla</span>
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/></svg>
+      <span>Juegos</span>
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>Explorador</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SCREEN 2: ZONA ===== -->
+<div id="screen-zona" class="screen">
+  <div class="zona-screen">
+    <div class="zona-header">
+      <a class="zona-back" href="#">← Isla</a>
+      <h1>La Bahia</h1>
+      <div class="place">Bahia de Samana, Republica Dominicana</div>
+    </div>
+    <div class="episodios-grid">
+      <div class="episode-card">
+        <div class="episode-thumb" style="background: linear-gradient(135deg, #BAE6FD, #38BDF8);">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="48" height="48" style="color:white;opacity:0.8;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <div class="episode-duration">3:42</div>
+        </div>
+        <div class="episode-info">
+          <h3>Fuzzy y la ballena curiosa</h3>
+          <p>Fuzzy descubre por que las ballenas viajan tan lejos cada ano.</p>
+          <div class="episode-meta">
+            <span class="episode-badge badge-games">4 juegos</span>
+            <span class="episode-badge badge-pdf">PDF</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="episode-card">
+        <div class="episode-thumb" style="background: linear-gradient(135deg, #A7F3D0, #34D399);">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="48" height="48" style="color:white;opacity:0.8;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <div class="episode-duration">4:15</div>
+        </div>
+        <div class="episode-info">
+          <h3>El secreto de los manglares</h3>
+          <p>Los manglares son los guardianes de la costa. Fuzzy investiga como funcionan.</p>
+          <div class="episode-meta">
+            <span class="episode-badge badge-games">5 juegos</span>
+            <span class="episode-badge badge-pdf">PDF</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="episode-card" style="opacity:0.5;">
+        <div class="episode-thumb" style="background: linear-gradient(135deg, #E2E8F0, #CBD5E1);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="48" height="48" style="color:#94A3B8;"><rect x="5" y="3" width="14" height="18" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        </div>
+        <div class="episode-info">
+          <h3>Proximo episodio...</h3>
+          <p>Nuevo episodio cada semana</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-nav">
+    <div class="nav-item active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+      <span>Isla</span>
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/></svg>
+      <span>Juegos</span>
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>Explorador</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SCREEN 3: EPISODIO ===== -->
+<div id="screen-episodio" class="screen">
+  <div class="episodio-screen">
+    <div class="video-container">
+      <div class="play-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      </div>
+    </div>
+    <div class="episodio-content">
+      <h1>Fuzzy y la ballena curiosa</h1>
+      <div class="ep-meta">La Bahia &middot; 3:42 &middot; Episodio 1</div>
+
+      <div class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/></svg>
+        Juegos de este episodio
+      </div>
+      <div class="games-row">
+        <div class="game-card">
+          <div class="game-card-icon" style="background:var(--primary);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="22" height="22"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/></svg>
+          </div>
+          <h4>Quiz: Ballenas</h4>
+        </div>
+        <div class="game-card">
+          <div class="game-card-icon" style="background:#22C55E;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="22" height="22"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          </div>
+          <h4>Memoria marina</h4>
+        </div>
+        <div class="game-card">
+          <div class="game-card-icon" style="background:#7C3AED;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="22" height="22"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+          </div>
+          <h4>Sopa de letras</h4>
+        </div>
+        <div class="game-card">
+          <div class="game-card-icon" style="background:var(--cta);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="22" height="22"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h4>Verdadero o falso</h4>
+        </div>
+      </div>
+
+      <div class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+        Material descargable
+      </div>
+      <div class="pdf-download">
+        <div class="pdf-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="26" height="26"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </div>
+        <div>
+          <h4>Busca a Fuzzy en Samana</h4>
+          <p>Actividad tipo Where's Waldo + datos curiosos de ballenas</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-nav">
+    <div class="nav-item active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+      <span>Isla</span>
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/></svg>
+      <span>Juegos</span>
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>Explorador</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SCREEN 4: COMPONENTS ===== -->
+<div id="screen-components" class="screen">
+  <div class="components-screen">
+    <h1 style="font-size:28px;margin-bottom:24px;">Design System</h1>
+
+    <div class="comp-section">
+      <h2>Paleta</h2>
+      <div class="color-grid">
+        <div class="color-swatch" style="background:#2563EB;color:white;">Primary<span>#2563EB</span></div>
+        <div class="color-swatch" style="background:#F97316;color:white;">CTA<span>#F97316</span></div>
+        <div class="color-swatch" style="background:#3B82F6;color:white;">Secondary<span>#3B82F6</span></div>
+        <div class="color-swatch" style="background:#F8FAFC;color:#1E293B;border-color:#E2E8F0;">Background<span>#F8FAFC</span></div>
+        <div class="color-swatch" style="background:#1E293B;color:white;">Text<span>#1E293B</span></div>
+        <div class="color-swatch" style="background:#FFFFFF;color:#1E293B;">Card<span>#FFFFFF</span></div>
+      </div>
+    </div>
+
+    <div class="comp-section">
+      <h2>Tipografia</h2>
+      <div class="clay-card">
+        <div class="font-sample font-baloo">
+          <h3 style="font-size:32px;">Baloo 2 — Titulos</h3>
+          <p style="font-size:24px;">Isla Curiosa</p>
+          <p style="font-size:18px;">Aprende jugando con Fuzzy</p>
+        </div>
+      </div>
+      <div class="clay-card">
+        <div class="font-sample font-comic">
+          <p style="font-size:18px;font-weight:700;">Comic Neue Bold — Labels</p>
+          <p style="font-size:16px;">Comic Neue Regular — Body text. Los manglares son los guardianes de la costa caribeña.</p>
+          <p style="font-size:14px;font-weight:300;">Comic Neue Light — Captions</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="comp-section">
+      <h2>Botones Clay</h2>
+      <div class="btn-row">
+        <button class="clay-btn primary">Primary</button>
+        <button class="clay-btn cta">CTA Action</button>
+        <button class="clay-btn ghost">Ghost</button>
+      </div>
+      <div class="btn-row">
+        <button class="clay-btn cta sm">Small</button>
+        <button class="clay-btn primary">Medium</button>
+        <button class="clay-btn cta lg">Large</button>
+      </div>
+    </div>
+
+    <div class="comp-section">
+      <h2>Cards Clay</h2>
+      <div class="clay-card">
+        <h3 style="font-family:'Baloo 2';font-size:18px;margin-bottom:8px;">Card Default</h3>
+        <p>Contenido de una tarjeta con estilo claymorphism. Bordes gruesos, sombras suaves, esquinas redondeadas.</p>
+      </div>
+      <div class="clay-card accent">
+        <h3 style="font-family:'Baloo 2';font-size:18px;margin-bottom:8px;">Card Accent</h3>
+        <p>Para informacion destacada con tono azul.</p>
+      </div>
+      <div class="clay-card highlight">
+        <h3 style="font-family:'Baloo 2';font-size:18px;margin-bottom:8px;">Card Highlight</h3>
+        <p>Para llamadas a la accion con tono coral.</p>
+      </div>
+    </div>
+
+    <div class="comp-section">
+      <h2>Clay Shadows</h2>
+      <div class="clay-card" style="text-align:center;">
+        <p style="font-size:13px;color:#64748B;font-family:monospace;">
+          box-shadow:<br>
+          4px 4px 0px rgba(0,0,0,0.08),<br>
+          inset 0 -2px 4px rgba(0,0,0,0.04),<br>
+          inset 0 2px 4px rgba(255,255,255,0.6);
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-nav">
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+      <span>Isla</span>
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/></svg>
+      <span>Juegos</span>
+    </div>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>Explorador</span>
+    </div>
+  </div>
+</div>
+
+<script>
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.mockup-nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  event.target.classList.add('active');
+  document.getElementById('zone-panel').style.display = 'none';
+}
+
+const zones = {
+  bahia: { name: 'La Bahia', place: 'Bahia de Samana, RD', desc: 'Donde las ballenas vienen a cantar. Sientate a ver los episodios de Fuzzy y sus amigos.', color: '#0EA5E9', icon: '🌊' },
+  cuevas: { name: 'Las Cuevas', place: 'Los Haitises, RD', desc: 'Cuevas con dibujos de hace miles de anos. Descubre puzzles escondidos entre las rocas.', color: '#15803D', icon: '🔍' },
+  fuerte: { name: 'El Fuerte', place: 'Zona Colonial, Santo Domingo', desc: 'La primera ciudad de America. Explora su historia con decisiones que cambian la aventura.', color: '#92400E', icon: '🏛️' },
+  montana: { name: 'La Montana', place: 'Pico Duarte, RD', desc: 'La cima mas alta del Caribe. Cada reto que superas te lleva mas arriba.', color: '#7C3AED', icon: '⛰️' },
+  valle: { name: 'El Valle', place: 'Jarabacoa, RD', desc: 'Rios y montanas verdes. Aqui los numeros y la logica son la brujula.', color: '#059669', icon: '🧮' },
+  cascada: { name: 'La Cascada', place: 'Salto El Limon, RD', desc: 'Una cascada que nunca para. Juega con la fisica del agua y la gravedad.', color: '#0891B2', icon: '💧' },
+};
+
+function showPanel(zone) {
+  const z = zones[zone];
+  if (!z) return;
+  const panel = document.getElementById('zone-panel');
+  document.getElementById('panel-name').textContent = z.name;
+  document.getElementById('panel-place').textContent = z.place;
+  document.getElementById('panel-desc').textContent = z.desc;
+  document.getElementById('panel-icon').style.background = z.color;
+  panel.style.display = 'block';
+}
+</script>
+</body>
+</html>

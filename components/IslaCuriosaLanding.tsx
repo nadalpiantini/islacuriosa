@@ -155,10 +155,22 @@ export default function IslaCuriosaLanding() {
 
   return (
     <main className="fixed inset-0 overflow-hidden bg-[#0b1a0e]">
-      {/* looping landing video — object-contain fits any viewport (mobile-first) */}
+      {/* blurred backdrop — fills the screen so there are no empty bands */}
       <video
         src="/landing.mp4"
-        className="absolute inset-0 h-full w-full object-contain select-none"
+        className="absolute inset-0 h-full w-full object-cover scale-110 blur-2xl opacity-60 select-none"
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        aria-hidden="true"
+      />
+
+      {/* real landing video — sharp, full frame, never cropped (mobile-first) */}
+      <video
+        src="/landing.mp4"
+        className="absolute inset-0 h-full w-full object-contain select-none drop-shadow-2xl"
         autoPlay
         loop
         muted

@@ -155,18 +155,16 @@ export default function IslaCuriosaLanding() {
 
   return (
     <main className="fixed inset-0 overflow-hidden bg-[#0b1a0e]">
-      {/* looping landing video */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <video
-          src="/landing.mp4"
-          className="max-h-full max-w-full select-none"
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-        />
-      </div>
+      {/* looping landing video — object-contain fits any viewport (mobile-first) */}
+      <video
+        src="/landing.mp4"
+        className="absolute inset-0 h-full w-full object-contain select-none"
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+      />
 
       {/* soft vignette */}
       <div

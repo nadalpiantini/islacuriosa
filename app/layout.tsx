@@ -1,19 +1,4 @@
 import '../styles/globals.css'
-import { Baloo_2, Comic_Neue } from 'next/font/google'
-
-const baloo2 = Baloo_2({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-baloo',
-  display: 'swap',
-})
-
-const comicNeue = Comic_Neue({
-  subsets: ['latin'],
-  weight: ['300', '400', '700'],
-  variable: '--font-comic',
-  display: 'swap',
-})
 
 export const metadata = {
   title: 'Isla Curiosa — Educacion animada del Caribe',
@@ -39,8 +24,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="es" className={`${baloo2.variable} ${comicNeue.variable}`}>
-      <body className="font-body min-h-screen">
+    <html lang="es">
+      <body className="min-h-screen">
         {children}
       </body>
     </html>

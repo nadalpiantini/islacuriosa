@@ -4,13 +4,14 @@ import { useEffect, useRef, useState } from 'react'
 
 /**
  * ISLA-CURIOSA-LANDING-A
- * Full-screen landing artwork shown on a gentle, seamless "breathing" loop,
- * with an invented Disney-style music-box score that loops forever.
+ * Full-screen landing VIDEO (public/landing.mp4) on a seamless loop, with an
+ * invented Disney-style music-box score that also loops forever.
  *
- * The music is synthesized live with the Web Audio API (no audio file):
- * a I–V–vi–IV fairy-tale progression in D major with a soft pad, twinkle
- * arpeggios, and a melody on top. Browsers block sound until the user
- * interacts, so a tasteful "tap to enter" gate starts the audio.
+ * The video autoplays muted+looping (its own audio is silenced — Alan asked
+ * for invented music). The music is synthesized live with the Web Audio API
+ * (no audio file): a I–V–vi–IV fairy-tale progression in D major with a soft
+ * pad, twinkle arpeggios, and a melody on top. Browsers block sound until the
+ * user interacts, so a tasteful "tap to enter" gate starts the audio.
  */
 export default function IslaCuriosaLanding() {
   const [entered, setEntered] = useState(false)
@@ -154,14 +155,16 @@ export default function IslaCuriosaLanding() {
 
   return (
     <main className="fixed inset-0 overflow-hidden bg-[#0b1a0e]">
-      {/* breathing artwork loop */}
-      <div className="kc-stage absolute inset-0 flex items-center justify-center">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/hero-landing.png"
-          alt="Isla Curiosa"
-          className="kc-art max-h-full max-w-full select-none"
-          draggable={false}
+      {/* looping landing video */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <video
+          src="/landing.mp4"
+          className="max-h-full max-w-full select-none"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
         />
       </div>
 
@@ -197,16 +200,10 @@ export default function IslaCuriosaLanding() {
       )}
 
       <style>{`
-        @keyframes kcBreathe {
-          0%   { transform: scale(1) translateY(0); }
-          50%  { transform: scale(1.045) translateY(-1.2%); }
-          100% { transform: scale(1) translateY(0); }
-        }
-        .kc-art { animation: kcBreathe 12s ease-in-out infinite; will-change: transform; }
         @keyframes kcPulse { 0%,100% { opacity: .55; } 50% { opacity: 1; } }
         .kc-pulse { animation: kcPulse 2.2s ease-in-out infinite; }
         @media (prefers-reduced-motion: reduce) {
-          .kc-art, .kc-pulse { animation: none; }
+          .kc-pulse { animation: none; }
         }
       `}</style>
     </main>

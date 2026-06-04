@@ -154,16 +154,14 @@ export default function IslaCuriosaLanding() {
   }, [])
 
   return (
-    <main className="fixed inset-0 overflow-hidden bg-[#0b1a0e]">
-      {/* blurred backdrop — fills the screen so there are no empty bands */}
-      <video
-        src="/landing.mp4"
-        className="absolute inset-0 h-full w-full object-cover scale-110 blur-2xl opacity-60 select-none"
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="auto"
+    <main className="fixed inset-0 overflow-hidden">
+      {/* tropical brand backdrop — echoes the scene palette (sky → foliage → sand), no blur */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            'linear-gradient(180deg, #8fd4ef 0%, #6bbf73 42%, #3f7d52 70%, #e9d5a6 100%)',
+        }}
         aria-hidden="true"
       />
 

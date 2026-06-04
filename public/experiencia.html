@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Isla Curiosa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --sky:#8fd4ef;
+    --leaf:#6bbf73;
+    --deep:#3f7d52;
+    --sand:#e9d5a6;
+    --sun:#F5A623;
+    --water:#2aa3d4;
+    --white:#fffdf6;
+    --ink:#22372b;
+    --shadow:0 10px 30px rgba(34,55,43,.18);
+    --shadow-soft:0 6px 18px rgba(34,55,43,.12);
+    --bounce:cubic-bezier(.34,1.56,.64,1);
+    --r:28px;
+  }
+
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;margin:0;}
+  body{
+    font-family:'Baloo 2',system-ui,-apple-system,sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(120% 80% at 50% 0%, #aee3f6 0%, #8fd4ef 32%, #6bbf73 70%, #e9d5a6 100%);
+    min-height:100dvh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:env(safe-area-inset-top) 12px env(safe-area-inset-bottom);
+    overflow:hidden;
+  }
+
+  /* ---- Phone frame ---- */
+  .phone{
+    position:relative;
+    width:min(100vw, 440px);
+    height:min(100dvh, 880px);
+    background:linear-gradient(180deg,#8fd4ef 0%, #7cc77f 55%, #e9d5a6 100%);
+    border-radius:34px;
+    overflow:hidden;
+    box-shadow:var(--shadow), 0 0 0 6px rgba(255,255,255,.5);
+    isolation:isolate;
+  }
+  @media (max-width:460px){
+    body{padding:0;}
+    .phone{width:100vw;height:100dvh;border-radius:0;box-shadow:none;}
+  }
+
+  /* ---- Persistent UI ---- */
+  .corner{
+    position:absolute;z-index:60;
+    font-weight:700;
+  }
+  .skip{
+    top:14px;right:14px;
+    background:rgba(255,253,246,.85);
+    color:var(--deep);
+    border:none;
+    padding:10px 16px;
+    min-height:44px;
+    border-radius:999px;
+    font-family:inherit;font-size:15px;font-weight:700;
+    cursor:pointer;
+    box-shadow:var(--shadow-soft);
+    transition:transform .2s var(--bounce);
+  }
+  .skip:hover,.skip:focus-visible{transform:scale(1.06);}
+  .mute{
+    bottom:16px;right:14px;
+    width:52px;height:52px;
+    border-radius:50%;
+    border:none;
+    background:rgba(255,253,246,.9);
+    font-size:22px;line-height:1;
+    cursor:pointer;
+    box-shadow:var(--shadow-soft);
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .2s var(--bounce);
+  }
+  .mute:hover,.mute:focus-visible{transform:scale(1.1);}
+
+  .footer-tag{
+    position:absolute;bottom:8px;left:0;right:0;z-index:55;
+    text-align:center;
+    font-size:11px;font-weight:600;
+    color:rgba(34,55,43,.55);
+    pointer-events:none;
+    letter-spacing:.3px;
+  }
+
+  /* ---- Scenes ---- */
+  .scene{
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
+    padding:26px 24px 70px;
+    opacity:0;
+    transform:translateY(18px) scale(.98);
+    pointer-events:none;
+    transition:opacity .5s ease, transform .5s var(--bounce);
+    text-align:center;
+  }
+  .scene.active{
+    opacity:1;
+    transform:none;
+    pointer-events:auto;
+  }
+
+  /* ---- Buttons ---- */
+  .btn{
+    font-family:inherit;
+    border:none;cursor:pointer;
+    min-height:60px;
+    padding:16px 34px;
+    border-radius:999px;
+    font-size:22px;font-weight:800;
+    color:var(--white);
+    background:linear-gradient(180deg,#ffb938 0%, var(--sun) 100%);
+    box-shadow:0 8px 0 #c9821a, var(--shadow);
+    transition:transform .12s var(--bounce), box-shadow .12s ease;
+  }
+  .btn:active{transform:translateY(5px);box-shadow:0 3px 0 #c9821a, var(--shadow-soft);}
+  .btn:hover,.btn:focus-visible{transform:translateY(-2px);}
+  .btn.green{
+    background:linear-gradient(180deg,#7fd089 0%, var(--leaf) 100%);
+    box-shadow:0 8px 0 #4d9b59, var(--shadow);
+  }
+  .btn.green:active{box-shadow:0 3px 0 #4d9b59, var(--shadow-soft);}
+  .btn.water{
+    background:linear-gradient(180deg,#48b7e3 0%, var(--water) 100%);
+    box-shadow:0 8px 0 #1f7da6, var(--shadow);
+  }
+  .btn.water:active{box-shadow:0 3px 0 #1f7da6, var(--shadow-soft);}
+
+  /* ===== SCENE 1 — Cold open ===== */
+  #s1{justify-content:flex-end;padding-bottom:90px;}
+  .video-wrap{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    z-index:0;
+  }
+  .video-wrap video,.video-wrap img{
+    width:100%;height:100%;
+    object-fit:contain;
+    display:block;
+  }
+  .video-vignette{
+    position:absolute;inset:0;z-index:1;
+    background:radial-gradient(80% 60% at 50% 45%, transparent 60%, rgba(63,125,82,.15) 100%);
+    pointer-events:none;
+  }
+  #s1 .cta-zone{position:relative;z-index:5;display:flex;flex-direction:column;align-items:center;gap:10px;}
+  .pulse-cta{animation:gentlePulse 2.2s ease-in-out infinite;}
+  .tiny{font-size:13px;font-weight:600;color:rgba(34,55,43,.6);}
+  /* Scene 2 curiosity-gap: answer button briefly locked (present but not tappable) */
+  .btn.cta-locked{opacity:.55;pointer-events:none;cursor:default;filter:saturate(.7);}
+  /* Scene 1 peeking Fuzzy accent (does not block the button) */
+  .peek-fuzzy{
+    position:absolute;z-index:4;
+    right:10px;bottom:60px;
+    width:108px;height:108px;
+    object-fit:contain;
+    pointer-events:none;
+    filter:drop-shadow(0 6px 10px rgba(34,55,43,.22));
+    transform-origin:50% 100%;
+  }
+
+  @keyframes gentlePulse{
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.05);}
+  }
+
+  /* ===== Looping Fuzzy scene videos (full-frame, framed card) ===== */
+  /* Videos are full tropical scenes — a rounded framed card on the bg.
+     NO jump / bounce / float on Fuzzy: only opacity fade-in on appear. */
+  .fuzzy-vid{
+    width:240px;max-width:64vw;height:auto;
+    display:block;margin:0 auto 26px;
+    border-radius:24px;
+    object-fit:cover;
+    box-shadow:var(--shadow);
+    filter:drop-shadow(0 10px 16px rgba(34,55,43,.18));
+  }
+
+  /* ===== SCENE 2 — Phone rings ===== */
+  /* ring waves floating beside the central video — the VIDEO never shakes */
+  .s2-stage{position:relative;display:flex;flex-direction:column;align-items:center;}
+  .s2-stage .ring-waves{position:absolute;top:6px;right:22%;font-size:30px;opacity:0;}
+  .s2-stage.ringing .ring-waves{animation:waves 1s ease-out infinite;}
+  /* legacy emoji toy-phone kept as fallback if image fails */
+  .toy-phone{
+    width:200px;
+    background:var(--white);
+    border-radius:var(--r);
+    padding:28px 24px 30px;
+    box-shadow:var(--shadow);
+    margin-bottom:30px;
+    position:relative;
+    animation:none;
+  }
+  .ringing{animation:ring .6s ease-in-out infinite;}
+  .phone-emoji{
+    font-size:78px;line-height:1;
+    display:inline-block;
+    transform-origin:50% 70%;
+  }
+  .ringing .phone-emoji{animation:wiggle .5s ease-in-out infinite;}
+  .ring-waves{
+    position:absolute;top:-6px;right:6px;font-size:26px;
+    opacity:0;
+  }
+  .ringing .ring-waves{animation:waves 1s ease-out infinite;}
+  .scene-title{font-size:24px;font-weight:800;margin:0 0 22px;line-height:1.2;}
+
+  @keyframes ring{
+    0%,100%{transform:rotate(0) translateY(0);}
+    25%{transform:rotate(-4deg) translateY(-3px);}
+    50%{transform:rotate(0) translateY(0);}
+    75%{transform:rotate(4deg) translateY(-3px);}
+  }
+  @keyframes wiggle{
+    0%,100%{transform:rotate(0);}
+    50%{transform:rotate(14deg);}
+  }
+  @keyframes waves{
+    0%{opacity:0;transform:scale(.6) translateX(0);}
+    40%{opacity:1;}
+    100%{opacity:0;transform:scale(1.2) translateX(8px);}
+  }
+
+  /* ===== SCENE 3 — Fuzzy answers ===== */
+  .fuzzy-stage{display:flex;flex-direction:column;align-items:center;gap:22px;}
+  /* Fuzzy waving = looping .fuzzy-vid (defined above). NO bob/jump/float. */
+  /* legacy circular crop kept as fallback container if the wave video fails */
+  .fuzzy{
+    width:160px;height:160px;
+    border-radius:50%;
+    overflow:hidden;
+    box-shadow:0 0 0 7px var(--white), var(--shadow);
+    background:linear-gradient(180deg,#8fd4ef,#6bbf73);
+    position:relative;
+  }
+  .fuzzy.enter{animation:fuzzyIn .6s ease both;}
+  .fuzzy.idle{animation:none;}
+  .fuzzy video,.fuzzy img{
+    width:160%;height:160%;
+    object-fit:cover;
+    position:absolute;top:50%;left:50%;
+    transform:translate(-50%,-50%);
+  }
+  .bubble{
+    position:relative;
+    background:var(--white);
+    color:var(--ink);
+    padding:18px 22px;
+    border-radius:24px;
+    font-size:21px;font-weight:700;
+    line-height:1.3;
+    max-width:280px;
+    box-shadow:var(--shadow);
+    min-height:1.3em;
+  }
+  .bubble::after{
+    content:"";
+    position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+    border:11px solid transparent;
+    border-bottom-color:var(--white);
+  }
+  .caret{display:inline-block;width:2px;background:var(--sun);animation:blink .7s steps(1) infinite;height:.95em;vertical-align:-2px;margin-left:1px;}
+
+  /* Fuzzy appear = opacity fade-in ONLY — no translateY, no scale, no rotate */
+  @keyframes fuzzyIn{0%{opacity:0;}100%{opacity:1;}}
+  @keyframes blink{50%{opacity:0;}}
+
+  /* ===== SCENE 4 — Real animated aerial island map ===== */
+  #s4 .map-head{font-size:22px;font-weight:800;margin:0 0 4px;}
+  #s4 .map-sub{font-size:14px;font-weight:600;color:rgba(34,55,43,.7);margin:0 0 14px;}
+  /* The map is a rounded 16:9 CARD filling the phone-frame width. Pins sit on it. */
+  .island-map{
+    position:relative;
+    width:100%;max-width:100%;
+    aspect-ratio:16 / 9;
+    margin:0 auto;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+    background:linear-gradient(180deg,#8fd4ef,#2aa3d4);
+  }
+  .isla-mapa-vid,.island-map .isla-mapa-fallback{
+    position:absolute;inset:0;
+    width:100%;height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .island-map .isla-mapa-fallback{display:none;} /* shown only if the video fails */
+
+  /* Zone pins — absolutely positioned over island features */
+  .pin{
+    position:absolute;
+    width:44px;height:44px;min-width:44px;min-height:44px;
+    border-radius:50%;
+    background:rgba(255,253,246,.92);
+    display:flex;align-items:center;justify-content:center;
+    font-size:22px;line-height:1;
+    box-shadow:0 3px 8px rgba(34,55,43,.35);
+    border:2px solid rgba(255,255,255,.9);
+    transform:translate(-50%,-50%);
+    cursor:pointer;
+    transition:transform .25s var(--bounce);
+    z-index:6;
+  }
+  /* calm / non-target pins are dimmer */
+  .pin.calm{opacity:.72;background:rgba(255,253,246,.78);}
+  /* the glowing TARGET pin: gold halo via zonePulse */
+  .pin.target{
+    background:linear-gradient(180deg,#ffe3a3,#ffd277);
+    border-color:var(--sun);
+    box-shadow:0 0 0 0 rgba(245,166,35,.6), 0 3px 10px rgba(34,55,43,.4);
+    animation:zonePulse 1.6s ease-in-out infinite;
+  }
+  .pin.done{
+    animation:zonePop .6s var(--bounce) forwards;
+    background:linear-gradient(180deg,#ffd277,var(--sun));
+    box-shadow:0 0 24px 4px rgba(245,166,35,.75), 0 3px 10px rgba(34,55,43,.4);
+  }
+  /* tiny harmless shake when tapping a non-target pin */
+  .pin.nudge{animation:pinShake .4s ease;}
+  @keyframes pinShake{0%,100%{transform:translate(-50%,-50%) rotate(0);}25%{transform:translate(-52%,-50%) rotate(-6deg);}75%{transform:translate(-48%,-50%) rotate(6deg);}}
+  /* instant micro-zoom the moment the target pin is tapped (<150ms feedback) */
+  .pin.zap{animation:pinZap .22s var(--bounce);}
+  @keyframes pinZap{0%{transform:translate(-50%,-50%) scale(1);}50%{transform:translate(-50%,-50%) scale(1.5);}100%{transform:translate(-50%,-50%) scale(1.18);}}
+  /* the ~1s rising-glow anticipation halo over the tapped pin */
+  .pin.charging{animation:pinCharge 1s ease-out forwards;}
+  @keyframes pinCharge{
+    0%{box-shadow:0 0 0 0 rgba(245,166,35,.55), 0 3px 10px rgba(34,55,43,.4);}
+    100%{box-shadow:0 0 30px 10px rgba(245,166,35,.85), 0 3px 10px rgba(34,55,43,.4);}
+  }
+
+  /* Fuzzy celebrates at the BOTTOM-CENTER of the map card, only on win */
+  .map-celebrate{
+    position:absolute;
+    left:50%;bottom:6px;transform:translateX(-50%);
+    width:140px;max-width:42%;
+    z-index:8;
+    display:none; /* shown on .win */
+  }
+  .island-map.win .map-celebrate{display:block;}
+  .map-celebrate .celebrate-vid{
+    display:block;width:100%;height:auto;
+    border-radius:18px;object-fit:cover;
+    box-shadow:var(--shadow);
+    filter:drop-shadow(0 8px 12px rgba(34,55,43,.22));
+    animation:fuzzyIn .5s ease both; /* opacity fade-in only — no jump */
+  }
+  .celebrate-vid{display:none;}
+  .island-map.win .map-celebrate .celebrate-vid{display:block;}
+  .win-msg{
+    margin-top:16px;
+    font-size:22px;font-weight:800;color:var(--deep);
+    opacity:0;transform:scale(.6);
+    transition:opacity .4s var(--bounce),transform .4s var(--bounce);
+    min-height:30px;
+  }
+  .win-msg.show{opacity:1;transform:none;}
+  #s4 .next-wrap{margin-top:14px;opacity:0;transform:translateY(10px);transition:.4s var(--bounce);pointer-events:none;}
+  #s4 .next-wrap.show{opacity:1;transform:none;pointer-events:auto;}
+
+  @keyframes zonePulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(245,166,35,.55),var(--shadow);}50%{transform:scale(1.12);box-shadow:0 0 0 14px rgba(245,166,35,0),var(--shadow);}}
+  @keyframes zonePop{0%{transform:scale(1);}45%{transform:scale(1.4);}100%{transform:scale(1.18);}}
+
+  /* confetti */
+  .confetti{position:absolute;inset:0;pointer-events:none;z-index:40;overflow:hidden;}
+  .confetti span{
+    position:absolute;top:-12px;
+    width:9px;height:14px;border-radius:2px;
+    opacity:0;
+    animation:fall 1.5s ease-in forwards;
+  }
+  @keyframes fall{
+    0%{opacity:1;transform:translateY(0) rotate(0);}
+    100%{opacity:0;transform:translateY(360px) rotate(540deg);}
+  }
+
+  /* ===== SCENE 5 — Parent door ===== */
+  /* ===== SCENE 5 — Fuzzy se despide en la playa ===== */
+  #s5{background:#8fd4ef;justify-content:flex-end;gap:0;padding-bottom:28px;}
+  /* full-bleed looping beach video background */
+  #s5 .s5-bg{position:absolute;inset:0;z-index:0;overflow:hidden;}
+  #s5 .s5-bg video,#s5 .s5-bg img{
+    position:absolute;inset:0;width:100%;height:100%;
+    object-fit:cover;display:block;
+  }
+  #s5 .s5-bg img{display:none;} /* poster fallback shown only if video fails */
+  /* soft scrim so bottom text/form stays legible over the video */
+  #s5 .s5-scrim{
+    position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:linear-gradient(180deg,
+      rgba(255,253,246,0) 0%,
+      rgba(255,253,246,.0) 34%,
+      rgba(255,253,246,.80) 62%,
+      rgba(255,253,246,.96) 100%);
+  }
+  /* logo near the top, transparent PNG */
+  #s5 .s5-logo{
+    position:absolute;top:5%;left:50%;transform:translateX(-50%);
+    z-index:3;width:58%;max-width:260px;height:auto;
+    filter:drop-shadow(0 6px 14px rgba(34,55,43,.35));
+  }
+  #s5 .s5-goodbye{
+    position:absolute;top:calc(5% + 178px);left:0;right:0;z-index:3;
+    text-align:center;margin:0;padding:0 16px;
+    font-size:24px;font-weight:800;color:var(--deep);
+    text-shadow:0 2px 8px rgba(255,253,246,.8), 0 1px 2px rgba(255,253,246,.9);
+  }
+  /* the parent content sits above the scrim, anchored to the bottom */
+  #s5 .s5-foot{
+    position:relative;z-index:3;
+    display:flex;flex-direction:column;align-items:center;
+    width:100%;
+  }
+  #s5 h2{font-size:26px;margin:0 0 6px;font-weight:800;color:var(--deep);}
+  .parent-line{
+    font-size:17px;font-weight:600;line-height:1.45;
+    color:var(--ink);max-width:330px;margin:0 0 8px;
+    text-shadow:0 1px 3px rgba(255,253,246,.85);
+  }
+  .trust{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:13.5px;font-weight:700;color:var(--deep);
+    background:rgba(255,253,246,.82);
+    padding:6px 14px;border-radius:999px;margin-bottom:10px;
+    box-shadow:0 1px 4px rgba(34,55,43,.12);
+  }
+  /* ethical social proof — no numbers, no countdown */
+  .social-proof{
+    font-size:14px;font-weight:700;color:var(--deep);
+    margin:0 0 14px;max-width:330px;
+    text-shadow:0 1px 3px rgba(255,253,246,.9);
+  }
+  /* privacy reassurance under the email button */
+  .privacy-note{
+    font-size:12.5px;font-weight:600;line-height:1.4;
+    color:var(--ink);opacity:.9;
+    margin:10px 0 0;max-width:320px;
+    text-shadow:0 1px 3px rgba(255,253,246,.9);
+  }
+  .form{width:100%;max-width:330px;display:flex;flex-direction:column;gap:12px;}
+  .form input{
+    font-family:inherit;font-size:17px;
+    padding:16px 18px;min-height:56px;
+    border-radius:18px;
+    border:2px solid #d9ceac;
+    background:var(--white);
+    color:var(--ink);
+    outline:none;
+    transition:border-color .2s ease;
+  }
+  .form input:focus{border-color:var(--sun);}
+  .form .btn{width:100%;font-size:18px;padding:16px 20px;}
+  .confirm{
+    display:none;
+    flex-direction:column;align-items:center;gap:10px;
+    animation:fuzzyIn .6s var(--bounce);
+  }
+  .confirm.show{display:flex;}
+  .confirm .big{font-size:48px;}
+  .confirm p{font-size:19px;font-weight:700;color:var(--deep);margin:0;max-width:280px;}
+  .restart{
+    margin-top:18px;
+    background:none;border:none;
+    font-family:inherit;font-size:14px;font-weight:700;
+    color:var(--water);cursor:pointer;
+    text-decoration:underline;
+    min-height:44px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001s !important;animation-iteration-count:1 !important;transition-duration:.15s !important;}
+    .scene{transform:none;}
+  }
+</style>
+</head>
+<body>
+  <main class="phone" id="phone" aria-label="Experiencia Isla Curiosa">
+
+    <!-- Persistent UI -->
+    <button class="corner skip" id="skipBtn" aria-label="Saltar a la sección para adultos">saltar →</button>
+    <button class="corner mute" id="muteBtn" aria-label="Silenciar o activar sonido" aria-pressed="false">🔊</button>
+    <div class="footer-tag"></div>
+
+    <!-- ===== SCENE 1 ===== -->
+    <section class="scene active" id="s1" aria-label="Bienvenida">
+      <div class="video-wrap">
+        <video id="bgVideo" muted loop playsinline autoplay
+               poster="/logo.png"
+               aria-label="Mundo animado de Isla Curiosa">
+          <source src="/landing.mp4" type="video/mp4" />
+        </video>
+        <img id="bgFallback" src="/logo.png" alt="Logo de Isla Curiosa" style="display:none;" />
+      </div>
+      <div class="video-vignette"></div>
+      <img class="peek-fuzzy" id="peekFuzzy" src="/fuzzy/fuzzy-peek.png"
+           alt="Fuzzy asomándose con curiosidad" />
+      <div class="cta-zone">
+        <button class="btn pulse-cta" id="startBtn" aria-label="Empezar la aventura">▶&nbsp;&nbsp;Empezar</button>
+        <span class="tiny">toca para empezar 🌴</span>
+      </div>
+    </section>
+
+    <!-- ===== SCENE 2 ===== -->
+    <section class="scene" id="s2" aria-label="El teléfono suena">
+      <div class="s2-stage" id="s2Stage">
+        <span class="ring-waves" aria-hidden="true">📳</span>
+        <video class="fuzzy-vid" id="fuzzyPhoneVid" muted loop playsinline autoplay
+               preload="none"
+               poster="/fuzzy/fuzzy-phone.png"
+               aria-label="Fuzzy sosteniendo un teléfono, emocionado">
+          <source src="/fuzzy/video/fuzzy-phone.mp4" type="video/mp4" />
+        </video>
+        <!-- emoji fallback (shown only if the video fails to load) -->
+        <div class="toy-phone" id="toyPhone" style="display:none;">
+          <span class="phone-emoji" aria-hidden="true">📞</span>
+        </div>
+      </div>
+      <h1 class="scene-title">¡Tu teléfono está sonando!</h1>
+      <button class="btn green pulse-cta" id="answerBtn" aria-label="Contestar el teléfono">Contestar 📞</button>
+    </section>
+
+    <!-- ===== SCENE 3 ===== -->
+    <section class="scene" id="s3" aria-label="Fuzzy contesta">
+      <div class="fuzzy-stage">
+        <video class="fuzzy-vid" id="fuzzyWaveVid" muted loop playsinline autoplay
+               preload="none"
+               poster="/fuzzy/fuzzy-wave.png"
+               aria-label="Fuzzy saludando en la playa">
+          <source src="/fuzzy/video/fuzzy-wave.mp4" type="video/mp4" />
+        </video>
+        <!-- circular video/logo fallback (shown only if the wave video fails) -->
+        <div class="fuzzy" id="fuzzy3" role="img" aria-label="Fuzzy, el personaje naranja" style="display:none;">
+          <video muted loop playsinline aria-hidden="true"
+                 preload="none" poster="/fuzzy/fuzzy-wave.png">
+            <source src="/landing.mp4" type="video/mp4" />
+          </video>
+          <img src="/logo.png" alt="" aria-hidden="true" style="display:none;" />
+        </div>
+        <!-- bubble kept empty/hidden: Fuzzy already asked everything on the phone -->
+        <div class="bubble" id="fuzzyBubble" style="display:none;"><span id="fuzzyText"></span><span class="caret" aria-hidden="true"></span></div>
+        <button class="btn water pulse-cta" id="yesBtn" aria-label="Sí, quiero explorar la isla">¡Sí! 🌴</button>
+      </div>
+    </section>
+
+    <!-- ===== SCENE 4 ===== -->
+    <section class="scene" id="s4" aria-label="Explora la isla">
+      <h2 class="map-head">El mapa de la isla 🗺️</h2>
+      <p class="map-sub">Toca la zona que brilla ✨</p>
+      <div class="island-map" id="map">
+        <!-- animated aerial island (the star) -->
+        <video class="isla-mapa-vid" id="islaMapaVid" muted loop playsinline autoplay
+               preload="none"
+               poster="/fuzzy/isla-mapa.png"
+               aria-label="Mapa animado de la isla, vista aérea">
+          <source src="/fuzzy/video/isla-mapa.mp4" type="video/mp4" />
+        </video>
+        <img class="isla-mapa-fallback" id="islaMapaFallback"
+             src="/fuzzy/isla-mapa.png" alt="Mapa de la isla, vista aérea" />
+        <!-- zone pins injected by JS, positioned over island features -->
+
+        <!-- Fuzzy celebrates over his island on win (bottom-center) -->
+        <div class="map-celebrate" id="mapFuzzy" role="img" aria-label="Fuzzy celebrando en su isla">
+          <video class="celebrate-vid fuzzy-vid" id="celebrateVid" muted loop playsinline
+                 preload="none"
+                 poster="/fuzzy/fuzzy-celebrate.png">
+            <source src="/fuzzy/video/fuzzy-celebrate.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </div>
+      <div class="win-msg" id="winMsg">¡Lo lograste! 🎉</div>
+      <div class="next-wrap" id="nextWrap">
+        <button class="btn green" id="nextBtn" aria-label="Seguir a la siguiente sección">Seguir →</button>
+      </div>
+      <div class="confetti" id="confetti" aria-hidden="true"></div>
+    </section>
+
+    <!-- ===== SCENE 5 ===== -->
+    <section class="scene" id="s5" aria-label="Información para adultos">
+      <!-- full-bleed beach video where Fuzzy waves goodbye -->
+      <div class="s5-bg" aria-hidden="true">
+        <video id="s5Bg" muted loop playsinline autoplay
+               preload="none"
+               poster="/fuzzy/fuzzy-wave.png">
+          <source src="/fuzzy/video/fuzzy-wave.mp4" type="video/mp4" />
+        </video>
+        <img id="s5BgFallback" src="/fuzzy/fuzzy-wave.png" alt="" />
+      </div>
+      <div class="s5-scrim" aria-hidden="true"></div>
+
+      <!-- transparent logo + goodbye line near the top -->
+      <img class="s5-logo" src="/logo.png" alt="Isla Curiosa" />
+      <p class="s5-goodbye">¡Nos vemos en la isla!</p>
+
+      <!-- parent content, legible over the scrim, anchored bottom -->
+      <div class="s5-foot">
+        <p class="parent-line">Tu hijo aprende jugando en un mundo dominicano.</p>
+        <span class="trust">🇩🇴 Hecho en RD · Sin anuncios · Sin compromiso</span>
+        <p class="social-proof">Únete a las primeras familias dominicanas.</p>
+
+        <form class="form" id="waitForm" novalidate>
+          <input type="email" id="email" inputmode="email" autocomplete="email"
+                 placeholder="tucorreo@ejemplo.com" aria-label="Tu correo electrónico (de un adulto)" required />
+          <button type="submit" class="btn" aria-label="Avísame cuando abra la isla">Avísame cuando abra la isla 🐚</button>
+        </form>
+        <p class="privacy-note">Tu correo no se comparte — solo te avisamos cuando Fuzzy esté listo.</p>
+
+        <div class="confirm" id="confirm" role="status" aria-live="polite">
+          <span class="big" aria-hidden="true">🌅</span>
+          <p>¡Gracias! Te avisamos pronto.</p>
+        </div>
+
+        <button class="restart" id="restartBtn" aria-label="Volver a empezar la experiencia">↻ Volver a empezar</button>
+      </div>
+    </section>
+
+  </main>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------------- State machine ---------------- */
+  var scenes = ["s1","s2","s3","s4","s5"];
+  var current = "s1";
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function $(id){ return document.getElementById(id); }
+
+  function show(id){
+    if(current === id) return;
+    var prev = $(current);
+    if(prev) prev.classList.remove("active");
+    var next = $(id);
+    if(next) next.classList.add("active");
+    current = id;
+    // contextual scene-transition swoosh (after first gesture / unlock)
+    Sfx.play("whoosh", 0.3);
+    onEnter(id);
+    // just-in-time warm the NEXT scene's video(s) so they're ready on arrival
+    var nxt = nextScene[id];
+    if(nxt) preloadScene(nxt);
+  }
+
+  /* ---------------- Audio engine (Web Audio) ---------------- */
+  var AudioEngine = {
+    ctx:null, master:null, muted:false, musicTimer:null, started:false,
+    init:function(){
+      if(this.ctx) return;
+      try{
+        var AC = window.AudioContext || window.webkitAudioContext;
+        this.ctx = new AC();
+        this.master = this.ctx.createGain();
+        this.master.gain.value = this.muted ? 0 : 0.9;
+        this.master.connect(this.ctx.destination);
+      }catch(e){ this.ctx = null; }
+    },
+    resume:function(){ if(this.ctx && this.ctx.state === "suspended"){ this.ctx.resume(); } },
+    tone:function(freq, dur, type, vol, when){
+      if(!this.ctx) return;
+      var t0 = (when||this.ctx.currentTime);
+      var osc = this.ctx.createOscillator();
+      var g = this.ctx.createGain();
+      osc.type = type||"sine";
+      osc.frequency.setValueAtTime(freq, t0);
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(vol||0.3, t0+0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0+dur);
+      osc.connect(g); g.connect(this.master);
+      osc.start(t0); osc.stop(t0+dur+0.02);
+    },
+    /* gentle music-box loop, soft major arpeggio */
+    startMusic:function(){
+      if(!this.ctx || this.musicTimer) return;
+      var self = this;
+      // C major-ish pentatonic-ish friendly notes (Hz)
+      var melody = [523.25,659.25,783.99,659.25, 587.33,698.46,587.33,523.25,
+                    659.25,783.99,1046.5,783.99, 698.46,659.25,587.33,523.25];
+      var step = 0;
+      var beat = 0.42;
+      function loop(){
+        if(self.muted){ /* keep timer alive but silent */ }
+        var f = melody[step % melody.length];
+        var mul = self._musicMul || 1; // duck while voice plays
+        // music-box = triangle, LOW base vol (~0.14) so ambient bed + voice sit on top
+        self.tone(f, 0.55, "triangle", 0.048 * mul);
+        self.tone(f*1.5, 0.4, "sine", 0.017 * mul);
+        step++;
+      }
+      loop();
+      this.musicTimer = setInterval(loop, beat*1000);
+    },
+    /* SFX */
+    ring:function(){
+      if(!this.ctx) return;
+      var t = this.ctx.currentTime;
+      // classic two-tone trill
+      for(var i=0;i<2;i++){
+        this.tone(1100, 0.12, "square", 0.12, t + i*0.18);
+        this.tone(900, 0.12, "square", 0.12, t + i*0.18 + 0.09);
+      }
+    },
+    boing:function(){
+      if(!this.ctx) return;
+      var t = this.ctx.currentTime;
+      var osc = this.ctx.createOscillator();
+      var g = this.ctx.createGain();
+      osc.type="sine";
+      osc.frequency.setValueAtTime(220, t);
+      osc.frequency.exponentialRampToValueAtTime(620, t+0.12);
+      osc.frequency.exponentialRampToValueAtTime(300, t+0.28);
+      g.gain.setValueAtTime(0.0001,t);
+      g.gain.exponentialRampToValueAtTime(0.22,t+0.03);
+      g.gain.exponentialRampToValueAtTime(0.0001,t+0.32);
+      osc.connect(g); g.connect(this.master);
+      osc.start(t); osc.stop(t+0.34);
+    },
+    sparkle:function(){
+      if(!this.ctx) return;
+      var notes=[1046.5,1318.5,1568,2093];
+      var t=this.ctx.currentTime;
+      for(var i=0;i<notes.length;i++){
+        this.tone(notes[i],0.5,"sine",0.12,t+i*0.07);
+      }
+    },
+    setMuted:function(m){
+      this.muted = m;
+      if(this.master){ this.master.gain.value = m ? 0 : 0.9; }
+    },
+    /* duck the music-box loop (and ambient bed) while a voice line plays */
+    duckMusic:function(on){
+      this._ducked = on;
+      // implemented as a quick volume scaling on the SFX/music tones:
+      // we scale future tone() vols via a multiplier read in startMusic loop
+      this._musicMul = on ? 0.4 : 1; // ~0.1 vs ~0.25 effective on the soft loop
+      // also duck the ambient ocean/birds bed to ~40% during voice
+      try{ if(typeof Ambient !== "undefined" && Ambient.duck){ Ambient.duck(on); } }catch(e){}
+    },
+    _musicMul:1
+  };
+
+  /* ---------------- Voice manager (real Fuzzy mp3s) ---------------- */
+  var Voice = {
+    muted:false,
+    cache:{},
+    el:function(src){
+      if(this.cache[src]) return this.cache[src];
+      var a = new Audio(src);
+      a.preload = "auto";
+      a.volume = 1.0;
+      a.addEventListener("error", function(){ /* silently ignore missing/failed mp3 */ });
+      this.cache[src] = a;
+      return a;
+    },
+    play:function(src, onStart, onEnded){
+      // never overlap voices: stop any currently-playing line first
+      this.stopAll();
+      // respect global mute (still fire callbacks so the flow advances)
+      if(this.muted){ if(onStart) onStart(); if(onEnded) onEnded(); return; }
+      var a;
+      try{ a = this.el(src); }catch(e){ if(onStart) onStart(); if(onEnded) onEnded(); return; }
+      try{
+        a.currentTime = 0;
+        AudioEngine.duckMusic(true);
+        var done = false;
+        var finish = function(){
+          if(done) return; done = true;
+          AudioEngine.duckMusic(false);
+          if(onEnded) onEnded();
+        };
+        a.onended = finish;
+        a.onerror = function(){ finish(); };
+        // safety in case 'ended' never fires
+        setTimeout(finish, 7000);
+        var pr = a.play();
+        if(onStart) onStart();
+        if(pr && pr.catch){ pr.catch(function(){ finish(); }); }
+      }catch(e){
+        AudioEngine.duckMusic(false);
+        if(onStart) onStart();
+        if(onEnded) onEnded();
+      }
+    },
+    stopAll:function(){
+      for(var k in this.cache){
+        if(this.cache.hasOwnProperty(k)){
+          try{ this.cache[k].pause(); this.cache[k].currentTime = 0; }catch(e){}
+        }
+      }
+      AudioEngine.duckMusic(false);
+    },
+    setMuted:function(m){
+      this.muted = m;
+      for(var k in this.cache){
+        if(this.cache.hasOwnProperty(k)){
+          try{ this.cache[k].volume = m ? 0 : 1.0; if(m) this.cache[k].pause(); }catch(e){}
+        }
+      }
+    }
+  };
+  // Voice file paths
+  var VOICE = {
+    telefono:  "/fuzzy/voz/telefono.mp3",
+    saludo:    "/fuzzy/voz/saludo.mp3",
+    chiste:    "/fuzzy/voz/chiste.mp3",
+    celebra:   "/fuzzy/voz/celebra.mp3",
+    despedida: "/fuzzy/voz/despedida.mp3"
+  };
+
+  /* ---------------- Ambient bed (looping ocean + seabirds) ---------------- */
+  var Ambient = {
+    muted:false,
+    started:false,
+    ducked:false,
+    calm:false,           // scene 5 = calmer bed
+    beach:null,
+    birds:null,
+    // base volumes (full bed); calm scene + voice-duck scale these down
+    BEACH_BASE:0.16,
+    BIRDS_BASE:0.10,
+    CALM_BEACH:0.04,
+    CALM_BIRDS:0.04,
+    _make:function(src, vol){
+      try{
+        var a = new Audio(src);
+        a.loop = true;
+        a.preload = "auto";
+        a.volume = vol;
+        a.addEventListener("error", function(){ /* missing/failed ambient: ignore */ });
+        return a;
+      }catch(e){ return null; }
+    },
+    // start both loops (idempotent); called on first user gesture
+    start:function(){
+      if(this.started) { this._applyVolumes(); return; }
+      this.started = true;
+      this.beach = this._make("/fuzzy/sfx/amb-beach.mp3", this.BEACH_BASE);
+      this.birds = this._make("/fuzzy/sfx/amb-birds.mp3", this.BIRDS_BASE);
+      this._applyVolumes();
+      this._tryPlay(this.beach);
+      this._tryPlay(this.birds);
+    },
+    _tryPlay:function(a){
+      if(!a) return;
+      try{ var pr = a.play(); if(pr && pr.catch){ pr.catch(function(){}); } }catch(e){}
+    },
+    // compute target volume for each layer given mute / calm / duck state
+    _applyVolumes:function(){
+      var mul = this.ducked ? 0.4 : 1;       // duck to ~40% while a voice line plays
+      var bV = (this.calm ? this.CALM_BEACH : this.BEACH_BASE) * mul;
+      var rV = (this.calm ? this.CALM_BIRDS : this.BIRDS_BASE) * mul;
+      try{ if(this.beach) this.beach.volume = this.muted ? 0 : bV; }catch(e){}
+      try{ if(this.birds) this.birds.volume = this.muted ? 0 : rV; }catch(e){}
+    },
+    duck:function(on){ this.ducked = !!on; this._applyVolumes(); },
+    setCalm:function(on){ this.calm = !!on; this._applyVolumes(); },
+    setMuted:function(m){
+      this.muted = m;
+      this._applyVolumes();
+      if(m){
+        try{ if(this.beach) this.beach.pause(); }catch(e){}
+        try{ if(this.birds) this.birds.pause(); }catch(e){}
+      } else if(this.started){
+        this._tryPlay(this.beach);
+        this._tryPlay(this.birds);
+      }
+    }
+  };
+
+  /* ---------------- Sfx: contextual one-shots (cached HTMLAudio) ---------------- */
+  var Sfx = {
+    muted:false,
+    cache:{},
+    paths:{
+      whoosh:    "/fuzzy/sfx/whoosh.mp3",
+      mapUnroll: "/fuzzy/sfx/map-unroll.mp3",
+      glow:      "/fuzzy/sfx/glow.mp3",
+      sparkle:   "/fuzzy/sfx/sparkle.mp3",
+      cheer:     "/fuzzy/sfx/cheer.mp3"
+    },
+    el:function(src){
+      if(this.cache[src]) return this.cache[src];
+      var a = new Audio(src);
+      a.preload = "auto";
+      a.addEventListener("error", function(){ /* missing/failed sfx: ignore */ });
+      this.cache[src] = a;
+      return a;
+    },
+    // play a one-shot by key at a given volume; respects mute, never blocks flow
+    play:function(key, vol){
+      if(this.muted) return;
+      var src = this.paths[key];
+      if(!src) return;
+      try{
+        var a = this.el(src);
+        a.volume = (typeof vol === "number") ? vol : 0.5;
+        a.currentTime = 0;
+        var pr = a.play();
+        if(pr && pr.catch){ pr.catch(function(){}); }
+      }catch(e){ /* never block the flow on audio */ }
+    },
+    setMuted:function(m){
+      this.muted = m;
+      for(var k in this.cache){
+        if(this.cache.hasOwnProperty(k)){
+          try{ if(m){ this.cache[k].pause(); } }catch(e){}
+        }
+      }
+    }
+  };
+
+  /* ---------------- Scene enter hooks ---------------- */
+  var fuzzyMsg = "¡Hola! ¿Vienes a explorar mi isla conmigo?";
+  var typed = false;
+
+  function onEnter(id){
+    AudioEngine.resume();
+
+    // ---- Scene 2: looping Fuzzy-phone VIDEO (no shake) + ring SFX + ring-waves ----
+    if(id === "s2"){
+      var stage = $("s2Stage");
+      if(stage) stage.classList.add("ringing"); // pulses ONLY the 📳 ring-waves
+      tryPlay($("fuzzyPhoneVid"));              // the video plays/loops, never shakes
+      AudioEngine.ring();
+      ring2 = setTimeout(function(){ if(current==="s2") AudioEngine.ring(); }, 1600);
+      ring3 = setTimeout(function(){ if(current==="s2") AudioEngine.ring(); }, 3200);
+      // Curiosity gap: the answer button is present but briefly NOT tappable,
+      // building "¿quién llama?" tension, then enables with a gentle highlight.
+      var ans = $("answerBtn");
+      if(ans){
+        if(reduced){
+          // accessibility: enable immediately, keep the pulse
+          ans.classList.remove("cta-locked"); ans.classList.add("pulse-cta"); ans.disabled = false;
+        }else{
+          ans.classList.add("cta-locked"); ans.classList.remove("pulse-cta"); ans.disabled = true;
+          ansUnlock = setTimeout(function(){
+            if(current !== "s2") return;
+            ans.classList.remove("cta-locked"); ans.classList.add("pulse-cta"); ans.disabled = false;
+          }, 1300);
+        }
+      }
+    } else {
+      var st = $("s2Stage"); if(st) st.classList.remove("ringing");
+      var tp = $("toyPhone"); if(tp) tp.classList.remove("ringing");
+      clearTimeout(ring2); clearTimeout(ring3); clearTimeout(ansUnlock);
+      // leaving s2: reset answer button to a clean enabled state for replays
+      var ans2 = $("answerBtn");
+      if(ans2){ ans2.classList.remove("cta-locked"); ans2.classList.add("pulse-cta"); ans2.disabled = false; }
+    }
+
+    // ---- Scene 3: SILENT beach beat — Fuzzy already spoke on the phone ----
+    // No voice, no bubble text here. Just the looping wave video + the "¡Sí!" button.
+    if(id === "s3"){
+      var waveVid = $("fuzzyWaveVid");
+      if(waveVid && waveVid.style.display !== "none"){
+        tryPlay(waveVid); // just plays/loops
+      } else {
+        // fallback circular crop (video → logo) if the wave video failed
+        var fallback = $("fuzzy3");
+        if(fallback && fallback.style.display !== "none"){ tryPlay(fallback.querySelector("video")); }
+      }
+      // keep the bubble empty/hidden in this scene
+      var bubbleText = $("fuzzyText");
+      if(bubbleText) bubbleText.textContent = "";
+    }
+
+    // ---- Scene 4: map-unroll one-shot + loop the animated aerial island ----
+    if(id === "s4"){
+      Ambient.setCalm(false); // full bed if returning from scene 5 via restart paths
+      Sfx.play("mapUnroll", 0.5);
+      tryPlay($("islaMapaVid")); // the island is the star — loop it
+    } else if(id !== "s5"){
+      // scenes 1–4 use the full ambient bed
+      Ambient.setCalm(false);
+    }
+
+    // ---- Scene 5: Fuzzy se despide en la playa — beach video + goodbye voice ----
+    if(id === "s5"){
+      tryPlay($("s5Bg"));        // loop the full-bleed beach video
+      Ambient.setCalm(true);     // gentle bed under the goodbye
+      Voice.play(VOICE.despedida); // "¡Nos vemos en la isla!" (respects mute)
+    }
+  }
+  var ring2, ring3, ansUnlock;
+
+  function typeBubble(text){
+    var el = $("fuzzyText");
+    el.textContent = "";
+    if(reduced){ el.textContent = text; return; }
+    var i = 0;
+    (function step(){
+      if(i <= text.length){
+        el.textContent = text.slice(0,i);
+        i++;
+        setTimeout(step, 38);
+      }
+    })();
+  }
+
+  function tryPlay(v){
+    if(v && v.play){ var pr = v.play(); if(pr && pr.catch){ pr.catch(function(){}); } }
+  }
+
+  /* ---------------- Haptics (guarded, silent no-op if unsupported) ---------------- */
+  function haptic(pattern){
+    try{
+      if(typeof navigator !== "undefined" && navigator.vibrate){ navigator.vibrate(pattern); }
+    }catch(e){ /* never block on haptics */ }
+  }
+
+  /* ---------------- Progressive load: warm the NEXT scene's video(s) ---------------- */
+  // Videos are preload="none" so initial page weight stays tiny. When a scene is
+  // entered we call .load() on the next scene's clip so it's usually ready on arrival.
+  var sceneVideos = {
+    s2: ["fuzzyPhoneVid"],
+    s3: ["fuzzyWaveVid"],
+    s4: ["islaMapaVid", "celebrateVid"], // map + the celebrate clip used on win
+    s5: ["s5Bg"]
+  };
+  var nextScene = { s1:"s2", s2:"s3", s3:"s4", s4:"s5", s5:null };
+  var warmed = {};
+  function preloadScene(id){
+    var ids = sceneVideos[id];
+    if(!ids) return;
+    ids.forEach(function(vid){
+      if(warmed[vid]) return;
+      var v = $(vid);
+      if(v && v.load){
+        warmed[vid] = true;
+        try{ v.load(); }catch(e){ /* ignore */ }
+      }
+    });
+  }
+
+  /* ---------------- Video fallback ---------------- */
+  var bg = $("bgVideo");
+  function videoFailed(){
+    if(bg) bg.style.display = "none";
+    var fb = $("bgFallback"); if(fb) fb.style.display = "block";
+    // The Fuzzy visuals are now generated videos/PNGs (primary), so a bg-video
+    // failure does NOT force the legacy circular crop. The Scene 3 fallback
+    // container stays hidden unless its own video fails (see wireMediaFallbacks).
+    // Only swap the inner video→logo inside the (hidden) Scene 3 fallback
+    // so that IF its video later fails, the fallback already shows the logo.
+    document.querySelectorAll(".fuzzy video").forEach(function(v){
+      v.style.display="none";
+      var img = v.parentElement.querySelector("img");
+      if(img) img.style.display="block";
+    });
+  }
+  if(bg){
+    bg.addEventListener("error", videoFailed);
+    bg.addEventListener("stalled", function(){ /* tolerate */ });
+    bg.querySelector("source").addEventListener("error", videoFailed);
+    // if it never reports dimensions, fall back
+    setTimeout(function(){
+      if(bg.readyState === 0 && bg.networkState === 3){ videoFailed(); }
+    }, 2500);
+  }
+
+  /* ---------------- Generated Fuzzy media fallbacks ---------------- */
+  // If a generated asset (PNG accent or looping video) fails to load, hide it
+  // and reveal the prior visual, so the flow keeps working gracefully.
+  (function wireMediaFallbacks(){
+    // helper: wire both the <video> error and its <source> error
+    function onVideoFail(vid, handler){
+      if(!vid) return;
+      vid.addEventListener("error", handler);
+      var src = vid.querySelector("source");
+      if(src){ src.addEventListener("error", handler); }
+    }
+
+    // Scene 1: peek PNG accent
+    var peek = $("peekFuzzy");
+    if(peek){ peek.addEventListener("error", function(){ peek.style.display = "none"; }); }
+
+    // Scene 2: Fuzzy-phone looping video → emoji toy-phone fallback
+    var phoneVid = $("fuzzyPhoneVid");
+    onVideoFail(phoneVid, function(){
+      if(phoneVid) phoneVid.style.display = "none";
+      var legacy = $("toyPhone");
+      if(legacy){ legacy.style.display = ""; }
+      // keep the ring wiggle on the legacy emoji phone when in scene 2
+      if(current === "s2" && legacy){ legacy.classList.add("ringing"); }
+    });
+
+    // Scene 3: Fuzzy-wave looping video → circular video/logo fallback
+    var waveVid = $("fuzzyWaveVid");
+    onVideoFail(waveVid, function(){
+      if(waveVid) waveVid.style.display = "none";
+      var legacy = $("fuzzy3");
+      if(legacy){
+        legacy.style.display = "";
+        var v = legacy.querySelector("video");
+        tryPlay(v);
+        if(v){ v.addEventListener("error", function(){
+          v.style.display="none";
+          var li = legacy.querySelector("img"); if(li) li.style.display="block";
+        }); }
+      }
+    });
+
+    // Scene 4: animated aerial island video → show the PNG poster fallback
+    var islaVid = $("islaMapaVid");
+    onVideoFail(islaVid, function(){
+      if(islaVid) islaVid.style.display = "none";
+      var fb = $("islaMapaFallback"); if(fb) fb.style.display = "block";
+    });
+
+    // Scene 4: celebrate looping video → if it fails, Fuzzy overlay stays hidden
+    var celebVid = $("celebrateVid");
+    onVideoFail(celebVid, function(){
+      if(celebVid) celebVid.setAttribute("data-failed","1");
+      var map = $("map");
+      if(map){ map.classList.remove("win"); }
+    });
+
+    // Scene 5: full-bleed beach video → show the PNG poster fallback
+    var s5bg = $("s5Bg");
+    onVideoFail(s5bg, function(){
+      if(s5bg) s5bg.style.display = "none";
+      var fb = $("s5BgFallback"); if(fb) fb.style.display = "block";
+    });
+  })();
+
+  /* ---------------- Island map: 4 fixed pins over real features ---------------- */
+  // Percentages of the 16:9 card. Tuned to sit on the island, not the sea.
+  var pinData = [
+    {x:50, y:34, e:"🌋", label:"Zona del volcán — tócala para descubrirla", target:true},
+    {x:24, y:62, e:"⛱️", label:"Zona de la playa"},
+    {x:72, y:58, e:"🐬", label:"Zona de la laguna"},
+    {x:38, y:24, e:"🌴", label:"Zona de la jungla"}
+  ];
+  function buildMap(){
+    var map = $("map");
+    // remove any previously-built pins (keep the video + fallback + celebrate)
+    map.querySelectorAll(".pin").forEach(function(p){ p.remove(); });
+    var anchor = map.querySelector(".map-celebrate"); // insert pins before Fuzzy overlay
+    pinData.forEach(function(p){
+      var el = document.createElement("button");
+      el.className = "pin " + (p.target ? "target" : "calm");
+      el.style.left = p.x + "%";
+      el.style.top = p.y + "%";
+      el.textContent = p.e;
+      el.setAttribute("aria-label", p.label);
+      if(p.target){
+        el.addEventListener("click", winZone.bind(null, el));
+        // soft magic glow as the inviting target pin starts pulsing
+        Sfx.play("glow", 0.35);
+      } else {
+        // non-target: short tick + tiny harmless shake, no advance
+        el.addEventListener("click", function(){
+          haptic(20);
+          if(reduced) return;
+          el.classList.remove("nudge");
+          // reflow to restart the animation
+          void el.offsetWidth;
+          el.classList.add("nudge");
+        });
+      }
+      if(anchor){ map.insertBefore(el, anchor); } else { map.appendChild(el); }
+    });
+  }
+
+  var won = false;
+  function winZone(el){
+    if(won) return;
+    won = true;
+
+    // ---- INSTANT feedback on tap (<150ms): haptic + sparkle + zonePop + micro-zoom ----
+    haptic([40,30,80]);                 // celebratory buzz on the winning tap
+    Sfx.play("sparkle", 0.6);           // real sparkle mp3, immediately
+    el.classList.remove("target");
+    el.classList.add("done");           // zonePop
+    el.classList.add("zap");            // quick micro-zoom on the tapped pin
+    el.setAttribute("aria-label","¡Zona del volcán descubierta!");
+
+    // ---- ~1s ANTICIPATION: a soft rising glow builds before the reveal ----
+    el.classList.add("charging");
+    Sfx.play("glow", 0.4);              // soft rising chime under the build
+    var ANTICIPATION = reduced ? 250 : 1000; // snappy, not sluggish
+
+    setTimeout(function(){
+      el.classList.remove("charging");
+      burstConfetti();
+      // Fuzzy pops in at the bottom-center of the island map to celebrate
+      var map = $("map");
+      var celeb = $("celebrateVid");
+      if(map && celeb && celeb.getAttribute("data-failed") !== "1"){
+        map.classList.add("win");
+        tryPlay(celeb); // play/loop the celebrate video — opacity fade-in, no jump
+      }
+      // victory cheer (kept LOWER than the voice) + real celebra voice + win message
+      Sfx.play("cheer", 0.45);
+      Voice.play(VOICE.celebra);
+      $("winMsg").classList.add("show");
+      setTimeout(function(){ $("nextWrap").classList.add("show"); }, 600);
+    }, ANTICIPATION);
+  }
+
+  function burstConfetti(){
+    if(reduced) return;
+    var c = $("confetti");
+    c.innerHTML = "";
+    var colors = ["#F5A623","#6bbf73","#2aa3d4","#8fd4ef","#e9d5a6","#ff8a5c"];
+    for(var i=0;i<32;i++){
+      var s = document.createElement("span");
+      s.style.left = (10 + Math.random()*80) + "%";
+      s.style.background = colors[i % colors.length];
+      s.style.animationDelay = (Math.random()*0.25) + "s";
+      s.style.transform = "rotate(" + (Math.random()*360) + "deg)";
+      c.appendChild(s);
+    }
+    setTimeout(function(){ c.innerHTML=""; }, 1900);
+  }
+
+  /* ---------------- Wire up controls ---------------- */
+  $("startBtn").addEventListener("click", function(){
+    AudioEngine.init();
+    AudioEngine.resume();
+    AudioEngine.startMusic();
+    Ambient.start();   // ocean + seabirds bed begins on this first gesture
+    tryPlay(bg);
+    preloadScene("s2"); // warm the phone clip now (this is the first transition)
+    show("s2");
+  });
+
+  $("answerBtn").addEventListener("click", function(){
+    haptic(20); // short tactile tick on answering
+    // Fuzzy says EVERYTHING on the phone, sequenced so none overlap:
+    // telefono → saludo → chiste → then cross to the beach (Scene 3).
+    var advanced = false;
+    function showOnce(id){ if(advanced) return; advanced = true; show(id); }
+    Voice.play(VOICE.telefono, null, function(){
+      Voice.play(VOICE.saludo, null, function(){
+        Voice.play(VOICE.chiste, null, function(){ showOnce("s3"); });
+      });
+    });
+    // single long backstop in case an mp3 never fires 'ended' (or is muted)
+    setTimeout(function(){ showOnce("s3"); }, 16000);
+  });
+  $("yesBtn").addEventListener("click", function(){
+    Voice.stopAll();
+    buildMap(); won=false;
+    // reset any prior win state (hides the Fuzzy celebrate overlay)
+    var map = $("map"); if(map) map.classList.remove("win");
+    show("s4");
+  });
+  $("nextBtn").addEventListener("click", function(){ show("s5"); });
+
+  $("skipBtn").addEventListener("click", function(){
+    // ensure audio inited (counts as gesture); start the ambient bed too,
+    // onEnter("s5") will set it to the calm level.
+    AudioEngine.init(); AudioEngine.resume();
+    Ambient.start();
+    preloadScene("s5"); // jumping straight to the parent door → warm its video
+    show("s5");
+  });
+
+  $("muteBtn").addEventListener("click", function(){
+    AudioEngine.init();
+    var m = !AudioEngine.muted;
+    // single toggle silences EVERYTHING
+    AudioEngine.setMuted(m);   // synth music-box + synth SFX (master gain)
+    Voice.setMuted(m);         // real Fuzzy voice lines
+    Ambient.setMuted(m);       // ocean + seabirds ambient bed
+    Sfx.setMuted(m);           // contextual one-shots (whoosh/map/glow/sparkle/cheer)
+    // un-muting can act as the first gesture: make sure the bed is running
+    if(!m){ AudioEngine.resume(); Ambient.start(); }
+    this.textContent = m ? "🔈" : "🔊";
+    this.setAttribute("aria-pressed", String(m));
+  });
+
+  $("waitForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var email = $("email").value.trim();
+    var ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if(!ok){
+      $("email").focus();
+      $("email").style.borderColor = "#e57373";
+      return;
+    }
+    Sfx.play("sparkle", 0.45);
+    this.style.display = "none";
+    $("confirm").classList.add("show");
+  });
+
+  $("restartBtn").addEventListener("click", function(){
+    // reset scene 5 form
+    var f = $("waitForm");
+    f.style.display = "flex";
+    $("email").value = "";
+    $("email").style.borderColor = "#d9ceac";
+    $("confirm").classList.remove("show");
+    // reset scene 4
+    won = false;
+    $("winMsg").classList.remove("show");
+    $("nextWrap").classList.remove("show");
+    $("confetti").innerHTML = "";
+    var map = $("map"); if(map) map.classList.remove("win"); // hide Fuzzy celebrate overlay
+    // stop any voice still playing
+    Voice.stopAll();
+    show("s1");
+    tryPlay(bg);
+  });
+
+  /* keyboard: ESC jumps to parent door (skip) */
+  document.addEventListener("keydown", function(e){
+    if(e.key === "Escape"){ AudioEngine.init(); Ambient.start(); preloadScene("s5"); show("s5"); }
+  });
+
+  // kick the bg video politely
+  tryPlay(bg);
+})();
+</script>
+</body>
+</html>

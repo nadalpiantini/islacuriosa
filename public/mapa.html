@@ -175,7 +175,7 @@ window.FZV='/juegos/voz/'; window.FZS='/fuzzy/sfx/';
   </div>
   <div style="z-index:2;width:100%;max-width:760px;position:relative;">
     <div role="button" tabindex="0" aria-label="Ver el episodio de Fuzzy" onclick="this.querySelector('.ply').style.transform='scale(1.15)'" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.querySelector('.ply').style.transform='scale(1.15)';}" style="aspect-ratio:16/9;border-radius:26px;overflow:hidden;position:relative;cursor:pointer;box-shadow:0 18px 60px rgba(0,0,0,0.5),0 0 0 4px rgba(255,122,26,0.35);">
-      <img src="/juegos/fuzzy-hero.png" alt="Fuzzy en El Mapa" width="760" height="428" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block;"/>
+      <img src="/juegos/fuzzy-hero.webp" alt="Fuzzy en El Mapa" width="760" height="428" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block;"/>
       <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 55%,rgba(0,0,0,0.45) 100%);"></div>
       <div class="ply" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:84px;height:84px;background:rgba(255,122,26,0.92);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:38px;color:#fff;box-shadow:0 0 40px rgba(255,122,26,0.7);transition:transform .2s;">▶</div>
       <div style="position:absolute;bottom:16px;left:0;right:0;text-align:center;font-family:'Fredoka One',cursive;font-size:clamp(15px,2.5vw,20px);color:#fff;text-shadow:0 2px 8px rgba(0,0,0,0.7);">▶ Ver el episodio</div>
@@ -212,13 +212,13 @@ window.FZV='/juegos/voz/'; window.FZS='/fuzzy/sfx/';
 </style>
 <div id="gh-top"><h2><span style="display:inline-block;background:#FF7A1A;color:#fff;border-radius:50%;width:30px;height:30px;line-height:30px;text-align:center;font-size:18px;margin-right:8px;vertical-align:middle;">1</span>🗺️ ¿Dónde está?</h2><div><span class="gh-star" id="s1">⭐</span><span class="gh-star" id="s2">⭐</span><span class="gh-star" id="s3">⭐</span><span class="gh-star" id="s4">⭐</span><span class="gh-star" id="s5">⭐</span></div></div>
 <div id="gh-body">
-  <div id="gh-left"><img id="gh-fuzzy" src="/juegos/fuzzy-pointing-t.png" alt="Fuzzy" width="155" height="155" decoding="async" loading="lazy"><div id="gh-bubble"><p id="gh-q"></p></div></div>
-  <div id="gh-right"><div id="gh-mapwrap"><img src="/juegos/mapa-isla-curiosa.png" alt="Mapa de Isla Curiosa" style="aspect-ratio:16/9" decoding="async" loading="lazy"><div class="gh-zone" id="zone-selva" role="button" tabindex="0" aria-label="Selva Verde" style="left:33%;top:13%;width:30%;height:24%"></div>
+  <div id="gh-left"><img id="gh-fuzzy" src="/juegos/fuzzy-pointing-t.webp" alt="Fuzzy" width="155" height="155" decoding="async" loading="lazy"><div id="gh-bubble"><p id="gh-q"></p></div></div>
+  <div id="gh-right"><div id="gh-mapwrap"><img src="/juegos/mapa-isla-curiosa.webp" alt="Mapa de Isla Curiosa" style="aspect-ratio:16/9" decoding="async" loading="lazy"><div class="gh-zone" id="zone-selva" role="button" tabindex="0" aria-label="Selva Verde" style="left:33%;top:13%;width:30%;height:24%"></div>
 <div class="gh-zone" id="zone-bahia" role="button" tabindex="0" aria-label="Bahía Azul" style="left:34%;top:64%;width:28%;height:24%"></div>
 <div class="gh-zone" id="zone-manglares" role="button" tabindex="0" aria-label="Los Manglares" style="left:5%;top:38%;width:22%;height:34%"></div>
 <div class="gh-zone" id="zone-coral" role="button" tabindex="0" aria-label="Costa de Coral" style="left:71%;top:42%;width:24%;height:34%"></div>
 <div class="gh-zone" id="zone-tesoro" role="button" tabindex="0" aria-label="El Tesoro" style="left:62%;top:60%;width:14%;height:18%"></div>
-    <div id="gh-win"><img src="/juegos/fuzzy-celebrate.png" alt="Fuzzy celebra" width="200" height="200" decoding="async" loading="lazy"><div id="gh-win-t">¡Lo lograste!<br>🌟 <span id="gh-fs">0</span>/5 en el mapa</div><button class="gh-btn" id="gh-again">🔄 Jugar de nuevo</button></div>
+    <div id="gh-win"><img src="/juegos/fuzzy-celebrate.webp" alt="Fuzzy celebra" width="200" height="200" decoding="async" loading="lazy"><div id="gh-win-t">¡Lo lograste!<br>🌟 <span id="gh-fs">0</span>/5 en el mapa</div><button class="gh-btn" id="gh-again">🔄 Jugar de nuevo</button></div>
   </div></div>
 </div>
 <p id="gh-live" class="fz-sr-only" role="status" aria-live="polite"></p>
@@ -294,15 +294,15 @@ window.FZV='/juegos/voz/'; window.FZS='/fuzzy/sfx/';
 <div class="dd-flag" id="f-manglares" draggable="true" data-id="manglares" role="button" tabindex="0" aria-label="Los Manglares. Selecciona y luego elige su lugar en el mapa">🦀 Los Manglares</div>
 <div class="dd-flag" id="f-coral" draggable="true" data-id="coral" role="button" tabindex="0" aria-label="Costa de Coral. Selecciona y luego elige su lugar en el mapa">🐠 Costa de Coral</div>
 <div class="dd-flag" id="f-tesoro" draggable="true" data-id="tesoro" role="button" tabindex="0" aria-label="El Tesoro. Selecciona y luego elige su lugar en el mapa">💎 El Tesoro</div></div>
-  <div class="dd-mapwrap"><img src="/juegos/mapa-isla-curiosa.png" alt="Mapa de Isla Curiosa" draggable="false" style="aspect-ratio:16/9" decoding="async" loading="lazy"><div class="dd-zone" id="dz-selva" data-id="selva" role="button" tabindex="0" aria-label="Lugar de la Selva Verde" style="left:33%;top:13%;width:30%;height:24%"><span class="dd-lbl">🌴</span></div>
+  <div class="dd-mapwrap"><img src="/juegos/mapa-isla-curiosa.webp" alt="Mapa de Isla Curiosa" draggable="false" style="aspect-ratio:16/9" decoding="async" loading="lazy"><div class="dd-zone" id="dz-selva" data-id="selva" role="button" tabindex="0" aria-label="Lugar de la Selva Verde" style="left:33%;top:13%;width:30%;height:24%"><span class="dd-lbl">🌴</span></div>
 <div class="dd-zone" id="dz-bahia" data-id="bahia" role="button" tabindex="0" aria-label="Lugar de la Bahía Azul" style="left:34%;top:64%;width:28%;height:24%"><span class="dd-lbl">🌊</span></div>
 <div class="dd-zone" id="dz-manglares" data-id="manglares" role="button" tabindex="0" aria-label="Lugar de Los Manglares" style="left:5%;top:38%;width:22%;height:34%"><span class="dd-lbl">🦀</span></div>
 <div class="dd-zone" id="dz-coral" data-id="coral" role="button" tabindex="0" aria-label="Lugar de la Costa de Coral" style="left:71%;top:42%;width:24%;height:34%"><span class="dd-lbl">🐠</span></div>
 <div class="dd-zone" id="dz-tesoro" data-id="tesoro" role="button" tabindex="0" aria-label="Lugar de El Tesoro" style="left:62%;top:60%;width:14%;height:18%"><span class="dd-lbl">💎</span></div>
-    <img class="dd-fuzzy" id="ddfz" src="/juegos/fuzzy-pointing-t.png" alt="Fuzzy" draggable="false" width="120" height="120" decoding="async" loading="lazy"></div>
+    <img class="dd-fuzzy" id="ddfz" src="/juegos/fuzzy-pointing-t.webp" alt="Fuzzy" draggable="false" width="120" height="120" decoding="async" loading="lazy"></div>
 </div>
 <p id="dd-live" class="fz-sr-only" role="status" aria-live="polite"></p>
-<div class="dd-win" id="ddwin"><img src="/juegos/fuzzy-celebrate.png" alt="Fuzzy celebra" width="300" height="300" decoding="async" loading="lazy"><div class="dd-win-t">¡5 de 5!<br>¡Conoces Isla Curiosa!</div><div style="font-size:34px;">⭐⭐⭐</div><button class="dd-btn" id="ddreset">🔄 Jugar de nuevo</button></div>
+<div class="dd-win" id="ddwin"><img src="/juegos/fuzzy-celebrate.webp" alt="Fuzzy celebra" width="300" height="300" decoding="async" loading="lazy"><div class="dd-win-t">¡5 de 5!<br>¡Conoces Isla Curiosa!</div><div style="font-size:34px;">⭐⭐⭐</div><button class="dd-btn" id="ddreset">🔄 Jugar de nuevo</button></div>
 <script>(function(){
   var sc=0,drag=null,clone=null,placed=new Set(),sel=null;
   var cnt=document.getElementById('ddc'),fz=document.getElementById('ddfz'),win=document.getElementById('ddwin');
@@ -380,7 +380,7 @@ window.FZV='/juegos/voz/'; window.FZS='/fuzzy/sfx/';
 <div class="br-t"><span style="display:inline-block;background:#FF7A1A;color:#fff;border-radius:50%;width:32px;height:32px;line-height:32px;text-align:center;font-size:19px;margin-right:8px;vertical-align:middle;">3</span>🧭 El viaje de Fuzzy</div>
 <div class="br-s">Lee el mapa y ayuda a Fuzzy a encontrar El Tesoro</div>
 <div class="br-prog"><div class="br-dot now" id="bd0">1</div><div class="br-ln" id="bl0"></div><div class="br-dot fut" id="bd1">2</div><div class="br-ln" id="bl1"></div><div class="br-dot fut" id="bd2">3</div><div class="br-ln" id="bl2"></div><div class="br-dot fut" id="bd3">4</div></div>
-<div class="br-panel"><img id="br-img" src="/juegos/fuzzy-lost.png" alt="Fuzzy" style="aspect-ratio:16/9" decoding="async" loading="lazy"><div class="br-flash" id="br-flash"></div>
+<div class="br-panel"><img id="br-img" src="/juegos/fuzzy-lost.webp" alt="Fuzzy" style="aspect-ratio:16/9" decoding="async" loading="lazy"><div class="br-flash" id="br-flash"></div>
   <div class="br-win" id="br-win"><div style="font-size:42px;">⭐⭐⭐⭐</div><div class="br-win-t">¡Fuzzy encontró El Tesoro!<br>¡Eres un gran explorador! 💎</div><button class="br-rb" onclick="brReset()">🔄 Jugar de nuevo</button></div>
 </div>
 <div class="br-bubble" id="br-q" role="status" aria-live="polite"></div>
@@ -438,8 +438,8 @@ window.FZV='/juegos/voz/'; window.FZS='/fuzzy/sfx/';
 <div class="m-st"><div class="m-stat">⭐ <span id="m-sc">0</span>/8</div><div class="m-stat">Movimientos: <span id="m-mv">0</span></div></div>
 <div class="m-grid" id="m-grid"></div>
 <p id="m-live" class="fz-sr-only" role="status" aria-live="polite"></p>
-<img class="m-fz" id="m-fz" src="/juegos/fuzzy-pointing-t.png" alt="Fuzzy" width="120" height="120" decoding="async" loading="lazy">
-<div class="m-win" id="m-win"><img src="/juegos/fuzzy-celebrate.png" alt="Fuzzy celebra" width="300" height="300" decoding="async" loading="lazy"><div class="m-win-t">🎉 ¡8 pares!<br>¡Memoria de explorador!</div><button class="m-rb" onclick="mInit()">Jugar de nuevo</button></div>
+<img class="m-fz" id="m-fz" src="/juegos/fuzzy-pointing-t.webp" alt="Fuzzy" width="120" height="120" decoding="async" loading="lazy">
+<div class="m-win" id="m-win"><img src="/juegos/fuzzy-celebrate.webp" alt="Fuzzy celebra" width="300" height="300" decoding="async" loading="lazy"><div class="m-win-t">🎉 ¡8 pares!<br>¡Memoria de explorador!</div><button class="m-rb" onclick="mInit()">Jugar de nuevo</button></div>
 <script>(function(){
   var CARDS=[{p:'selva_verde',t:'text',c:'Selva Verde'},{p:'selva_verde',t:'emoji',c:'🌴'},{p:'bahia_azul',t:'text',c:'Bahía Azul'},{p:'bahia_azul',t:'emoji',c:'🌊'},{p:'los_manglares',t:'text',c:'Los Manglares'},{p:'los_manglares',t:'emoji',c:'🦀'},{p:'costa_de_coral',t:'text',c:'Costa de Coral'},{p:'costa_de_coral',t:'emoji',c:'🐠'},{p:'el_tesoro',t:'text',c:'El Tesoro'},{p:'el_tesoro',t:'emoji',c:'💎'},{p:'la_brújula',t:'text',c:'La Brújula'},{p:'la_brújula',t:'emoji',c:'🧭'},{p:'el_sol',t:'text',c:'El Sol'},{p:'el_sol',t:'emoji',c:'☀️'},{p:'el_barco',t:'text',c:'El Barco'},{p:'el_barco',t:'emoji',c:'⛵'}];
   var flip=[],mv=0,sc=0,busy=false;

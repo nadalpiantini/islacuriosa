@@ -1,8 +1,34 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
+// Best-effort in-memory rate limit (per warm serverless instance). Caps burst
+// abuse from a single client cheaply + dependency-free. The robust layer is a
+// Vercel WAF / Firewall rate-limit rule (configure in the dashboard).
+const RL_MAX = 5 // requests
+const RL_WINDOW_MS = 60_000 // per minute
+const rlHits = new Map<string, number[]>()
+function rateLimited(ip: string): boolean {
+  const now = Date.now()
+  const hits = (rlHits.get(ip) || []).filter((t) => now - t < RL_WINDOW_MS)
+  hits.push(now)
+  rlHits.set(ip, hits)
+  if (rlHits.size > 5000) rlHits.clear() // crude memory guard
+  return hits.length > RL_MAX
+}
+
 export async function POST(request: Request) {
   try {
+    const ip =
+      request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+      request.headers.get('x-real-ip') ||
+      'unknown'
+    if (rateLimited(ip)) {
+      return NextResponse.json(
+        { error: 'Demasiados intentos, espera un momento' },
+        { status: 429 }
+      )
+    }
+
     const { email, company } = await request.json()
 
     // Honeypot: humans never fill the hidden "company" field; bots do.

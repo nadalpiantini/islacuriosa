@@ -539,14 +539,14 @@
     <section class="scene active" id="s1" aria-label="Bienvenida">
       <div class="video-wrap">
         <video id="bgVideo" muted loop playsinline autoplay
-               poster="/logo.png"
+               poster="/logo.webp"
                aria-label="Mundo animado de Isla Curiosa">
           <source src="/landing.mp4" type="video/mp4" />
         </video>
-        <img id="bgFallback" src="/logo.png" alt="Logo de Isla Curiosa" style="display:none;" />
+        <img id="bgFallback" src="/logo.webp" alt="Logo de Isla Curiosa" style="display:none;" />
       </div>
       <div class="video-vignette"></div>
-      <img class="peek-fuzzy" id="peekFuzzy" src="/fuzzy/fuzzy-peek.png"
+      <img class="peek-fuzzy" id="peekFuzzy" src="/fuzzy/fuzzy-peek.webp"
            alt="Fuzzy asomándose con curiosidad" />
       <div class="cta-zone">
         <button class="btn pulse-cta" id="startBtn" aria-label="Empezar la aventura">▶&nbsp;&nbsp;Empezar</button>
@@ -560,7 +560,7 @@
         <span class="ring-waves" aria-hidden="true">📳</span>
         <video class="fuzzy-vid" id="fuzzyPhoneVid" muted loop playsinline
                preload="none"
-               poster="/fuzzy/fuzzy-phone.png"
+               poster="/fuzzy/fuzzy-phone.webp"
                aria-label="Fuzzy sosteniendo un teléfono, emocionado">
           <source src="/fuzzy/video/fuzzy-phone.mp4" type="video/mp4" />
         </video>
@@ -579,17 +579,17 @@
       <div class="fuzzy-stage">
         <video class="fuzzy-vid" id="fuzzyWaveVid" muted loop playsinline
                preload="none"
-               poster="/fuzzy/fuzzy-wave.png"
+               poster="/fuzzy/fuzzy-wave.webp"
                aria-label="Fuzzy saludando en la playa">
           <source src="/fuzzy/video/fuzzy-wave.mp4" type="video/mp4" />
         </video>
         <!-- circular video/logo fallback (shown only if the wave video fails) -->
         <div class="fuzzy" id="fuzzy3" role="img" aria-label="Fuzzy, el personaje naranja" style="display:none;">
           <video muted loop playsinline aria-hidden="true"
-                 preload="none" poster="/fuzzy/fuzzy-wave.png">
+                 preload="none" poster="/fuzzy/fuzzy-wave.webp">
             <source src="/landing.mp4" type="video/mp4" />
           </video>
-          <img src="/logo.png" alt="" aria-hidden="true" style="display:none;" />
+          <img src="/logo.webp" alt="" aria-hidden="true" style="display:none;" />
         </div>
         <!-- bubble kept empty/hidden: Fuzzy already asked everything on the phone -->
         <div class="bubble" id="fuzzyBubble" style="display:none;"><span id="fuzzyText"></span><span class="caret" aria-hidden="true"></span></div>
@@ -605,19 +605,19 @@
         <!-- animated aerial island (the star) -->
         <video class="isla-mapa-vid" id="islaMapaVid" muted loop playsinline
                preload="none"
-               poster="/fuzzy/isla-mapa.png"
+               poster="/fuzzy/isla-mapa.webp"
                aria-label="Mapa animado de la isla, vista aérea">
           <source src="/fuzzy/video/isla-mapa.mp4" type="video/mp4" />
         </video>
         <img class="isla-mapa-fallback" id="islaMapaFallback"
-             src="/fuzzy/isla-mapa.png" alt="Mapa de la isla, vista aérea" />
+             src="/fuzzy/isla-mapa.webp" alt="Mapa de la isla, vista aérea" />
         <!-- zone pins injected by JS, positioned over island features -->
 
         <!-- Fuzzy celebrates over his island on win (bottom-center) -->
         <div class="map-celebrate" id="mapFuzzy" role="img" aria-label="Fuzzy celebrando en su isla">
           <video class="celebrate-vid fuzzy-vid" id="celebrateVid" muted loop playsinline
                  preload="none"
-                 poster="/fuzzy/fuzzy-celebrate.png">
+                 poster="/fuzzy/fuzzy-celebrate.webp">
             <source src="/fuzzy/video/fuzzy-celebrate.mp4" type="video/mp4" />
           </video>
         </div>
@@ -635,15 +635,15 @@
       <div class="s5-bg" aria-hidden="true">
         <video id="s5Bg" muted loop playsinline
                preload="none"
-               poster="/fuzzy/fuzzy-wave.png">
+               poster="/fuzzy/fuzzy-wave.webp">
           <source src="/fuzzy/video/fuzzy-wave.mp4" type="video/mp4" />
         </video>
-        <img id="s5BgFallback" src="/fuzzy/fuzzy-wave.png" alt="" />
+        <img id="s5BgFallback" src="/fuzzy/fuzzy-wave.webp" alt="" />
       </div>
       <div class="s5-scrim" aria-hidden="true"></div>
 
       <!-- transparent logo + goodbye line near the top -->
-      <img class="s5-logo" src="/logo.png" alt="Isla Curiosa" />
+      <img class="s5-logo" src="/logo.webp" alt="Isla Curiosa" />
       <p class="s5-goodbye">¡Nos vemos en la isla!</p>
 
       <!-- parent content, legible over the scrim, anchored bottom -->

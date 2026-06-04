@@ -4,11 +4,11 @@
 var CACHE = 'isla-v1';
 
 var PRECACHE = [
-  '/', '/experiencia.html', '/mapa.html', '/manifest.json', '/logo.png',
+  '/', '/experiencia.html', '/mapa.html', '/manifest.json', '/logo.webp',
   // game images
-  '/juegos/mapa-isla-curiosa.png', '/juegos/fuzzy-hero.png', '/juegos/fuzzy-pointing-t.png',
-  '/juegos/fuzzy-celebrate.png', '/juegos/fuzzy-confused-t.png', '/juegos/fuzzy-lost.png',
-  '/juegos/fuzzy-map-walk.png',
+  '/juegos/mapa-isla-curiosa.webp', '/juegos/fuzzy-hero.webp', '/juegos/fuzzy-pointing-t.webp',
+  '/juegos/fuzzy-celebrate.webp', '/juegos/fuzzy-confused-t.webp', '/juegos/fuzzy-lost.webp',
+  '/juegos/fuzzy-map-walk.webp',
   // game narration voices
   '/juegos/voz/g1-intro.mp3', '/juegos/voz/g2-intro.mp3', '/juegos/voz/g3-intro.mp3',
   '/juegos/voz/g4-intro.mp3', '/juegos/voz/bien.mp3', '/juegos/voz/otravez.mp3',

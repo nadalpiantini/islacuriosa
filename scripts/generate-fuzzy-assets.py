@@ -22,12 +22,16 @@ OUT = Path.home() / "Dev/islacuriosa/public/fuzzy"
 CREDS = Path.home() / ".freejack-credentials.env"
 ENDPOINT = "https://api.openai.com/v1/images/edits"
 
+# FUZZY CANON (locked, Alan 2026-06-04). See kling-lipsync/FUZZY-CANON.md.
 STYLE = (
-    " Keep the EXACT same character design: bright orange pear-shaped solenodon, "
-    "very long horizontal black pointy snout, two big round white eyes close together, "
-    "dark tuft on the head, big toothy white grin, thin zigzag line on the belly, "
-    "thick black outlines with soft 3D shading. Cheerful 2D children's cartoon style. "
-    "Full body, centered, friendly, on a fully transparent background. One character only."
+    " Keep the EXACT same character design (locked): bright orange solenodon with a "
+    "BEAN-SHAPED body (this silhouette never changes). Long thin pointed BLACK snout. "
+    "Two big round white eyes set close together, HIGH on the head, with dark eyebrows; "
+    "ears sit directly above the eyes, almost NO forehead. ONE single THIN smooth tail "
+    "ending in a simple point — NOT a fox tail, no fluff, no tufts, not bushy. "
+    "Thick black outlines, thin zigzag line on the belly, soft 3D shading, 2D children's cartoon. "
+    "Full body, centered, on a fully transparent background. One character only. "
+    "NEGATIVE: no bushy/fox tail, no tail tufts, no wide forehead, no extra fur, no losing the bean body."
 )
 
 SHOTS = {

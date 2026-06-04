@@ -3,11 +3,25 @@ import { createClient } from '@supabase/supabase-js'
 
 export async function POST(request: Request) {
   try {
-    const { email } = await request.json()
+    const { email, company } = await request.json()
+
+    // Honeypot: humans never fill the hidden "company" field; bots do.
+    // Pretend success without storing anything.
+    if (typeof company === 'string' && company.trim() !== '') {
+      return NextResponse.json({ message: 'Te anotamos!', ok: true })
+    }
 
     if (!email || typeof email !== 'string') {
       return NextResponse.json(
         { error: 'Email es requerido' },
+        { status: 400 }
+      )
+    }
+
+    // Length cap (RFC 5321 max = 254) — blocks storage-bloat abuse.
+    if (email.length > 254) {
+      return NextResponse.json(
+        { error: 'Email no valido' },
         { status: 400 }
       )
     }
@@ -59,7 +73,7 @@ export async function POST(request: Request) {
   } catch (err) {
     console.error('[WAITLIST] Unexpected error:', err)
     return NextResponse.json(
-      { error: 'Error procesando tu solicitud', detail: String(err) },
+      { error: 'Error procesando tu solicitud' },
       { status: 500 }
     )
   }

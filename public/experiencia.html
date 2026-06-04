@@ -664,6 +664,8 @@
         </div>
 
         <form class="form" id="waitForm" novalidate hidden>
+          <input type="text" id="hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true"
+                 style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" />
           <input type="email" id="email" inputmode="email" autocomplete="email"
                  placeholder="tucorreo@ejemplo.com" aria-label="Tu correo electrónico (de un adulto)" required />
           <button type="submit" class="btn" aria-label="Avísame cuando abra la isla">Avísame cuando abra la isla 🐚</button>
@@ -1013,6 +1015,7 @@
       var st = $("s2Stage"); if(st) st.classList.remove("ringing");
       var tp = $("toyPhone"); if(tp) tp.classList.remove("ringing");
       clearTimeout(ring2); clearTimeout(ring3); clearTimeout(ansUnlock);
+      clearTimeout(s2backstop); s2advanced = false;  // cancel any pending yank-back
       // leaving s2: reset answer button to a clean enabled state for replays
       var ans2 = $("answerBtn");
       if(ans2){ ans2.classList.remove("cta-locked"); ans2.classList.add("pulse-cta"); ans2.disabled = false; }
@@ -1321,32 +1324,39 @@
     show("s2");
   });
 
+  // shared across answer + escape so the backstop can be cancelled (no yank-back)
+  var s2advanced = false, s2backstop = null;
+  function s2Go(){
+    if (s2advanced) return;
+    s2advanced = true;
+    if (s2backstop) { clearTimeout(s2backstop); s2backstop = null; }
+    show("s3");
+  }
   $("answerBtn").addEventListener("click", function(){
+    if (this.disabled) return;                 // no double-tap → no duplicate chains/backstops
+    this.disabled = true; this.classList.remove("pulse-cta");
     haptic(20); // short tactile tick on answering
     // Fuzzy says EVERYTHING on the phone, sequenced so none overlap:
     // telefono → saludo → chiste → then cross to the beach (Scene 3).
-    var advanced = false;
-    function showOnce(id){ if(advanced) return; advanced = true; show(id); }
+    s2advanced = false;
     // As soon as the 2nd line (saludo) starts, reveal a friendly skip button so
     // the child is never trapped. Tapping it stops the voice and jumps to s3.
-    function revealAdvance(){
-      var b = $("toIslandBtn");
-      if(b){ b.hidden = false; }
-    }
+    function revealAdvance(){ var b = $("toIslandBtn"); if(b){ b.hidden = false; } }
     Voice.play(VOICE.telefono, null, function(){
       Voice.play(VOICE.saludo, revealAdvance, function(){
-        Voice.play(VOICE.chiste, null, function(){ showOnce("s3"); });
+        Voice.play(VOICE.chiste, null, function(){ s2Go(); });
       });
     });
-    // single long backstop in case an mp3 never fires 'ended' (or is muted)
-    setTimeout(function(){ showOnce("s3"); }, 16000);
+    // single backstop in case an mp3 never fires 'ended' (or is muted)
+    if (s2backstop) clearTimeout(s2backstop);
+    s2backstop = setTimeout(function(){ s2Go(); }, 16000);
   });
 
   // friendly "skip the call" button (appears on the 2nd voice line)
   $("toIslandBtn").addEventListener("click", function(){
     haptic(20);
     Voice.stopAll();   // stop any voice currently playing
-    show("s3");        // jump to the beach immediately
+    s2Go();            // jump to the beach immediately + cancel the backstop
   });
   $("yesBtn").addEventListener("click", function(){
     Voice.stopAll();
@@ -1444,9 +1454,26 @@
       $("email").style.borderColor = "#e57373";
       return;
     }
-    Sfx.play("sparkle", 0.45);
-    this.style.display = "none";
-    $("confirm").classList.add("show");
+    var hp = $("hp") ? $("hp").value : "";          // honeypot — only bots fill it
+    var btn = this.querySelector('button[type=submit]');
+    var formEl = this;
+    if(btn) btn.disabled = true;
+    // actually capture the parent's email (was previously never sent anywhere)
+    fetch('/api/waitlist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, company: hp })
+    }).then(function(r){ return r.ok ? r : Promise.reject(r); })
+      .then(function(){
+        Sfx.play("sparkle", 0.45);
+        formEl.style.display = "none";
+        $("confirm").classList.add("show");
+      })
+      .catch(function(){
+        if(btn) btn.disabled = false;
+        $("email").style.borderColor = "#e57373";
+        var pn = $("privacyNote"); if(pn){ pn.hidden = false; pn.textContent = "Hubo un problemita — intenta de nuevo 🙏"; }
+      });
   });
 
   $("restartBtn").addEventListener("click", function(){

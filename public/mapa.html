@@ -54,6 +54,10 @@ section{padding:40px 20px;max-width:980px;margin:0 auto;}
   .fz-breathe,.fz-wave,.fz-tap{animation:none!important;}
   .fz-stamp.earned .fz-st-ico,#fz-pass-done.on{animation:none!important;}
 }
+/* a11y: visible keyboard focus on every interactive element */
+:focus-visible{outline:3px solid #FFD24A;outline-offset:2px;border-radius:6px;}
+/* a11y: visually-hidden live region (announced by screen readers, off-screen) */
+.fz-sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
 </style>
 </head><body>
 <nav id="fz-prog" aria-label="Progreso del mapa">
@@ -170,8 +174,8 @@ window.FZV='/juegos/voz/'; window.FZS='/fuzzy/sfx/';
     <div style="font-family:'Nunito',sans-serif;font-size:clamp(16px,3vw,26px);color:#FFD24A;font-weight:900;margin-top:8px;text-shadow:0 0 18px rgba(255,210,74,0.5);">Un episodio de Fuzzy — Isla Curiosa</div>
   </div>
   <div style="z-index:2;width:100%;max-width:760px;position:relative;">
-    <div onclick="this.querySelector('.ply').style.transform='scale(1.15)'" style="aspect-ratio:16/9;border-radius:26px;overflow:hidden;position:relative;cursor:pointer;box-shadow:0 18px 60px rgba(0,0,0,0.5),0 0 0 4px rgba(255,122,26,0.35);">
-      <img src="/juegos/fuzzy-hero.png" alt="Fuzzy en El Mapa" style="width:100%;height:100%;object-fit:cover;display:block;"/>
+    <div role="button" tabindex="0" aria-label="Ver el episodio de Fuzzy" onclick="this.querySelector('.ply').style.transform='scale(1.15)'" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.querySelector('.ply').style.transform='scale(1.15)';}" style="aspect-ratio:16/9;border-radius:26px;overflow:hidden;position:relative;cursor:pointer;box-shadow:0 18px 60px rgba(0,0,0,0.5),0 0 0 4px rgba(255,122,26,0.35);">
+      <img src="/juegos/fuzzy-hero.png" alt="Fuzzy en El Mapa" width="760" height="428" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block;"/>
       <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 55%,rgba(0,0,0,0.45) 100%);"></div>
       <div class="ply" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:84px;height:84px;background:rgba(255,122,26,0.92);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:38px;color:#fff;box-shadow:0 0 40px rgba(255,122,26,0.7);transition:transform .2s;">▶</div>
       <div style="position:absolute;bottom:16px;left:0;right:0;text-align:center;font-family:'Fredoka One',cursive;font-size:clamp(15px,2.5vw,20px);color:#fff;text-shadow:0 2px 8px rgba(0,0,0,0.7);">▶ Ver el episodio</div>
@@ -208,35 +212,39 @@ window.FZV='/juegos/voz/'; window.FZS='/fuzzy/sfx/';
 </style>
 <div id="gh-top"><h2><span style="display:inline-block;background:#FF7A1A;color:#fff;border-radius:50%;width:30px;height:30px;line-height:30px;text-align:center;font-size:18px;margin-right:8px;vertical-align:middle;">1</span>🗺️ ¿Dónde está?</h2><div><span class="gh-star" id="s1">⭐</span><span class="gh-star" id="s2">⭐</span><span class="gh-star" id="s3">⭐</span><span class="gh-star" id="s4">⭐</span><span class="gh-star" id="s5">⭐</span></div></div>
 <div id="gh-body">
-  <div id="gh-left"><img id="gh-fuzzy" src="/juegos/fuzzy-pointing-t.png" alt="Fuzzy"><div id="gh-bubble"><p id="gh-q"></p></div></div>
-  <div id="gh-right"><div id="gh-mapwrap"><img src="/juegos/mapa-isla-curiosa.png" alt="Mapa de Isla Curiosa"><div class="gh-zone" id="zone-selva" style="left:33%;top:13%;width:30%;height:24%"></div>
-<div class="gh-zone" id="zone-bahia" style="left:34%;top:64%;width:28%;height:24%"></div>
-<div class="gh-zone" id="zone-manglares" style="left:5%;top:38%;width:22%;height:34%"></div>
-<div class="gh-zone" id="zone-coral" style="left:71%;top:42%;width:24%;height:34%"></div>
-<div class="gh-zone" id="zone-tesoro" style="left:62%;top:60%;width:14%;height:18%"></div>
-    <div id="gh-win"><img src="/juegos/fuzzy-celebrate.png" alt="Fuzzy celebra"><div id="gh-win-t">¡Lo lograste!<br>🌟 <span id="gh-fs">0</span>/5 en el mapa</div><button class="gh-btn" id="gh-again">🔄 Jugar de nuevo</button></div>
+  <div id="gh-left"><img id="gh-fuzzy" src="/juegos/fuzzy-pointing-t.png" alt="Fuzzy" width="155" height="155" decoding="async" loading="lazy"><div id="gh-bubble"><p id="gh-q"></p></div></div>
+  <div id="gh-right"><div id="gh-mapwrap"><img src="/juegos/mapa-isla-curiosa.png" alt="Mapa de Isla Curiosa" style="aspect-ratio:16/9" decoding="async" loading="lazy"><div class="gh-zone" id="zone-selva" role="button" tabindex="0" aria-label="Selva Verde" style="left:33%;top:13%;width:30%;height:24%"></div>
+<div class="gh-zone" id="zone-bahia" role="button" tabindex="0" aria-label="Bahía Azul" style="left:34%;top:64%;width:28%;height:24%"></div>
+<div class="gh-zone" id="zone-manglares" role="button" tabindex="0" aria-label="Los Manglares" style="left:5%;top:38%;width:22%;height:34%"></div>
+<div class="gh-zone" id="zone-coral" role="button" tabindex="0" aria-label="Costa de Coral" style="left:71%;top:42%;width:24%;height:34%"></div>
+<div class="gh-zone" id="zone-tesoro" role="button" tabindex="0" aria-label="El Tesoro" style="left:62%;top:60%;width:14%;height:18%"></div>
+    <div id="gh-win"><img src="/juegos/fuzzy-celebrate.png" alt="Fuzzy celebra" width="200" height="200" decoding="async" loading="lazy"><div id="gh-win-t">¡Lo lograste!<br>🌟 <span id="gh-fs">0</span>/5 en el mapa</div><button class="gh-btn" id="gh-again">🔄 Jugar de nuevo</button></div>
   </div></div>
 </div>
+<p id="gh-live" class="fz-sr-only" role="status" aria-live="polite"></p>
 <script>(function(){
   var Q=[{zone:"selva",text:"🌴 ¿Dónde está la Selva Verde?"},{zone:"bahia",text:"🌊 ¿Dónde está la Bahía Azul?"},{zone:"manglares",text:"🦀 ¿Dónde están Los Manglares?"},{zone:"coral",text:"🐠 ¿Dónde está la Costa de Coral?"},{zone:"tesoro",text:"💎 ¿Dónde está El Tesoro?"}],cur=0,sc=0,lk=false;
   var fz=document.getElementById('gh-fuzzy'),q=document.getElementById('gh-q');
   var st=[document.getElementById('s1'),document.getElementById('s2'),document.getElementById('s3'),document.getElementById('s4'),document.getElementById('s5')];
   var win=document.getElementById('gh-win');
+  var live=document.getElementById('gh-live');
+  function announce(msg){if(live){live.textContent='';setTimeout(function(){live.textContent=msg;},60);}}
   // place name → question voice file (so a non-reader hears what to find)
   var QV={selva:'q-selva.mp3',bahia:'q-bahia.mp3',manglares:'q-manglares.mp3',coral:'q-coral.mp3',tesoro:'q-tesoro.mp3'};
   function sayQ(i){var f=QV[Q[i].zone];if(f)FZ.voice(FZV+f);}
-  function setQ(i,speak){q.textContent=Q[i].text;if(speak)sayQ(i);}
+  function setQ(i,speak){q.textContent=Q[i].text;if(speak)sayQ(i);announce(Q[i].text);}
   function flash(z,ok){z.classList.add(ok?'ok':'no');setTimeout(function(){z.classList.remove('ok','no');},ok?650:480);}
   function hit(name,el){
     if(lk)return;
     if(name===Q[cur].zone){lk=true;flash(el,true);fz.src='/juegos/fuzzy-pointing-t.png';st[cur].classList.add('on');sc++;cur++;
-      FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'sparkle.mp3');
-      if(cur>=Q.length){setTimeout(function(){document.getElementById('gh-fs').textContent=sc;win.classList.add('on');FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'cheer.mp3');if(window.fzGameWon)window.fzGameWon('game-hotspot');setTimeout(function(){FZ.next('game-hotspot');},1400);},800);}
+      FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'sparkle.mp3');announce('¡Muy bien! '+sc+' de 5.');
+      if(cur>=Q.length){setTimeout(function(){document.getElementById('gh-fs').textContent=sc;win.classList.add('on');FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'cheer.mp3');announce('¡Lo lograste! '+sc+' de 5 en el mapa. Ganaste un sello.');if(window.fzGameWon)window.fzGameWon('game-hotspot');setTimeout(function(){FZ.next('game-hotspot');},1400);},800);}
       else setTimeout(function(){setQ(cur,true);lk=false;},800);
-    }else{lk=true;flash(el,false);fz.src='/juegos/fuzzy-confused-t.png';FZ.voice(FZV+'otravez.mp3');setTimeout(function(){fz.src='/juegos/fuzzy-pointing-t.png';lk=false;},560);}
+    }else{lk=true;flash(el,false);fz.src='/juegos/fuzzy-confused-t.png';FZ.voice(FZV+'otravez.mp3');announce('Casi, intenta otra vez.');setTimeout(function(){fz.src='/juegos/fuzzy-pointing-t.png';lk=false;},560);}
   }
   document.querySelectorAll('.gh-zone').forEach(function(z){var n=z.id.replace('zone-','');
     z.addEventListener('click',function(){hit(n,z);});
+    z.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();hit(n,z);}});
     z.addEventListener('touchend',function(e){e.preventDefault();hit(n,z);},{passive:false});});
   document.getElementById('gh-again').addEventListener('click',function(){cur=0;sc=0;lk=false;st.forEach(function(s){s.classList.remove('on');});win.classList.remove('on');fz.src='/juegos/fuzzy-pointing-t.png';setQ(0,true);});
   setQ(0,false);
@@ -281,41 +289,46 @@ window.FZV='/juegos/voz/'; window.FZS='/fuzzy/sfx/';
 <h2 class="dd-title"><span style="display:inline-block;background:#FF7A1A;color:#fff;border-radius:50%;width:34px;height:34px;line-height:34px;text-align:center;font-size:20px;margin-right:8px;vertical-align:middle;">2</span>🚩 ¡Coloca cada lugar en el mapa!</h2>
 <p style="text-align:center;color:rgba(255,255,255,.8);font-weight:700;margin:-8px 0 16px;font-size:14px;">Arrastra una banderita 👉 o tócala y luego toca su lugar 👆</p>
 <div class="dd-lay">
-  <div class="dd-flags"><div class="dd-flag" id="f-selva" draggable="true" data-id="selva">🌴 Selva Verde</div>
-<div class="dd-flag" id="f-bahia" draggable="true" data-id="bahia">🌊 Bahía Azul</div>
-<div class="dd-flag" id="f-manglares" draggable="true" data-id="manglares">🦀 Los Manglares</div>
-<div class="dd-flag" id="f-coral" draggable="true" data-id="coral">🐠 Costa de Coral</div>
-<div class="dd-flag" id="f-tesoro" draggable="true" data-id="tesoro">💎 El Tesoro</div></div>
-  <div class="dd-mapwrap"><img src="/juegos/mapa-isla-curiosa.png" alt="Mapa de Isla Curiosa" draggable="false"><div class="dd-zone" id="dz-selva" data-id="selva" style="left:33%;top:13%;width:30%;height:24%"><span class="dd-lbl">🌴</span></div>
-<div class="dd-zone" id="dz-bahia" data-id="bahia" style="left:34%;top:64%;width:28%;height:24%"><span class="dd-lbl">🌊</span></div>
-<div class="dd-zone" id="dz-manglares" data-id="manglares" style="left:5%;top:38%;width:22%;height:34%"><span class="dd-lbl">🦀</span></div>
-<div class="dd-zone" id="dz-coral" data-id="coral" style="left:71%;top:42%;width:24%;height:34%"><span class="dd-lbl">🐠</span></div>
-<div class="dd-zone" id="dz-tesoro" data-id="tesoro" style="left:62%;top:60%;width:14%;height:18%"><span class="dd-lbl">💎</span></div>
-    <img class="dd-fuzzy" id="ddfz" src="/juegos/fuzzy-pointing-t.png" alt="Fuzzy" draggable="false"></div>
+  <div class="dd-flags"><div class="dd-flag" id="f-selva" draggable="true" data-id="selva" role="button" tabindex="0" aria-label="Selva Verde. Selecciona y luego elige su lugar en el mapa">🌴 Selva Verde</div>
+<div class="dd-flag" id="f-bahia" draggable="true" data-id="bahia" role="button" tabindex="0" aria-label="Bahía Azul. Selecciona y luego elige su lugar en el mapa">🌊 Bahía Azul</div>
+<div class="dd-flag" id="f-manglares" draggable="true" data-id="manglares" role="button" tabindex="0" aria-label="Los Manglares. Selecciona y luego elige su lugar en el mapa">🦀 Los Manglares</div>
+<div class="dd-flag" id="f-coral" draggable="true" data-id="coral" role="button" tabindex="0" aria-label="Costa de Coral. Selecciona y luego elige su lugar en el mapa">🐠 Costa de Coral</div>
+<div class="dd-flag" id="f-tesoro" draggable="true" data-id="tesoro" role="button" tabindex="0" aria-label="El Tesoro. Selecciona y luego elige su lugar en el mapa">💎 El Tesoro</div></div>
+  <div class="dd-mapwrap"><img src="/juegos/mapa-isla-curiosa.png" alt="Mapa de Isla Curiosa" draggable="false" style="aspect-ratio:16/9" decoding="async" loading="lazy"><div class="dd-zone" id="dz-selva" data-id="selva" role="button" tabindex="0" aria-label="Lugar de la Selva Verde" style="left:33%;top:13%;width:30%;height:24%"><span class="dd-lbl">🌴</span></div>
+<div class="dd-zone" id="dz-bahia" data-id="bahia" role="button" tabindex="0" aria-label="Lugar de la Bahía Azul" style="left:34%;top:64%;width:28%;height:24%"><span class="dd-lbl">🌊</span></div>
+<div class="dd-zone" id="dz-manglares" data-id="manglares" role="button" tabindex="0" aria-label="Lugar de Los Manglares" style="left:5%;top:38%;width:22%;height:34%"><span class="dd-lbl">🦀</span></div>
+<div class="dd-zone" id="dz-coral" data-id="coral" role="button" tabindex="0" aria-label="Lugar de la Costa de Coral" style="left:71%;top:42%;width:24%;height:34%"><span class="dd-lbl">🐠</span></div>
+<div class="dd-zone" id="dz-tesoro" data-id="tesoro" role="button" tabindex="0" aria-label="Lugar de El Tesoro" style="left:62%;top:60%;width:14%;height:18%"><span class="dd-lbl">💎</span></div>
+    <img class="dd-fuzzy" id="ddfz" src="/juegos/fuzzy-pointing-t.png" alt="Fuzzy" draggable="false" width="120" height="120" decoding="async" loading="lazy"></div>
 </div>
-<div class="dd-win" id="ddwin"><img src="/juegos/fuzzy-celebrate.png" alt="Fuzzy celebra"><div class="dd-win-t">¡5 de 5!<br>¡Conoces Isla Curiosa!</div><div style="font-size:34px;">⭐⭐⭐</div><button class="dd-btn" id="ddreset">🔄 Jugar de nuevo</button></div>
+<p id="dd-live" class="fz-sr-only" role="status" aria-live="polite"></p>
+<div class="dd-win" id="ddwin"><img src="/juegos/fuzzy-celebrate.png" alt="Fuzzy celebra" width="300" height="300" decoding="async" loading="lazy"><div class="dd-win-t">¡5 de 5!<br>¡Conoces Isla Curiosa!</div><div style="font-size:34px;">⭐⭐⭐</div><button class="dd-btn" id="ddreset">🔄 Jugar de nuevo</button></div>
 <script>(function(){
   var sc=0,drag=null,clone=null,placed=new Set(),sel=null;
   var cnt=document.getElementById('ddc'),fz=document.getElementById('ddfz'),win=document.getElementById('ddwin');
   var flags=document.querySelectorAll('.dd-flag'),zones=document.querySelectorAll('.dd-zone');
+  var live=document.getElementById('dd-live');
+  function announce(msg){if(live){live.textContent='';setTimeout(function(){live.textContent=msg;},60);}}
+  function labelOf(id){var f=document.getElementById('f-'+id);return f?f.textContent.trim():id;}
   function upd(){cnt.textContent=sc+' / 5 🚩';}
   // tap-to-select fallback: pick a flag, then tap its zone (no fine drag needed)
   function clearSel(){if(sel){var pe=document.getElementById('f-'+sel);if(pe)pe.classList.remove('sel');}sel=null;zones.forEach(function(z){z.classList.remove('hot');});}
-  function selectFlag(id){if(placed.has(id))return;clearSel();sel=id;var f=document.getElementById('f-'+id);if(f)f.classList.add('sel');zones.forEach(function(z){if(!z.classList.contains('ok'))z.classList.add('hot');});FZ.sfx(FZS+'chime.mp3');}
+  function selectFlag(id){if(placed.has(id))return;clearSel();sel=id;var f=document.getElementById('f-'+id);if(f)f.classList.add('sel');zones.forEach(function(z){if(!z.classList.contains('ok'))z.classList.add('hot');});FZ.sfx(FZS+'chime.mp3');announce(labelOf(id)+' seleccionado. Ahora elige su lugar en el mapa.');}
   function tapZone(z){if(z.classList.contains('ok'))return;if(!sel)return;var fi=sel,fe=document.getElementById('f-'+fi);clearSel();if(z.dataset.id===fi)place(fi,z);else wrong(fe,z);}
   function place(id,z){var f=document.getElementById('f-'+id);if(f)f.classList.add('done');placed.add(id);
     var lbl=z.querySelector('.dd-lbl');if(lbl)lbl.style.display='none';
     var m=document.createElement('div');m.className='dd-mini';m.textContent=f?f.textContent.trim():id;z.appendChild(m);
     z.classList.add('ok');sc++;upd();fz.src='/juegos/fuzzy-pointing-t.png';
-    FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'sparkle.mp3');
-    if(sc===5)setTimeout(function(){win.classList.add('on');FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'cheer.mp3');if(window.fzGameWon)window.fzGameWon('game-dragdrop');setTimeout(function(){FZ.next('game-dragdrop');},1400);},500);}
-  function wrong(f,z){z.classList.add('no');setTimeout(function(){z.classList.remove('no');},450);if(f)f.classList.add('sh');setTimeout(function(){if(f)f.classList.remove('sh');},420);fz.src='/juegos/fuzzy-confused-t.png';FZ.voice(FZV+'otravez.mp3');setTimeout(function(){fz.src='/juegos/fuzzy-pointing-t.png';},560);}
+    FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'sparkle.mp3');announce('¡Muy bien! '+labelOf(id)+' en su lugar. '+sc+' de 5.');
+    if(sc===5)setTimeout(function(){win.classList.add('on');FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'cheer.mp3');announce('¡5 de 5! ¡Conoces Isla Curiosa! Ganaste un sello.');if(window.fzGameWon)window.fzGameWon('game-dragdrop');setTimeout(function(){FZ.next('game-dragdrop');},1400);},500);}
+  function wrong(f,z){z.classList.add('no');setTimeout(function(){z.classList.remove('no');},450);if(f)f.classList.add('sh');setTimeout(function(){if(f)f.classList.remove('sh');},420);fz.src='/juegos/fuzzy-confused-t.png';FZ.voice(FZV+'otravez.mp3');announce('Casi, intenta otra vez.');setTimeout(function(){fz.src='/juegos/fuzzy-pointing-t.png';},560);}
   var tStart=null,tMoved=false; // track touch to tell a tap from a drag
   flags.forEach(function(f){
     f.addEventListener('dragstart',function(e){if(placed.has(f.dataset.id)){e.preventDefault();return;}clearSel();drag={id:f.dataset.id,el:f};f.classList.add('drag');e.dataTransfer.setData('text/plain',f.dataset.id);});
     f.addEventListener('dragend',function(){if(drag&&drag.el)drag.el.classList.remove('drag');drag=null;});
     // mouse / pointer tap-to-select (real drag won't fire a click on the source)
     f.addEventListener('click',function(){if(placed.has(f.dataset.id))return;if(sel===f.dataset.id){clearSel();}else{selectFlag(f.dataset.id);}});
+    f.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();if(placed.has(f.dataset.id))return;if(sel===f.dataset.id){clearSel();}else{selectFlag(f.dataset.id);}}});
     f.addEventListener('touchstart',function(e){if(placed.has(f.dataset.id))return;e.preventDefault();var t=e.touches[0];tStart={x:t.clientX,y:t.clientY};tMoved=false;drag={id:f.dataset.id,el:f};f.classList.add('drag');var r=f.getBoundingClientRect();clone=f.cloneNode(true);clone.className='dd-flag dd-clone';clone.style.width=r.width+'px';clone.style.left=(t.clientX-r.width/2)+'px';clone.style.top=(t.clientY-r.height/2)+'px';document.body.appendChild(clone);},{passive:false});
     f.addEventListener('touchmove',function(e){e.preventDefault();if(!clone)return;var t=e.touches[0];if(tStart&&(Math.abs(t.clientX-tStart.x)>10||Math.abs(t.clientY-tStart.y)>10))tMoved=true;clone.style.left=(t.clientX-clone.offsetWidth/2)+'px';clone.style.top=(t.clientY-clone.offsetHeight/2)+'px';clone.style.display='none';var el=document.elementFromPoint(t.clientX,t.clientY);clone.style.display='';zones.forEach(function(z){if(!z.classList.contains('ok'))z.classList.remove('over');});if(el){var tz=el.closest('.dd-zone');if(tz&&!tz.classList.contains('ok'))tz.classList.add('over');}},{passive:false});
     f.addEventListener('touchend',function(e){e.preventDefault();if(!drag){if(clone){clone.remove();clone=null;}return;}var t=e.changedTouches[0];if(clone){clone.remove();clone=null;}var fe=drag.el,fi=drag.id;fe.classList.remove('drag');drag=null;zones.forEach(function(z){z.classList.remove('over');});
@@ -329,6 +342,7 @@ window.FZV='/juegos/voz/'; window.FZS='/fuzzy/sfx/';
     z.addEventListener('drop',function(e){e.preventDefault();z.classList.remove('over');if(z.classList.contains('ok'))return;var fi=e.dataTransfer.getData('text/plain')||(drag&&drag.id);if(!fi||placed.has(fi))return;var fe=document.getElementById('f-'+fi);if(z.dataset.id===fi)place(fi,z);else wrong(fe,z);});
     // tap-to-place: if a flag is selected, tapping/clicking a zone places it
     z.addEventListener('click',function(){tapZone(z);});
+    z.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();tapZone(z);}});
     z.addEventListener('touchend',function(e){if(!sel)return;e.preventDefault();tapZone(z);},{passive:false});
   });
   document.getElementById('ddreset').addEventListener('click',function(){sc=0;placed.clear();clearSel();flags.forEach(function(f){f.classList.remove('done','drag','sh');});zones.forEach(function(z){z.classList.remove('ok','over','no','hot');z.querySelectorAll('.dd-mini').forEach(function(m){m.remove();});var l=z.querySelector('.dd-lbl');if(l)l.style.display='';});fz.src='/juegos/fuzzy-pointing-t.png';upd();win.classList.remove('on');});
@@ -366,12 +380,13 @@ window.FZV='/juegos/voz/'; window.FZS='/fuzzy/sfx/';
 <div class="br-t"><span style="display:inline-block;background:#FF7A1A;color:#fff;border-radius:50%;width:32px;height:32px;line-height:32px;text-align:center;font-size:19px;margin-right:8px;vertical-align:middle;">3</span>🧭 El viaje de Fuzzy</div>
 <div class="br-s">Lee el mapa y ayuda a Fuzzy a encontrar El Tesoro</div>
 <div class="br-prog"><div class="br-dot now" id="bd0">1</div><div class="br-ln" id="bl0"></div><div class="br-dot fut" id="bd1">2</div><div class="br-ln" id="bl1"></div><div class="br-dot fut" id="bd2">3</div><div class="br-ln" id="bl2"></div><div class="br-dot fut" id="bd3">4</div></div>
-<div class="br-panel"><img id="br-img" src="/juegos/fuzzy-lost.png" alt="Fuzzy"><div class="br-flash" id="br-flash"></div>
+<div class="br-panel"><img id="br-img" src="/juegos/fuzzy-lost.png" alt="Fuzzy" style="aspect-ratio:16/9" decoding="async" loading="lazy"><div class="br-flash" id="br-flash"></div>
   <div class="br-win" id="br-win"><div style="font-size:42px;">⭐⭐⭐⭐</div><div class="br-win-t">¡Fuzzy encontró El Tesoro!<br>¡Eres un gran explorador! 💎</div><button class="br-rb" onclick="brReset()">🔄 Jugar de nuevo</button></div>
 </div>
-<div class="br-bubble" id="br-q"></div>
+<div class="br-bubble" id="br-q" role="status" aria-live="polite"></div>
 <div class="br-choices"><button class="br-btn" id="brA" onclick="brPick('A')"></button><button class="br-btn" id="brB" onclick="brPick('B')"></button></div>
-<div class="br-hint" id="br-hint"></div>
+<div class="br-hint" id="br-hint" role="status" aria-live="polite"></div>
+<p id="br-live" class="fz-sr-only" role="status" aria-live="polite"></p>
 <script>(function(){
   var S=[
     {img:'/juegos/fuzzy-lost.png',q:'Fuzzy empieza en la Selva Verde, al Norte 🌴. El Tesoro está abajo. ¿Baja al Sur o sube al Norte?',a:{l:'⬇️ Al Sur',ok:true},b:{l:'⬆️ Al Norte',ok:false,h:'¡Al Norte solo hay más selva! 🌴'}},
@@ -380,10 +395,12 @@ window.FZV='/juegos/voz/'; window.FZS='/fuzzy/sfx/';
     {img:'/juegos/fuzzy-map-walk.png',q:'¡La X del Tesoro! ¿Cava aquí en la Costa de Coral o sigue caminando?',a:{l:'⛏️ ¡Cavo aquí!',ok:true},b:{l:'🚶 Sigo caminando',ok:false,h:'¡El Tesoro está justo en la X! ⛏️'}}
   ];
   var cur=0,lk=false,img=document.getElementById('br-img');
+  var live=document.getElementById('br-live');
+  function announce(msg){if(live){live.textContent='';setTimeout(function(){live.textContent=msg;},60);}}
   function prog(){for(var i=0;i<4;i++){var d=document.getElementById('bd'+i);d.className='br-dot';if(i<cur){d.classList.add('done');d.textContent='✓';}else if(i===cur){d.classList.add('now');d.textContent=i+1;}else{d.classList.add('fut');d.textContent=i+1;}if(i<3){document.getElementById('bl'+i).className='br-ln'+(i<cur?' done':'');}}}
   function render(i){var s=S[i];img.src=s.img;document.getElementById('br-q').textContent=s.q;document.getElementById('brA').textContent=s.a.l;document.getElementById('brB').textContent=s.b.l;document.getElementById('br-hint').textContent='';document.getElementById('brA').disabled=false;document.getElementById('brB').disabled=false;lk=false;prog();}
   window.brPick=function(c){if(lk)return;lk=true;var s=S[cur],sel=c==='A'?s.a:s.b;document.getElementById('brA').disabled=true;document.getElementById('brB').disabled=true;
-    if(sel.ok){FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'sparkle.mp3');if(cur===3){setTimeout(function(){img.src='/juegos/fuzzy-celebrate.png';document.getElementById('br-win').classList.add('on');FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'cheer.mp3');if(window.fzGameWon)window.fzGameWon('game-branching');setTimeout(function(){FZ.next('game-branching');},1500);},500);}else{setTimeout(function(){cur++;render(cur);},650);}}
+    if(sel.ok){FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'sparkle.mp3');announce('¡Muy bien! Camino correcto.');if(cur===3){setTimeout(function(){img.src='/juegos/fuzzy-celebrate.png';document.getElementById('br-win').classList.add('on');FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'cheer.mp3');announce('¡Fuzzy encontró El Tesoro! Eres un gran explorador. Ganaste un sello.');if(window.fzGameWon)window.fzGameWon('game-branching');setTimeout(function(){FZ.next('game-branching');},1500);},500);}else{setTimeout(function(){cur++;render(cur);},650);}}
     else{FZ.voice(FZV+'otravez.mp3');var fl=document.getElementById('br-flash');fl.classList.add('on');setTimeout(function(){fl.classList.remove('on');},480);document.getElementById('br-hint').textContent=sel.h;setTimeout(function(){document.getElementById('brA').disabled=false;document.getElementById('brB').disabled=false;lk=false;},700);}
   };
   window.brReset=function(){cur=0;document.getElementById('br-win').classList.remove('on');render(0);};
@@ -420,18 +437,21 @@ window.FZV='/juegos/voz/'; window.FZS='/fuzzy/sfx/';
 <h2 class="m-t"><span style="display:inline-block;background:#FF7A1A;color:#fff;border-radius:50%;width:32px;height:32px;line-height:32px;text-align:center;font-size:19px;margin-right:8px;vertical-align:middle;">4</span>🃏 ¡Encuentra el par del mapa!</h2>
 <div class="m-st"><div class="m-stat">⭐ <span id="m-sc">0</span>/8</div><div class="m-stat">Movimientos: <span id="m-mv">0</span></div></div>
 <div class="m-grid" id="m-grid"></div>
-<img class="m-fz" id="m-fz" src="/juegos/fuzzy-pointing-t.png" alt="Fuzzy">
-<div class="m-win" id="m-win"><img src="/juegos/fuzzy-celebrate.png" alt="Fuzzy celebra"><div class="m-win-t">🎉 ¡8 pares!<br>¡Memoria de explorador!</div><button class="m-rb" onclick="mInit()">Jugar de nuevo</button></div>
+<p id="m-live" class="fz-sr-only" role="status" aria-live="polite"></p>
+<img class="m-fz" id="m-fz" src="/juegos/fuzzy-pointing-t.png" alt="Fuzzy" width="120" height="120" decoding="async" loading="lazy">
+<div class="m-win" id="m-win"><img src="/juegos/fuzzy-celebrate.png" alt="Fuzzy celebra" width="300" height="300" decoding="async" loading="lazy"><div class="m-win-t">🎉 ¡8 pares!<br>¡Memoria de explorador!</div><button class="m-rb" onclick="mInit()">Jugar de nuevo</button></div>
 <script>(function(){
   var CARDS=[{p:'selva_verde',t:'text',c:'Selva Verde'},{p:'selva_verde',t:'emoji',c:'🌴'},{p:'bahia_azul',t:'text',c:'Bahía Azul'},{p:'bahia_azul',t:'emoji',c:'🌊'},{p:'los_manglares',t:'text',c:'Los Manglares'},{p:'los_manglares',t:'emoji',c:'🦀'},{p:'costa_de_coral',t:'text',c:'Costa de Coral'},{p:'costa_de_coral',t:'emoji',c:'🐠'},{p:'el_tesoro',t:'text',c:'El Tesoro'},{p:'el_tesoro',t:'emoji',c:'💎'},{p:'la_brújula',t:'text',c:'La Brújula'},{p:'la_brújula',t:'emoji',c:'🧭'},{p:'el_sol',t:'text',c:'El Sol'},{p:'el_sol',t:'emoji',c:'☀️'},{p:'el_barco',t:'text',c:'El Barco'},{p:'el_barco',t:'emoji',c:'⛵'}];
   var flip=[],mv=0,sc=0,busy=false;
+  var live=document.getElementById('m-live');
+  function announce(msg){if(live){live.textContent='';setTimeout(function(){live.textContent=msg;},60);}}
   function mInit(){flip=[];mv=0;sc=0;busy=false;document.getElementById('m-sc').textContent='0';document.getElementById('m-mv').textContent='0';document.getElementById('m-win').classList.remove('on');document.getElementById('m-fz').src='/juegos/fuzzy-pointing-t.png';
     var g=document.getElementById('m-grid');g.innerHTML='';
-    CARDS.forEach(function(c){var card=document.createElement('div');card.className='m-card';card.innerHTML='<div class="m-in"><div class="m-b">⚜️</div><div class="m-f '+c.t+'">'+c.c+'</div></div>';card.addEventListener('click',function(){pick(card,c);});g.appendChild(card);});}
-  function pick(card,c){if(busy||card.classList.contains('flip')||card.classList.contains('match')||flip.length>=2)return;card.classList.add('flip');flip.push({card:card,d:c});
+    CARDS.forEach(function(c){var card=document.createElement('div');card.className='m-card';card.setAttribute('role','button');card.setAttribute('tabindex','0');card.setAttribute('aria-label','Carta para voltear');card.innerHTML='<div class="m-in"><div class="m-b">⚜️</div><div class="m-f '+c.t+'">'+c.c+'</div></div>';card.addEventListener('click',function(){pick(card,c);});card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(card,c);}});g.appendChild(card);});}
+  function pick(card,c){if(busy||card.classList.contains('flip')||card.classList.contains('match')||flip.length>=2)return;card.classList.add('flip');flip.push({card:card,d:c});announce('Volteaste '+c.c+'.');
     if(flip.length===2){mv++;document.getElementById('m-mv').textContent=mv;busy=true;
-      if(flip[0].d.p===flip[1].d.p){FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'sparkle.mp3');setTimeout(function(){flip.forEach(function(f){f.card.classList.add('match');f.card.classList.remove('flip');});sc++;document.getElementById('m-sc').textContent=sc;var fz=document.getElementById('m-fz');fz.src='/juegos/fuzzy-celebrate.png';setTimeout(function(){fz.src='/juegos/fuzzy-pointing-t.png';},650);flip=[];busy=false;if(sc===8)setTimeout(function(){document.getElementById('m-fz').src='/juegos/fuzzy-celebrate.png';document.getElementById('m-win').classList.add('on');FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'cheer.mp3');if(window.fzGameWon)window.fzGameWon('game-memory');setTimeout(function(){FZ.next('game-memory');},1500);},450);},320);}
-      else{FZ.voice(FZV+'otravez.mp3');var fz=document.getElementById('m-fz');fz.src='/juegos/fuzzy-confused-t.png';flip.forEach(function(f){f.card.classList.add('sh');});setTimeout(function(){flip.forEach(function(f){f.card.classList.remove('flip','sh');});flip=[];busy=false;fz.src='/juegos/fuzzy-pointing-t.png';},900);}
+      if(flip[0].d.p===flip[1].d.p){FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'sparkle.mp3');setTimeout(function(){flip.forEach(function(f){f.card.classList.add('match');f.card.classList.remove('flip');f.card.setAttribute('aria-label','Par encontrado: '+f.d.c);});sc++;document.getElementById('m-sc').textContent=sc;announce('¡Par encontrado! '+sc+' de 8.');var fz=document.getElementById('m-fz');fz.src='/juegos/fuzzy-celebrate.png';setTimeout(function(){fz.src='/juegos/fuzzy-pointing-t.png';},650);flip=[];busy=false;if(sc===8)setTimeout(function(){document.getElementById('m-fz').src='/juegos/fuzzy-celebrate.png';document.getElementById('m-win').classList.add('on');FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'cheer.mp3');announce('¡8 pares! ¡Memoria de explorador! Ganaste un sello.');if(window.fzGameWon)window.fzGameWon('game-memory');setTimeout(function(){FZ.next('game-memory');},1500);},450);},320);}
+      else{FZ.voice(FZV+'otravez.mp3');announce('Casi, intenta otra vez.');var fz=document.getElementById('m-fz');fz.src='/juegos/fuzzy-confused-t.png';flip.forEach(function(f){f.card.classList.add('sh');});setTimeout(function(){flip.forEach(function(f){f.card.classList.remove('flip','sh');});flip=[];busy=false;fz.src='/juegos/fuzzy-pointing-t.png';},900);}
     }}
   window.mInit=mInit;mInit();
   document.getElementById('game-memory').__fzIntro=function(){FZ.voice(FZV+'g4-intro.mp3');};

@@ -106,14 +106,22 @@ window.FZ = (function(){
       }catch(e){}
     });
   }
-  // Voice = narration / feedback speech. Stops any previous voice first.
+  // Duck the ambient bed down while Fuzzy speaks, so voice never muddies with it.
+  function duckAmbient(on){
+    ambBeds.forEach(function(a){ try{ if(!muted) a.volume = on ? a.__vol*0.3 : a.__vol; }catch(e){} });
+  }
+  // Voice = narration / feedback speech. Stops any previous voice first + ducks ambient.
   function voice(src){
     if(muted||!unlocked) return;
     try{
       if(curVoice){ try{curVoice.pause();curVoice.currentTime=0;}catch(e){} }
       var a=get(src); if(!a) return;
-      curVoice=a; a.currentTime=0; var p=a.play(); if(p&&p.catch)p.catch(function(){});
-    }catch(e){}
+      curVoice=a; a.currentTime=0;
+      duckAmbient(true);
+      var restore=function(){ duckAmbient(false); };
+      a.onended=restore; a.onerror=restore; setTimeout(restore, 9000);
+      var p=a.play(); if(p&&p.catch)p.catch(function(){ restore(); });
+    }catch(e){ duckAmbient(false); }
   }
   // SFX = short non-voice sound. Can overlap voice (e.g. sparkle + bien).
   function sfx(src){

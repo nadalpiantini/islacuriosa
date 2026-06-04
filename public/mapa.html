@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🗺️ El Mapa — Fuzzy</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0a2447 0%,#1a4a7a 50%,#0d3b5e 100%);background-attachment:fixed;min-height:100vh;color:white;overflow-x:hidden;}
+section{padding:40px 20px;max-width:980px;margin:0 auto;}
+#episode-hero{max-width:100%;}
+@keyframes flo{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes bnc{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.12) rotate(2deg)}}
+@keyframes wig{0%,100%{transform:rotate(0)}25%{transform:rotate(-6deg)}75%{transform:rotate(6deg)}}
+@keyframes pop{0%{transform:scale(0) rotate(-15deg);opacity:0}70%{transform:scale(1.3);opacity:1}100%{transform:scale(1)}}
+</style>
+</head><body>
+<a href="/" target="_top" style="position:fixed;top:14px;left:14px;z-index:9999;background:rgba(255,255,255,.92);color:#3f7d52;text-decoration:none;font-family:system-ui,-apple-system,sans-serif;font-weight:800;font-size:15px;padding:10px 16px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.25);">← Volver</a>
+<section id="episode-hero" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;position:relative;overflow:hidden;max-width:100%;">
+  <div style="position:absolute;inset:0;pointer-events:none;overflow:hidden;font-size:24px;">
+    <span style="position:absolute;top:10%;left:9%;opacity:0.2;animation:flo 7s ease-in-out infinite;">⭐</span>
+    <span style="position:absolute;top:20%;left:80%;opacity:0.18;animation:flo 9s ease-in-out infinite 1s;">🧭</span>
+    <span style="position:absolute;top:64%;left:5%;opacity:0.18;animation:flo 8s ease-in-out infinite 2s;">🌴</span>
+    <span style="position:absolute;top:72%;left:88%;opacity:0.2;animation:flo 6s ease-in-out infinite .5s;">⛵</span>
+    <span style="position:absolute;top:6%;left:52%;opacity:0.14;animation:flo 12s ease-in-out infinite 4s;">🦜</span>
+    <span style="position:absolute;top:50%;left:3%;opacity:0.16;animation:flo 9s ease-in-out infinite 2.5s;">💎</span>
+  </div>
+  <div style="text-align:center;z-index:2;margin-bottom:26px;">
+    <div style="font-family:'Fredoka One',cursive;font-size:clamp(44px,8vw,84px);color:#FF7A1A;text-shadow:0 0 38px rgba(255,122,26,0.7),0 4px 0 #b5500f;letter-spacing:2px;line-height:1.1;">🗺️ EL MAPA</div>
+    <div style="font-family:'Nunito',sans-serif;font-size:clamp(16px,3vw,26px);color:#FFD24A;font-weight:900;margin-top:8px;text-shadow:0 0 18px rgba(255,210,74,0.5);">Un episodio de Fuzzy — Isla Curiosa</div>
+  </div>
+  <div style="z-index:2;width:100%;max-width:760px;position:relative;">
+    <div onclick="this.querySelector('.ply').style.transform='scale(1.15)'" style="aspect-ratio:16/9;border-radius:26px;overflow:hidden;position:relative;cursor:pointer;box-shadow:0 18px 60px rgba(0,0,0,0.5),0 0 0 4px rgba(255,122,26,0.35);">
+      <img src="/juegos/fuzzy-hero.png" alt="Fuzzy en El Mapa" style="width:100%;height:100%;object-fit:cover;display:block;"/>
+      <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 55%,rgba(0,0,0,0.45) 100%);"></div>
+      <div class="ply" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:84px;height:84px;background:rgba(255,122,26,0.92);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:38px;color:#fff;box-shadow:0 0 40px rgba(255,122,26,0.7);transition:transform .2s;">▶</div>
+      <div style="position:absolute;bottom:16px;left:0;right:0;text-align:center;font-family:'Fredoka One',cursive;font-size:clamp(15px,2.5vw,20px);color:#fff;text-shadow:0 2px 8px rgba(0,0,0,0.7);">▶ Ver el episodio</div>
+    </div>
+  </div>
+  <a href="#game-hotspot" style="margin-top:40px;z-index:2;font-family:'Fredoka One',cursive;font-size:22px;color:#FFD24A;text-decoration:none;background:linear-gradient(135deg,#FF7A1A,#FF9A42);padding:13px 42px;border-radius:60px;box-shadow:0 0 28px rgba(255,122,26,0.45),0 5px 0 #b5500f;animation:bnc 2s ease-in-out infinite;display:inline-flex;align-items:center;gap:10px;">¡A jugar! 👇</a>
+</section>
+<div style="width:100%;overflow:hidden;line-height:0;"><svg viewBox="0 0 1200 80" xmlns="http://www.w3.org/2000/svg"><path d="M0,40 C200,80 400,0 600,40 C800,80 1000,0 1200,40 L1200,80 L0,80 Z" fill="#FF7A1A" opacity="0.22"/></svg></div>
+<section id="game-hotspot">
+<style>
+  #game-hotspot{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#0a1628,#122340 55%,#0d2a3a);border-radius:28px;overflow:hidden;box-shadow:0 12px 48px rgba(0,0,0,0.5);user-select:none;padding:0;}
+  #gh-top{display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,0.45);padding:14px 24px;border-bottom:2px solid rgba(255,122,26,0.3);}
+  #gh-top h2{font-family:'Fredoka One',cursive;font-size:25px;color:#FFD24A;margin:0;}
+  .gh-star{font-size:23px;opacity:0.2;display:inline-block;transition:opacity .2s;}
+  .gh-star.on{opacity:1;animation:pop .4s;}
+  #gh-body{display:flex;align-items:stretch;min-height:440px;}
+  #gh-left{width:30%;min-width:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:18px 10px;}
+  #gh-fuzzy{width:155px;filter:drop-shadow(0 16px 9px rgba(0,0,0,0.22));}
+  #gh-bubble{background:#fff;border-radius:18px;padding:12px 16px;max-width:200px;text-align:center;position:relative;box-shadow:0 6px 18px rgba(0,0,0,0.3);}
+  #gh-bubble::before{content:'';position:absolute;top:-13px;left:50%;transform:translateX(-50%);border:8px solid transparent;border-bottom-color:#fff;}
+  #gh-q{font-weight:900;font-size:16px;color:#16263a;line-height:1.35;}
+  #gh-right{flex:1;padding:16px 16px 16px 0;display:flex;align-items:center;}
+  #gh-mapwrap{position:relative;width:100%;aspect-ratio:16/9;border-radius:18px;overflow:hidden;border:3px solid rgba(255,122,26,0.4);box-shadow:0 8px 30px rgba(0,0,0,0.4);}
+  #gh-mapwrap img{width:100%;height:100%;object-fit:cover;display:block;}
+  .gh-zone{position:absolute;cursor:pointer;border-radius:12px;background:transparent;z-index:10;transition:background .15s;}
+  .gh-zone:hover{background:rgba(255,210,74,0.18);box-shadow:inset 0 0 0 2px rgba(255,210,74,0.5);}
+  .gh-zone.ok{background:rgba(0,230,118,0.4)!important;box-shadow:inset 0 0 0 3px #00E676!important;}
+  .gh-zone.no{background:rgba(255,40,80,0.4)!important;box-shadow:inset 0 0 0 3px #FF2850!important;}
+  #gh-win{display:none;position:absolute;inset:0;background:linear-gradient(160deg,rgba(10,22,40,0.96),rgba(13,42,58,0.96));flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:50;}
+  #gh-win.on{display:flex;}
+  #gh-win img{width:200px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.5);}
+  #gh-win-t{font-family:'Fredoka One',cursive;font-size:30px;color:#FFD24A;text-align:center;padding:0 20px;}
+  .gh-btn{font-family:'Fredoka One',cursive;font-size:19px;color:#16263a;background:linear-gradient(135deg,#FFD24A,#FF7A1A);border:none;border-radius:50px;padding:12px 36px;cursor:pointer;box-shadow:0 5px 16px rgba(255,122,26,0.4);}
+</style>
+<div id="gh-top"><h2>🗺️ ¿Dónde está?</h2><div><span class="gh-star" id="s1">⭐</span><span class="gh-star" id="s2">⭐</span><span class="gh-star" id="s3">⭐</span><span class="gh-star" id="s4">⭐</span><span class="gh-star" id="s5">⭐</span></div></div>
+<div id="gh-body">
+  <div id="gh-left"><img id="gh-fuzzy" src="/juegos/fuzzy-pointing-t.png" alt="Fuzzy"><div id="gh-bubble"><p id="gh-q"></p></div></div>
+  <div id="gh-right"><div id="gh-mapwrap"><img src="/juegos/mapa-isla-curiosa.png" alt="Mapa de Isla Curiosa"><div class="gh-zone" id="zone-selva" style="left:33%;top:13%;width:30%;height:24%"></div>
+<div class="gh-zone" id="zone-bahia" style="left:34%;top:64%;width:28%;height:24%"></div>
+<div class="gh-zone" id="zone-manglares" style="left:5%;top:38%;width:22%;height:34%"></div>
+<div class="gh-zone" id="zone-coral" style="left:71%;top:42%;width:24%;height:34%"></div>
+<div class="gh-zone" id="zone-tesoro" style="left:62%;top:60%;width:14%;height:18%"></div>
+    <div id="gh-win"><img src="/juegos/fuzzy-celebrate.png" alt="Fuzzy celebra"><div id="gh-win-t">¡Lo lograste!<br>🌟 <span id="gh-fs">0</span>/5 en el mapa</div><button class="gh-btn" id="gh-again">🔄 Jugar de nuevo</button></div>
+  </div></div>
+</div>
+<script>(function(){
+  var Q=[{zone:"selva",text:"🌴 ¿Dónde está la Selva Verde?"},{zone:"bahia",text:"🌊 ¿Dónde está la Bahía Azul?"},{zone:"manglares",text:"🦀 ¿Dónde están Los Manglares?"},{zone:"coral",text:"🐠 ¿Dónde está la Costa de Coral?"},{zone:"tesoro",text:"💎 ¿Dónde está El Tesoro?"}],cur=0,sc=0,lk=false;
+  var fz=document.getElementById('gh-fuzzy'),q=document.getElementById('gh-q');
+  var st=[document.getElementById('s1'),document.getElementById('s2'),document.getElementById('s3'),document.getElementById('s4'),document.getElementById('s5')];
+  var win=document.getElementById('gh-win');
+  function setQ(i){q.textContent=Q[i].text;}
+  function flash(z,ok){z.classList.add(ok?'ok':'no');setTimeout(function(){z.classList.remove('ok','no');},ok?650:480);}
+  function hit(name,el){
+    if(lk)return;
+    if(name===Q[cur].zone){lk=true;flash(el,true);fz.src='/juegos/fuzzy-pointing-t.png';st[cur].classList.add('on');sc++;cur++;
+      if(cur>=Q.length){setTimeout(function(){document.getElementById('gh-fs').textContent=sc;win.classList.add('on');},800);}
+      else setTimeout(function(){setQ(cur);lk=false;},800);
+    }else{lk=true;flash(el,false);fz.src='/juegos/fuzzy-confused-t.png';setTimeout(function(){fz.src='/juegos/fuzzy-pointing-t.png';lk=false;},560);}
+  }
+  document.querySelectorAll('.gh-zone').forEach(function(z){var n=z.id.replace('zone-','');
+    z.addEventListener('click',function(){hit(n,z);});
+    z.addEventListener('touchend',function(e){e.preventDefault();hit(n,z);},{passive:false});});
+  document.getElementById('gh-again').addEventListener('click',function(){cur=0;sc=0;lk=false;st.forEach(function(s){s.classList.remove('on');});win.classList.remove('on');fz.src='/juegos/fuzzy-pointing-t.png';setQ(0);});
+  setQ(0);
+})();</script>
+</section>
+<div style="width:100%;overflow:hidden;line-height:0;"><svg viewBox="0 0 1200 80" xmlns="http://www.w3.org/2000/svg"><path d="M0,40 C200,0 400,80 600,40 C800,0 1000,80 1200,40 L1200,80 L0,80 Z" fill="#4ECDC4" opacity="0.22"/></svg></div>
+<section id="game-dragdrop">
+<style>
+  #game-dragdrop{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#1a6b5e,#0d4a40 45%,#1a3a5c);border-radius:28px;padding:26px 22px 40px;position:relative;overflow:hidden;box-shadow:0 12px 48px rgba(0,0,0,0.35);}
+  .dd-title{font-family:'Fredoka One',cursive;font-size:clamp(20px,4vw,30px);color:#FFD24A;text-align:center;margin:0 0 18px;text-shadow:0 0 14px rgba(255,210,74,0.4);}
+  .dd-cnt{position:absolute;top:22px;right:22px;background:rgba(0,0,0,0.35);border:2px solid rgba(255,210,74,0.5);border-radius:20px;padding:5px 14px;font-family:'Fredoka One',cursive;font-size:16px;color:#FFD24A;}
+  .dd-lay{display:flex;gap:16px;align-items:flex-start;}
+  .dd-flags{flex:0 0 30%;display:flex;flex-direction:column;gap:10px;padding-top:4px;}
+  .dd-flag{min-height:56px;background:linear-gradient(135deg,#FF7A1A,#FFD24A);border-radius:26px;display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:15px;color:#fff;text-shadow:1px 1px 3px rgba(0,0,0,0.3);cursor:grab;user-select:none;box-shadow:0 4px 14px rgba(255,122,26,0.4);border:2px solid rgba(255,255,255,0.25);touch-action:none;text-align:center;padding:6px 10px;line-height:1.15;}
+  .dd-flag.drag{opacity:0.3;}
+  .dd-flag.done{opacity:0;pointer-events:none;}
+  .dd-flag.sh{animation:wig .4s;}
+  .dd-mapwrap{flex:1;position:relative;aspect-ratio:16/9;border-radius:16px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,0.45);}
+  .dd-mapwrap img{width:100%;height:100%;object-fit:cover;display:block;-webkit-user-drag:none;}
+  .dd-zone{position:absolute;border:2px dashed rgba(255,255,255,0.35);border-radius:10px;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;transition:.2s;}
+  .dd-lbl{font-size:22px;opacity:0.5;pointer-events:none;}
+  .dd-zone.over{border-color:rgba(0,230,118,0.7);background:rgba(0,230,118,0.12);}
+  .dd-zone.ok{border:3px solid #00E676;background:rgba(0,230,118,0.16);box-shadow:0 0 18px rgba(0,230,118,0.5);}
+  .dd-zone.no{animation:wig .4s;border-color:#FF2850;}
+  .dd-mini{font-family:'Fredoka One',cursive;font-size:11px;color:#fff;background:linear-gradient(135deg,#FF7A1A,#FFD24A);border-radius:12px;padding:2px 8px;pointer-events:none;text-align:center;}
+  .dd-fuzzy{position:absolute;bottom:10px;right:10px;width:120px;pointer-events:none;filter:drop-shadow(0 14px 8px rgba(0,0,0,0.28));}
+  .dd-win{display:none;position:absolute;inset:0;background:rgba(10,40,30,0.92);border-radius:28px;z-index:50;align-items:center;justify-content:center;flex-direction:column;gap:14px;}
+  .dd-win.on{display:flex;}
+  .dd-win img{width:300px;max-width:70%;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.5);}
+  .dd-win-t{font-family:'Fredoka One',cursive;font-size:clamp(22px,4vw,34px);color:#FFD24A;text-align:center;}
+  .dd-btn{font-family:'Fredoka One',cursive;font-size:17px;color:#16263a;background:linear-gradient(135deg,#FFD24A,#FF7A1A);border:none;border-radius:28px;padding:10px 30px;cursor:pointer;}
+  .dd-clone{position:fixed;pointer-events:none;z-index:9999;transform:rotate(4deg) scale(1.05);opacity:0.9;}
+</style>
+<div class="dd-cnt" id="ddc">0 / 5 🚩</div>
+<h2 class="dd-title">🚩 ¡Coloca cada lugar en el mapa!</h2>
+<div class="dd-lay">
+  <div class="dd-flags"><div class="dd-flag" id="f-selva" draggable="true" data-id="selva">🌴 Selva Verde</div>
+<div class="dd-flag" id="f-bahia" draggable="true" data-id="bahia">🌊 Bahía Azul</div>
+<div class="dd-flag" id="f-manglares" draggable="true" data-id="manglares">🦀 Los Manglares</div>
+<div class="dd-flag" id="f-coral" draggable="true" data-id="coral">🐠 Costa de Coral</div>
+<div class="dd-flag" id="f-tesoro" draggable="true" data-id="tesoro">💎 El Tesoro</div></div>
+  <div class="dd-mapwrap"><img src="/juegos/mapa-isla-curiosa.png" alt="Mapa de Isla Curiosa" draggable="false"><div class="dd-zone" id="dz-selva" data-id="selva" style="left:33%;top:13%;width:30%;height:24%"><span class="dd-lbl">🌴</span></div>
+<div class="dd-zone" id="dz-bahia" data-id="bahia" style="left:34%;top:64%;width:28%;height:24%"><span class="dd-lbl">🌊</span></div>
+<div class="dd-zone" id="dz-manglares" data-id="manglares" style="left:5%;top:38%;width:22%;height:34%"><span class="dd-lbl">🦀</span></div>
+<div class="dd-zone" id="dz-coral" data-id="coral" style="left:71%;top:42%;width:24%;height:34%"><span class="dd-lbl">🐠</span></div>
+<div class="dd-zone" id="dz-tesoro" data-id="tesoro" style="left:62%;top:60%;width:14%;height:18%"><span class="dd-lbl">💎</span></div>
+    <img class="dd-fuzzy" id="ddfz" src="/juegos/fuzzy-pointing-t.png" alt="Fuzzy" draggable="false"></div>
+</div>
+<div class="dd-win" id="ddwin"><img src="/juegos/fuzzy-celebrate.png" alt="Fuzzy celebra"><div class="dd-win-t">¡5 de 5!<br>¡Conoces Isla Curiosa!</div><div style="font-size:34px;">⭐⭐⭐</div><button class="dd-btn" id="ddreset">🔄 Jugar de nuevo</button></div>
+<script>(function(){
+  var sc=0,drag=null,clone=null,placed=new Set();
+  var cnt=document.getElementById('ddc'),fz=document.getElementById('ddfz'),win=document.getElementById('ddwin');
+  var flags=document.querySelectorAll('.dd-flag'),zones=document.querySelectorAll('.dd-zone');
+  function upd(){cnt.textContent=sc+' / 5 🚩';}
+  function place(id,z){var f=document.getElementById('f-'+id);if(f)f.classList.add('done');placed.add(id);
+    var lbl=z.querySelector('.dd-lbl');if(lbl)lbl.style.display='none';
+    var m=document.createElement('div');m.className='dd-mini';m.textContent=f?f.textContent.trim():id;z.appendChild(m);
+    z.classList.add('ok');sc++;upd();fz.src='/juegos/fuzzy-pointing-t.png';if(sc===5)setTimeout(function(){win.classList.add('on');},500);}
+  function wrong(f,z){z.classList.add('no');setTimeout(function(){z.classList.remove('no');},450);f.classList.add('sh');setTimeout(function(){f.classList.remove('sh');},420);fz.src='/juegos/fuzzy-confused-t.png';setTimeout(function(){fz.src='/juegos/fuzzy-pointing-t.png';},560);}
+  flags.forEach(function(f){
+    f.addEventListener('dragstart',function(e){if(placed.has(f.dataset.id)){e.preventDefault();return;}drag={id:f.dataset.id,el:f};f.classList.add('drag');e.dataTransfer.setData('text/plain',f.dataset.id);});
+    f.addEventListener('dragend',function(){if(drag&&drag.el)drag.el.classList.remove('drag');drag=null;});
+    f.addEventListener('touchstart',function(e){if(placed.has(f.dataset.id))return;e.preventDefault();drag={id:f.dataset.id,el:f};f.classList.add('drag');var t=e.touches[0],r=f.getBoundingClientRect();clone=f.cloneNode(true);clone.className='dd-flag dd-clone';clone.style.width=r.width+'px';clone.style.left=(t.clientX-r.width/2)+'px';clone.style.top=(t.clientY-r.height/2)+'px';document.body.appendChild(clone);},{passive:false});
+    f.addEventListener('touchmove',function(e){e.preventDefault();if(!clone)return;var t=e.touches[0];clone.style.left=(t.clientX-clone.offsetWidth/2)+'px';clone.style.top=(t.clientY-clone.offsetHeight/2)+'px';clone.style.display='none';var el=document.elementFromPoint(t.clientX,t.clientY);clone.style.display='';zones.forEach(function(z){if(!z.classList.contains('ok'))z.classList.remove('over');});if(el){var tz=el.closest('.dd-zone');if(tz&&!tz.classList.contains('ok'))tz.classList.add('over');}},{passive:false});
+    f.addEventListener('touchend',function(e){e.preventDefault();if(!drag||!clone)return;var t=e.changedTouches[0];clone.remove();clone=null;var el=document.elementFromPoint(t.clientX,t.clientY);var fe=drag.el,fi=drag.id;fe.classList.remove('drag');drag=null;zones.forEach(function(z){z.classList.remove('over');});if(!el||placed.has(fi))return;var tz=el.closest('.dd-zone');if(!tz||tz.classList.contains('ok'))return;if(tz.dataset.id===fi)place(fi,tz);else wrong(fe,tz);},{passive:false});
+  });
+  zones.forEach(function(z){
+    z.addEventListener('dragover',function(e){e.preventDefault();if(!z.classList.contains('ok'))z.classList.add('over');});
+    z.addEventListener('dragleave',function(){z.classList.remove('over');});
+    z.addEventListener('drop',function(e){e.preventDefault();z.classList.remove('over');if(z.classList.contains('ok'))return;var fi=e.dataTransfer.getData('text/plain')||(drag&&drag.id);if(!fi||placed.has(fi))return;var fe=document.getElementById('f-'+fi);if(z.dataset.id===fi)place(fi,z);else wrong(fe,z);});
+  });
+  document.getElementById('ddreset').addEventListener('click',function(){sc=0;placed.clear();flags.forEach(function(f){f.classList.remove('done','drag','sh');});zones.forEach(function(z){z.classList.remove('ok','over','no');z.querySelectorAll('.dd-mini').forEach(function(m){m.remove();});var l=z.querySelector('.dd-lbl');if(l)l.style.display='';});fz.src='/juegos/fuzzy-pointing-t.png';upd();win.classList.remove('on');});
+  upd();
+})();</script>
+</section>
+<div style="width:100%;overflow:hidden;line-height:0;"><svg viewBox="0 0 1200 80" xmlns="http://www.w3.org/2000/svg"><path d="M0,40 C200,80 400,0 600,40 C800,80 1000,0 1200,40 L1200,80 L0,80 Z" fill="#FFD24A" opacity="0.22"/></svg></div>
+<section id="game-branching">
+<style>
+  #game-branching{font-family:'Nunito',sans-serif;overflow:hidden;}
+  .br-t{font-family:'Fredoka One',cursive;font-size:28px;color:#FF7A1A;text-align:center;margin:0 0 4px;}
+  .br-s{font-size:15px;color:rgba(255,255,255,0.7);text-align:center;margin:0 0 14px;font-weight:700;}
+  .br-prog{display:flex;justify-content:center;align-items:center;gap:14px;padding:10px 0;}
+  .br-dot{width:32px;height:32px;border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:14px;color:#fff;transition:.4s;}
+  .br-dot.done{background:#4ECDC4;border-color:#4ECDC4;}
+  .br-dot.now{background:#FF7A1A;border-color:#FFD24A;transform:scale(1.2);}
+  .br-dot.fut{background:transparent;border-color:rgba(255,255,255,0.4);}
+  .br-ln{width:34px;height:3px;background:rgba(255,255,255,0.25);border-radius:2px;transition:.4s;}
+  .br-ln.done{background:#4ECDC4;}
+  .br-panel{position:relative;border-radius:20px;overflow:hidden;box-shadow:0 10px 36px rgba(0,0,0,0.45);}
+  .br-panel img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;transition:.3s;}
+  .br-flash{position:absolute;inset:0;background:rgba(200,0,0,0.32);opacity:0;transition:.1s;pointer-events:none;}
+  .br-flash.on{opacity:1;}
+  .br-bubble{background:rgba(255,255,255,0.97);border-radius:18px;padding:14px 22px;font-weight:800;font-size:20px;line-height:1.4;color:#16263a;text-align:center;margin:16px auto 18px;max-width:560px;box-shadow:0 4px 18px rgba(0,0,0,0.2);}
+  .br-choices{display:flex;flex-direction:column;gap:14px;max-width:480px;margin:0 auto;}
+  .br-btn{height:72px;border:none;border-radius:22px;background:linear-gradient(135deg,#FF7A1A,#f4a261);color:#fff;font-family:'Fredoka One',cursive;font-size:22px;cursor:pointer;box-shadow:0 6px 18px rgba(255,122,26,0.4);display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .15s;}
+  .br-btn:hover{transform:translateY(-2px);}
+  .br-hint{margin-top:10px;font-weight:800;font-size:17px;color:#FFD24A;text-align:center;min-height:24px;text-shadow:0 2px 8px rgba(0,0,0,0.4);}
+  .br-win{display:none;position:absolute;inset:0;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;background:linear-gradient(160deg,rgba(0,0,0,0.4),rgba(0,0,0,0.65));}
+  .br-win.on{display:flex;}
+  .br-win-t{font-family:'Fredoka One',cursive;font-size:clamp(24px,4vw,34px);color:#FFD24A;margin:10px 0;text-shadow:0 3px 10px rgba(0,0,0,0.5);line-height:1.3;}
+  .br-rb{padding:12px 36px;background:linear-gradient(135deg,#FF7A1A,#f4a261);color:#fff;font-family:'Fredoka One',cursive;font-size:20px;border:none;border-radius:48px;cursor:pointer;}
+</style>
+<div class="br-t">🧭 El viaje de Fuzzy</div>
+<div class="br-s">Lee el mapa y ayuda a Fuzzy a encontrar El Tesoro</div>
+<div class="br-prog"><div class="br-dot now" id="bd0">1</div><div class="br-ln" id="bl0"></div><div class="br-dot fut" id="bd1">2</div><div class="br-ln" id="bl1"></div><div class="br-dot fut" id="bd2">3</div><div class="br-ln" id="bl2"></div><div class="br-dot fut" id="bd3">4</div></div>
+<div class="br-panel"><img id="br-img" src="/juegos/fuzzy-lost.png" alt="Fuzzy"><div class="br-flash" id="br-flash"></div>
+  <div class="br-win" id="br-win"><div style="font-size:42px;">⭐⭐⭐⭐</div><div class="br-win-t">¡Fuzzy encontró El Tesoro!<br>¡Eres un gran explorador! 💎</div><button class="br-rb" onclick="brReset()">🔄 Jugar de nuevo</button></div>
+</div>
+<div class="br-bubble" id="br-q"></div>
+<div class="br-choices"><button class="br-btn" id="brA" onclick="brPick('A')"></button><button class="br-btn" id="brB" onclick="brPick('B')"></button></div>
+<div class="br-hint" id="br-hint"></div>
+<script>(function(){
+  var S=[
+    {img:'/juegos/fuzzy-lost.png',q:'Fuzzy empieza en la Selva Verde, al Norte 🌴. El Tesoro está abajo. ¿Baja al Sur o sube al Norte?',a:{l:'⬇️ Al Sur',ok:true},b:{l:'⬆️ Al Norte',ok:false,h:'¡Al Norte solo hay más selva! 🌴'}},
+    {img:'/juegos/fuzzy-map-walk.png',q:'Llega a la Bahía Azul 🌊. La Costa de Coral está a un lado. ¿Va al Este o al Oeste?',a:{l:'➡️ Al Este',ok:true},b:{l:'⬅️ Al Oeste',ok:false,h:'¡Al Oeste están Los Manglares, no el Tesoro! 🦀'}},
+    {img:'/juegos/fuzzy-map-walk.png',q:'¡Llega a la Costa de Coral 🐠! Ve la X del Tesoro. ¿Sigue la X o se devuelve?',a:{l:'❌ Sigo la X',ok:true},b:{l:'↩️ Me devuelvo',ok:false,h:'¡La X marca el Tesoro! No te devuelvas 💎'}},
+    {img:'/juegos/fuzzy-map-walk.png',q:'¡La X del Tesoro! ¿Cava aquí en la Costa de Coral o sigue caminando?',a:{l:'⛏️ ¡Cavo aquí!',ok:true},b:{l:'🚶 Sigo caminando',ok:false,h:'¡El Tesoro está justo en la X! ⛏️'}}
+  ];
+  var cur=0,lk=false,img=document.getElementById('br-img');
+  function prog(){for(var i=0;i<4;i++){var d=document.getElementById('bd'+i);d.className='br-dot';if(i<cur){d.classList.add('done');d.textContent='✓';}else if(i===cur){d.classList.add('now');d.textContent=i+1;}else{d.classList.add('fut');d.textContent=i+1;}if(i<3){document.getElementById('bl'+i).className='br-ln'+(i<cur?' done':'');}}}
+  function render(i){var s=S[i];img.src=s.img;document.getElementById('br-q').textContent=s.q;document.getElementById('brA').textContent=s.a.l;document.getElementById('brB').textContent=s.b.l;document.getElementById('br-hint').textContent='';document.getElementById('brA').disabled=false;document.getElementById('brB').disabled=false;lk=false;prog();}
+  window.brPick=function(c){if(lk)return;lk=true;var s=S[cur],sel=c==='A'?s.a:s.b;document.getElementById('brA').disabled=true;document.getElementById('brB').disabled=true;
+    if(sel.ok){if(cur===3){setTimeout(function(){img.src='/juegos/fuzzy-celebrate.png';document.getElementById('br-win').classList.add('on');},500);}else{setTimeout(function(){cur++;render(cur);},650);}}
+    else{var fl=document.getElementById('br-flash');fl.classList.add('on');setTimeout(function(){fl.classList.remove('on');},480);document.getElementById('br-hint').textContent=sel.h;setTimeout(function(){document.getElementById('brA').disabled=false;document.getElementById('brB').disabled=false;lk=false;},700);}
+  };
+  window.brReset=function(){cur=0;document.getElementById('br-win').classList.remove('on');render(0);};
+  render(0);
+})();</script>
+</section>
+<div style="width:100%;overflow:hidden;line-height:0;"><svg viewBox="0 0 1200 80" xmlns="http://www.w3.org/2000/svg"><path d="M0,40 C200,0 400,80 600,40 C800,0 1000,80 1200,40 L1200,80 L0,80 Z" fill="#96CEB4" opacity="0.22"/></svg></div>
+<section id="game-memory" style="font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#0d4f6e,#1a2744 60%,#0e2a3a);padding:30px 20px 42px;position:relative;overflow:hidden;border-radius:20px;">
+<style>
+  #game-memory .m-t{text-align:center;font-family:'Fredoka One',cursive;font-size:1.85rem;color:#FFD24A;margin:0 0 5px;}
+  #game-memory .m-st{display:flex;justify-content:center;gap:18px;margin-bottom:16px;flex-wrap:wrap;}
+  #game-memory .m-stat{font-family:'Fredoka One',cursive;font-size:1.05rem;color:#fff;background:rgba(255,255,255,0.09);border-radius:18px;padding:4px 16px;border:2px solid rgba(255,210,74,0.3);}
+  #game-memory .m-stat span{color:#FFD24A;}
+  #game-memory .m-grid{display:grid;grid-template-columns:repeat(4,98px);gap:9px;justify-content:center;}
+  #game-memory .m-card{width:98px;height:98px;cursor:pointer;perspective:600px;}
+  #game-memory .m-in{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .4s;}
+  #game-memory .m-card.flip .m-in,#game-memory .m-card.match .m-in{transform:rotateY(180deg);}
+  #game-memory .m-f,#game-memory .m-b{position:absolute;inset:0;backface-visibility:hidden;border-radius:13px;display:flex;align-items:center;justify-content:center;}
+  #game-memory .m-b{background:#1a2744;border:2px solid rgba(255,210,74,0.22);font-size:30px;}
+  #game-memory .m-f{transform:rotateY(180deg);box-shadow:0 4px 12px rgba(0,0,0,0.3);}
+  #game-memory .m-f.text{background:linear-gradient(135deg,#FF7A1A,#FFD24A);font-family:'Fredoka One',cursive;font-size:14px;color:#fff;text-align:center;padding:6px;line-height:1.15;}
+  #game-memory .m-f.emoji{background:#fff;font-size:46px;}
+  #game-memory .m-card.match .m-f{box-shadow:0 0 18px #00E676;border:2px solid #00E676;}
+  #game-memory .m-card.sh .m-in{animation:mSh .35s;}
+  @keyframes mSh{0%,100%{transform:rotateY(180deg) translateX(0)}25%{transform:rotateY(180deg) translateX(-6px)}75%{transform:rotateY(180deg) translateX(6px)}}
+  #game-memory .m-fz{position:absolute;bottom:14px;right:14px;width:120px;pointer-events:none;filter:drop-shadow(0 14px 8px rgba(0,0,0,0.28));}
+  #game-memory .m-win{display:none;position:absolute;inset:0;background:rgba(10,25,50,0.94);border-radius:20px;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:100;}
+  #game-memory .m-win.on{display:flex;}
+  #game-memory .m-win img{width:300px;max-width:70%;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.5);}
+  #game-memory .m-win-t{font-family:'Fredoka One',cursive;font-size:1.7rem;color:#FFD24A;text-align:center;}
+  #game-memory .m-rb{font-family:'Fredoka One',cursive;font-size:1rem;color:#1a2744;background:#FFD24A;border:none;border-radius:22px;padding:9px 28px;cursor:pointer;}
+</style>
+<h2 class="m-t">🃏 ¡Encuentra el par del mapa!</h2>
+<div class="m-st"><div class="m-stat">⭐ <span id="m-sc">0</span>/8</div><div class="m-stat">Movimientos: <span id="m-mv">0</span></div></div>
+<div class="m-grid" id="m-grid"></div>
+<img class="m-fz" id="m-fz" src="/juegos/fuzzy-pointing-t.png" alt="Fuzzy">
+<div class="m-win" id="m-win"><img src="/juegos/fuzzy-celebrate.png" alt="Fuzzy celebra"><div class="m-win-t">🎉 ¡8 pares!<br>¡Memoria de explorador!</div><button class="m-rb" onclick="mInit()">Jugar de nuevo</button></div>
+<script>(function(){
+  var CARDS=[{p:'selva_verde',t:'text',c:'Selva Verde'},{p:'selva_verde',t:'emoji',c:'🌴'},{p:'bahia_azul',t:'text',c:'Bahía Azul'},{p:'bahia_azul',t:'emoji',c:'🌊'},{p:'los_manglares',t:'text',c:'Los Manglares'},{p:'los_manglares',t:'emoji',c:'🦀'},{p:'costa_de_coral',t:'text',c:'Costa de Coral'},{p:'costa_de_coral',t:'emoji',c:'🐠'},{p:'el_tesoro',t:'text',c:'El Tesoro'},{p:'el_tesoro',t:'emoji',c:'💎'},{p:'la_brújula',t:'text',c:'La Brújula'},{p:'la_brújula',t:'emoji',c:'🧭'},{p:'el_sol',t:'text',c:'El Sol'},{p:'el_sol',t:'emoji',c:'☀️'},{p:'el_barco',t:'text',c:'El Barco'},{p:'el_barco',t:'emoji',c:'⛵'}];
+  var flip=[],mv=0,sc=0,busy=false;
+  function mInit(){flip=[];mv=0;sc=0;busy=false;document.getElementById('m-sc').textContent='0';document.getElementById('m-mv').textContent='0';document.getElementById('m-win').classList.remove('on');document.getElementById('m-fz').src='/juegos/fuzzy-pointing-t.png';
+    var g=document.getElementById('m-grid');g.innerHTML='';
+    CARDS.forEach(function(c){var card=document.createElement('div');card.className='m-card';card.innerHTML='<div class="m-in"><div class="m-b">⚜️</div><div class="m-f '+c.t+'">'+c.c+'</div></div>';card.addEventListener('click',function(){pick(card,c);});g.appendChild(card);});}
+  function pick(card,c){if(busy||card.classList.contains('flip')||card.classList.contains('match')||flip.length>=2)return;card.classList.add('flip');flip.push({card:card,d:c});
+    if(flip.length===2){mv++;document.getElementById('m-mv').textContent=mv;busy=true;
+      if(flip[0].d.p===flip[1].d.p){setTimeout(function(){flip.forEach(function(f){f.card.classList.add('match');f.card.classList.remove('flip');});sc++;document.getElementById('m-sc').textContent=sc;var fz=document.getElementById('m-fz');fz.src='/juegos/fuzzy-celebrate.png';setTimeout(function(){fz.src='/juegos/fuzzy-pointing-t.png';},650);flip=[];busy=false;if(sc===8)setTimeout(function(){document.getElementById('m-fz').src='/juegos/fuzzy-celebrate.png';document.getElementById('m-win').classList.add('on');},450);},320);}
+      else{var fz=document.getElementById('m-fz');fz.src='/juegos/fuzzy-confused-t.png';flip.forEach(function(f){f.card.classList.add('sh');});setTimeout(function(){flip.forEach(function(f){f.card.classList.remove('flip','sh');});flip=[];busy=false;fz.src='/juegos/fuzzy-pointing-t.png';},900);}
+    }}
+  window.mInit=mInit;mInit();
+})();</script>
+</section>
+<div style="text-align:center;padding:30px 20px 10px;font-family:system-ui,-apple-system,sans-serif;">
+  <p style="font-size:18px;font-weight:800;color:#fff;margin:0 0 14px;text-shadow:0 2px 8px rgba(0,0,0,.45);">¿Quieres más juegos de Isla Curiosa? 🌴</p>
+  <a href="/" target="_top" style="display:inline-block;background:linear-gradient(180deg,#ffb938,#F5A623);color:#fff;text-decoration:none;font-weight:800;font-size:18px;padding:15px 30px;border-radius:999px;box-shadow:0 8px 0 #c9821a;">Pídele a tus papás que dejen el correo 🐚</a>
+</div>
+<footer style="text-align:center;padding:24px 20px 40px;opacity:0.5;font-size:13px;color:#4ECDC4;">Fuzzy's Home School — El Mapa 🗺️ · Isla Curiosa · 2026</footer>
+</body></html>

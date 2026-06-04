@@ -5,3 +5,7 @@ node_modules/
 .env.local
 .env.*.local
 items/
+.gstack/
+
+.DS_Store
+*.tsbuildinfo

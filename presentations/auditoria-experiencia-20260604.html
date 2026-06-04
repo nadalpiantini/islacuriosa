@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Isla Curiosa — Auditoría de la experiencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sky:#8fd4ef;
+    --leaf:#6bbf73;
+    --deep:#3f7d52;
+    --sand:#e9d5a6;
+    --sun:#F5A623;
+    --white:#fffdf6;
+    --ink:#22372b;
+    --p0:#e8553a;
+    --p1:#F5A623;
+    --p2:#e9c44a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Baloo 2',system-ui,sans-serif;
+    background:linear-gradient(170deg,var(--sky) 0%,#bfe7c4 38%,var(--white) 70%);
+    background-attachment:fixed;
+    color:var(--ink);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:48px;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 16px;}
+
+  /* HERO */
+  header.hero{
+    text-align:center;
+    padding:42px 18px 30px;
+    position:relative;
+  }
+  .hero .badge{
+    display:inline-block;
+    background:var(--deep);
+    color:var(--white);
+    font-weight:600;
+    font-size:.78rem;
+    letter-spacing:.04em;
+    padding:5px 14px;
+    border-radius:999px;
+    margin-bottom:16px;
+    text-transform:uppercase;
+  }
+  .hero h1{
+    font-size:1.85rem;
+    font-weight:800;
+    color:var(--ink);
+    line-height:1.18;
+    margin-bottom:8px;
+  }
+  .hero .palm{font-size:2.6rem;line-height:1;display:block;margin-bottom:6px;}
+  .hero .sub{
+    color:var(--deep);
+    font-weight:600;
+    font-size:.98rem;
+    max-width:520px;
+    margin:0 auto;
+  }
+
+  /* SECTION */
+  section{margin-top:30px;}
+  .sec-title{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:1.28rem;
+    font-weight:800;
+    color:var(--ink);
+    margin-bottom:14px;
+    padding-left:4px;
+  }
+  .sec-title .num{
+    background:var(--sun);
+    color:var(--white);
+    width:32px;height:32px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.95rem;font-weight:700;
+    flex:0 0 auto;
+    box-shadow:0 2px 0 rgba(0,0,0,.08);
+  }
+
+  /* CARD */
+  .card{
+    background:var(--white);
+    border-radius:18px;
+    padding:18px 18px 16px;
+    margin-bottom:14px;
+    box-shadow:0 6px 18px rgba(34,55,43,.10);
+    border:1px solid rgba(63,125,82,.10);
+  }
+  .card.lead{font-size:1rem;color:var(--ink);}
+  .card h3{
+    font-size:1.05rem;
+    font-weight:700;
+    color:var(--deep);
+    margin-bottom:6px;
+    display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  }
+  .card p{font-size:.94rem;color:var(--ink);}
+  .card p + p{margin-top:8px;}
+
+  /* PILLS */
+  .pill{
+    display:inline-block;
+    font-size:.72rem;
+    font-weight:700;
+    padding:3px 10px;
+    border-radius:999px;
+    color:var(--white);
+    letter-spacing:.02em;
+    vertical-align:middle;
+  }
+  .pill.p0{background:var(--p0);}
+  .pill.p1{background:var(--p1);}
+  .pill.p2{background:var(--p2);color:var(--ink);}
+  .tag{
+    display:inline-block;
+    font-size:.72rem;
+    font-weight:600;
+    padding:3px 9px;
+    border-radius:8px;
+    background:var(--sand);
+    color:var(--ink);
+    vertical-align:middle;
+  }
+  .tag.nino{background:#cdeccf;color:var(--deep);}
+  .tag.padre{background:#cfe7f7;color:#1c5170;}
+  .verified{
+    font-size:.74rem;
+    color:var(--deep);
+    font-weight:600;
+    font-style:italic;
+  }
+
+  /* persona card accent */
+  .persona h3{color:var(--ink);}
+  .persona{border-left:5px solid var(--leaf);}
+  .persona.nino-card{border-left-color:var(--sun);background:#fffaf0;}
+
+  /* bug card */
+  .bug{display:flex;flex-direction:column;gap:6px;}
+  .bug .top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .bug .ttl{font-weight:700;font-size:.98rem;color:var(--ink);}
+  .bug .effort{
+    font-size:.82rem;
+    color:var(--deep);
+    background:#eef6ef;
+    border-radius:10px;
+    padding:6px 10px;
+    font-weight:600;
+  }
+
+  /* research items */
+  .res-item{
+    background:var(--white);
+    border-radius:16px;
+    padding:14px 16px;
+    margin-bottom:11px;
+    box-shadow:0 5px 14px rgba(34,55,43,.09);
+    border:1px solid rgba(63,125,82,.10);
+  }
+  .res-item .lbl{
+    font-weight:700;color:var(--deep);font-size:.98rem;
+    display:block;margin-bottom:4px;
+  }
+  .res-item .apply{
+    display:block;margin-top:7px;
+    font-size:.9rem;font-weight:600;color:var(--ink);
+    background:#fff4dd;
+    border-radius:10px;padding:7px 11px;
+  }
+  .res-item .apply::before{content:"→ ";color:var(--sun);font-weight:800;}
+
+  /* roadmap groups */
+  .road-group{
+    background:var(--white);
+    border-radius:18px;
+    padding:16px 18px;
+    margin-bottom:14px;
+    box-shadow:0 6px 18px rgba(34,55,43,.10);
+    border-top:6px solid var(--leaf);
+  }
+  .road-group.win{border-top-color:var(--sun);}
+  .road-group.mid{border-top-color:var(--leaf);}
+  .road-group.big{border-top-color:var(--deep);}
+  .road-group h3{
+    font-size:1.05rem;font-weight:800;color:var(--ink);
+    margin-bottom:4px;
+  }
+  .road-group .hint{font-size:.83rem;color:var(--deep);font-weight:600;margin-bottom:10px;}
+  .road-group ul{list-style:none;}
+  .road-group li{
+    position:relative;
+    padding:6px 0 6px 26px;
+    font-size:.93rem;
+    border-top:1px dashed rgba(63,125,82,.18);
+  }
+  .road-group li:first-child{border-top:none;}
+  .road-group li::before{
+    content:"🌴";
+    position:absolute;left:0;top:6px;font-size:.95rem;
+  }
+
+  /* hard rule */
+  .rule{
+    background:linear-gradient(150deg,var(--deep),#2c5b3a);
+    color:var(--white);
+    border-radius:20px;
+    padding:22px 20px;
+    box-shadow:0 8px 22px rgba(34,55,43,.22);
+  }
+  .rule h3{
+    color:var(--white);font-size:1.15rem;font-weight:800;
+    display:flex;align-items:center;gap:9px;margin-bottom:10px;
+  }
+  .rule p{font-size:.98rem;color:#f3fbf4;line-height:1.6;}
+
+  footer{
+    text-align:center;
+    margin-top:34px;
+    font-size:.78rem;
+    color:var(--deep);
+    font-weight:600;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <span class="palm">🏝️</span>
+    <span class="badge">Auditoría de experiencia</span>
+    <h1>Isla Curiosa<br>Auditoría de la experiencia</h1>
+    <p class="sub">Debug en prod + research de apps infantiles líderes</p>
+  </header>
+
+  <!-- SECCIÓN 1 -->
+  <section>
+    <div class="sec-title"><span class="num">1</span> Cómo se hizo</div>
+    <div class="card lead">
+      <p>Debug real simulando en producción (islacuriosa.com) en móvil 390×844 + benchmarking de apps infantiles líderes (Khan Academy Kids, Duolingo ABC, Lingokids, Sago Mini, Toca Boca, PBS Kids, Prodigy como anti-ejemplo). Hallazgos verificados, no inventados.</p>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 2 -->
+  <section>
+    <div class="sec-title"><span class="num">2</span> Recorridos simulados (personas)</div>
+
+    <div class="card persona">
+      <h3>👩🏽 Yulissa <span class="tag padre">PADRE</span></h3>
+      <p style="font-weight:600;color:var(--deep);font-size:.85rem;margin-bottom:4px;">Mamá millennial · iPhone · buen wifi</p>
+      <p>Ama el cold-open y la voz de Fuzzy. El teléfono la engancha. PERO su hija de 4 años, al entrar a los juegos, <strong>NO PUEDE LEER</strong> las instrucciones → no sabe qué hacer → toca al azar y se aburre. Deja el correo por la identidad dominicana, no por los juegos.</p>
+    </div>
+
+    <div class="card persona">
+      <h3>👨🏽 Héctor <span class="tag padre">PADRE</span></h3>
+      <p style="font-weight:600;color:var(--deep);font-size:.85rem;margin-bottom:4px;">Android gama media · datos prepago · Santiago</p>
+      <p>El cold-open carga 3 videos a la vez → lento → casi cierra. La experiencia pesa para su data. "Sin compromiso" lo destraba para el correo. Los juegos sin sonido le parecen "incompletos".</p>
+    </div>
+
+    <div class="card persona">
+      <h3>👵🏽 Carmen <span class="tag padre">PADRE</span></h3>
+      <p style="font-weight:600;color:var(--deep);font-size:.85rem;margin-bottom:4px;">Abuela · regala a su nieto</p>
+      <p>Se pierde en el scroll largo del mapa de juegos. El "← Volver" es chiquito. Quiere simpleza extrema y un solo botón.</p>
+    </div>
+
+    <div class="card persona">
+      <h3>🗽 Massiel <span class="tag padre">PADRE</span></h3>
+      <p style="font-weight:600;color:var(--deep);font-size:.85rem;margin-bottom:4px;">Diáspora dominicana · NY · iPhone</p>
+      <p>La que MÁS fácil convierte — ama la voz y la identidad RD del intro. Pero los juegos <strong>SILENCIOSOS</strong> le quitan justo el sello dominicano que la enamoró.</p>
+    </div>
+
+    <div class="card persona nino-card">
+      <h3>🧒🏽 Dariel <span class="tag nino">NIÑO</span></h3>
+      <p style="font-weight:600;color:var(--deep);font-size:.85rem;margin-bottom:4px;">4-5 años · pre-lector</p>
+      <p>El intro le encanta (Fuzzy le habla). En los juegos: instrucciones en TEXTO que no lee + cero voz → no entiende qué hacer → frustración → sale. <strong>Punto de quiebre de la experiencia.</strong></p>
+    </div>
+
+    <div class="card persona nino-card">
+      <h3>👧🏽 Sofía <span class="tag nino">NIÑO</span></h3>
+      <p style="font-weight:600;color:var(--deep);font-size:.85rem;margin-bottom:4px;">7-9 años · lectora</p>
+      <p>Disfruta intro y juega quiz + historia de decisiones. Pero el scroll largo sin progreso visible ("¿cuánto llevo? ¿qué sigue?") la desorienta.</p>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 3 -->
+  <section>
+    <div class="sec-title"><span class="num">3</span> Bugs / fricciones en PROD</div>
+
+    <div class="card bug">
+      <div class="top"><span class="pill p0">🔴 P0</span><span class="verified">(verificado en prod)</span></div>
+      <span class="ttl">Juegos 100% silenciosos (0 elementos de audio)</span>
+      <p>Bajón brutal tras un intro lleno de voz y ambiente.</p>
+      <span class="effort">Impacto alto · Esfuerzo medio — ya tenemos voz de Fuzzy + librería SFX</span>
+    </div>
+
+    <div class="card bug">
+      <div class="top"><span class="pill p0">🔴 P0</span><span class="verified">(verificado en prod)</span></div>
+      <span class="ttl">Instrucciones solo en texto</span>
+      <p>"¿Dónde está la Selva Verde?", "Coloca cada lugar"… Un pre-lector 3-5 no puede jugar. Sin voz que guíe.</p>
+      <span class="effort">Alto · Medio</span>
+    </div>
+
+    <div class="card bug">
+      <div class="top"><span class="pill p1">🟠 P1</span><span class="verified">(verificado en prod)</span></div>
+      <span class="ttl">3 videos autoplay en el arranque</span>
+      <p>El video del mapa y el de la playa final se reproducen (readyState 4) ya en la escena 2 — desperdicio de datos en móvil RD, anula la carga progresiva.</p>
+      <span class="effort">Alto · Bajo — quitar autoplay, reproducir al entrar a su escena</span>
+    </div>
+
+    <div class="card bug">
+      <div class="top"><span class="pill p1">🟠 P1</span><span class="verified">(verificado en prod)</span></div>
+      <span class="ttl">La escena del teléfono retiene ~14s</span>
+      <p>Fuzzy hablando (3 líneas seguidas) sin poder adelantar. Demasiado para un niño impaciente.</p>
+      <span class="effort">Medio · Bajo — acortar la línea chistosa / permitir tap-para-seguir</span>
+    </div>
+
+    <div class="card bug">
+      <div class="top"><span class="pill p1">🟠 P1</span><span class="verified">(verificado en prod)</span></div>
+      <span class="ttl">Mapa de juegos = scroll largo (3511px) con 4 juegos apilados</span>
+      <p>Sin guía de "qué hago", sin "uno a la vez". El niño se pierde.</p>
+      <span class="effort">Alto · Medio</span>
+    </div>
+
+    <div class="card bug">
+      <div class="top"><span class="pill p2">🟡 P2</span><span class="verified">(verificado en prod)</span></div>
+      <span class="ttl">Escena playa silenciosa sin prompt</span>
+      <p>El niño no sabe por qué tocar "¡Sí!".</p>
+      <span class="effort">Bajo · Bajo</span>
+    </div>
+
+    <div class="card bug">
+      <div class="top"><span class="pill p2">🟡 P2</span><span class="verified">(verificado en prod)</span></div>
+      <span class="ttl">"Saltar" lleva al waitlist, no hay ruta rápida a JUGAR</span>
+      <span class="effort">Medio · Bajo</span>
+    </div>
+
+    <div class="card bug">
+      <div class="top"><span class="pill p2">🟡 P2</span><span class="verified">(verificado en prod)</span></div>
+      <span class="ttl">No hay "home/Fuzzy" siempre visible dentro de los juegos</span>
+      <p>Riesgo de perderse o salir sin querer.</p>
+      <span class="effort">Medio · Bajo</span>
+    </div>
+
+    <div class="card bug">
+      <div class="top"><span class="pill p2">🟡 P2</span><span class="verified">(verificado en prod)</span></div>
+      <span class="ttl">No hay parent gate antes de pedir el correo</span>
+      <p>Estándar de la categoría infantil.</p>
+      <span class="effort">Medio · Bajo — además refuerza el funnel niño→padre</span>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 4 -->
+  <section>
+    <div class="sec-title"><span class="num">4</span> Lo que hacen las mejores apps del mundo</div>
+
+    <div class="res-item">
+      <span class="lbl">1. Onboarding pre-lector <span style="font-weight:500;color:var(--ink);">(Khan Kids, Duolingo ABC)</span></span>
+      <p>Narrador-personaje habla las instrucciones lento + demuestra antes de pedir la acción; cero pantalla de error. Duolingo descubrió que los preescolares "tocan con mini-arrastre" → aceptar tap+arrastre-corto como tap.</p>
+      <span class="apply">Fuzzy narra TODO; tolerancia de gesto.</span>
+    </div>
+
+    <div class="res-item">
+      <span class="lbl">2. Navegación <span style="font-weight:500;color:var(--ink);">(Toca/Sago)</span></span>
+      <p>Sin estados de fallo ("no puedes perder"), agencia total, home de un toque.</p>
+      <span class="apply">Fuzzy/home siempre visible, cero callejón sin salida.</span>
+    </div>
+
+    <div class="res-item">
+      <span class="lbl">3. Mundo vivo <span style="font-weight:500;color:var(--ink);">(Sago)</span></span>
+      <p>El mundo reacciona a cada toque, microanimaciones idle; pero limpio, NO sobre-estimulante (advertencia Lingokids).</p>
+      <span class="apply">Mapa que reacciona al toque + Fuzzy idle + sonido ambiental por zona.</span>
+    </div>
+
+    <div class="res-item">
+      <span class="lbl">4. Recompensa ética <span style="font-weight:500;color:var(--ink);">(Khan vs anti-Prodigy)</span></span>
+      <p>Progreso/dominio/celebración, NUNCA cofres de azar ni "se desbloquea si tu papá paga". Prodigy fue denunciado a la FTC por eso.</p>
+      <span class="apply">Estampas alcanzables, cero loot, monetización solo del lado del padre.</span>
+    </div>
+
+    <div class="res-item">
+      <span class="lbl">5. Parent gate <span style="font-weight:500;color:var(--ink);">(Lingokids/Apple)</span></span>
+      <p>Año de nacimiento o "pregunta a un adulto: 4×3" como única puerta a correo/compras.</p>
+      <span class="apply">ES tu funnel niño→padre.</span>
+    </div>
+
+    <div class="res-item">
+      <span class="lbl">6. GaaS anti-culpa <span style="font-weight:500;color:var(--ink);">(Lingokids: 74% de padres sienten culpa de pantalla)</span></span>
+      <p>Vender RESULTADO, no pantalla — reporte "Fuzzy le enseñó X esta semana".</p>
+      <span class="apply">Copy anti-culpa en waitlist + reporte de progreso por correo (gancho de regreso del padre).</span>
+    </div>
+
+    <div class="res-item">
+      <span class="lbl">7. Offline + bajo ancho de banda <span style="font-weight:500;color:var(--ink);">(PBS Kids)</span></span>
+      <p>Descargar zonas para jugar sin conexión; assets ligeros.</p>
+      <span class="apply">Decisivo para RD.</span>
+    </div>
+
+    <div class="res-item">
+      <span class="lbl">8. Regreso sano</span>
+      <p>Cero push manipulador al niño; el regreso lo dispara el reporte al padre + "mundo que cambió".</p>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 5 -->
+  <section>
+    <div class="sec-title"><span class="num">5</span> Roadmap priorizado</div>
+
+    <div class="road-group win">
+      <h3>⚡ Quick wins</h3>
+      <p class="hint">Hacer ya — alto impacto, bajo esfuerzo</p>
+      <ul>
+        <li>Quitar autoplay de videos no-escena (perf RD).</li>
+        <li>Voz de Fuzzy + SFX en los 4 juegos (reusar assets que ya tenemos).</li>
+        <li>Acortar el teléfono / tap-para-seguir.</li>
+        <li>Fuzzy/home siempre visible en los juegos + cero callejón sin salida.</li>
+        <li>Parent gate antes del correo.</li>
+      </ul>
+    </div>
+
+    <div class="road-group mid">
+      <h3>🛠️ Medianos</h3>
+      <p class="hint">Siguiente</p>
+      <ul>
+        <li>Pre-lector: Fuzzy narra cada instrucción por voz + demuestra antes de pedir.</li>
+        <li>Mapa "uno a la vez" guiado en vez de muro de scroll.</li>
+        <li>Mundo vivo: toque reactivo + idle de Fuzzy + ambiente por zona.</li>
+        <li>Tolerancia de gesto tap+arrastre.</li>
+      </ul>
+    </div>
+
+    <div class="road-group big">
+      <h3>🌅 Grandes</h3>
+      <p class="hint">Visión</p>
+      <ul>
+        <li>Offline por zona + assets ligeros.</li>
+        <li>Reporte de progreso al padre por correo (GaaS / anti-culpa).</li>
+        <li>Coleccionables sanos (estampas de la isla).</li>
+        <li>🏔️ Pico Duarte + banderita (evolución de marca, ya anotado).</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 6 -->
+  <section>
+    <div class="sec-title"><span class="num">6</span> Regla dura</div>
+    <div class="rule">
+      <h3>🛡️ Cero dark patterns con menores</h3>
+      <p>Cero dark patterns con menores. Nada de cofres de azar, anuncios, ni "se desbloquea si pagas" mostrado al niño (lo que le costó a Prodigy una denuncia ante la FTC). Toda la monetización habla SOLO con el padre, detrás del gate. El niño juega seguro; el padre decide tranquilo.</p>
+    </div>
+  </section>
+
+  <footer>
+    Isla Curiosa · auditoría 2026-06-04 · debug en prod + research de apps líderes
+  </footer>
+
+</div>
+</body>
+</html>

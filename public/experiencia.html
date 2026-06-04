@@ -219,6 +219,9 @@
   }
   .ringing .ring-waves{animation:waves 1s ease-out infinite;}
   .scene-title{font-size:24px;font-weight:800;margin:0 0 22px;line-height:1.2;}
+  /* s2 friendly advance button — revealed once Fuzzy's 2nd line starts */
+  .s2-advance{margin-top:14px;animation:fuzzyIn .4s ease both;}
+  .s2-advance[hidden]{display:none;}
 
   @keyframes ring{
     0%,100%{transform:rotate(0) translateY(0);}
@@ -452,6 +455,40 @@
     margin:10px 0 0;max-width:320px;
     text-shadow:0 1px 3px rgba(255,253,246,.9);
   }
+  /* ---- Parent gate (adult math check before the email form) ---- */
+  .parent-gate{
+    width:100%;max-width:330px;
+    display:flex;flex-direction:column;align-items:center;gap:10px;
+    margin:0 0 8px;
+  }
+  .parent-gate[hidden]{display:none;}
+  .parent-gate-q{
+    margin:0;font-size:15.5px;font-weight:700;color:var(--deep);
+    text-align:center;line-height:1.35;
+    text-shadow:0 1px 3px rgba(255,253,246,.9);
+  }
+  .parent-gate-opts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+  .gate-opt{
+    font-family:inherit;cursor:pointer;
+    min-width:64px;min-height:48px;
+    padding:10px 18px;
+    border-radius:16px;
+    border:2px solid #d9ceac;
+    background:var(--white);
+    color:var(--ink);
+    font-size:19px;font-weight:800;
+    box-shadow:var(--shadow-soft);
+    transition:transform .12s var(--bounce), border-color .2s ease;
+  }
+  .gate-opt:hover,.gate-opt:focus-visible{transform:translateY(-2px);border-color:var(--sun);}
+  .gate-opt:active{transform:translateY(1px);}
+  .parent-gate-msg{
+    margin:0;min-height:1.2em;
+    font-size:13.5px;font-weight:700;color:#c2553b;
+    text-shadow:0 1px 3px rgba(255,253,246,.9);
+  }
+  .form[hidden]{display:none;}
+  .privacy-note[hidden]{display:none;}
   .form{width:100%;max-width:330px;display:flex;flex-direction:column;gap:12px;}
   .form input{
     font-family:inherit;font-size:17px;
@@ -519,7 +556,7 @@
     <section class="scene" id="s2" aria-label="El teléfono suena">
       <div class="s2-stage" id="s2Stage">
         <span class="ring-waves" aria-hidden="true">📳</span>
-        <video class="fuzzy-vid" id="fuzzyPhoneVid" muted loop playsinline autoplay
+        <video class="fuzzy-vid" id="fuzzyPhoneVid" muted loop playsinline
                preload="none"
                poster="/fuzzy/fuzzy-phone.png"
                aria-label="Fuzzy sosteniendo un teléfono, emocionado">
@@ -532,12 +569,13 @@
       </div>
       <h1 class="scene-title">¡Tu teléfono está sonando!</h1>
       <button class="btn green pulse-cta" id="answerBtn" aria-label="Contestar el teléfono">Contestar 📞</button>
+      <button class="btn green s2-advance" id="toIslandBtn" aria-label="Ir a la isla ahora" hidden>¡Vamos a la isla! 🌴</button>
     </section>
 
     <!-- ===== SCENE 3 ===== -->
     <section class="scene" id="s3" aria-label="Fuzzy contesta">
       <div class="fuzzy-stage">
-        <video class="fuzzy-vid" id="fuzzyWaveVid" muted loop playsinline autoplay
+        <video class="fuzzy-vid" id="fuzzyWaveVid" muted loop playsinline
                preload="none"
                poster="/fuzzy/fuzzy-wave.png"
                aria-label="Fuzzy saludando en la playa">
@@ -563,7 +601,7 @@
       <p class="map-sub">Toca la zona que brilla ✨</p>
       <div class="island-map" id="map">
         <!-- animated aerial island (the star) -->
-        <video class="isla-mapa-vid" id="islaMapaVid" muted loop playsinline autoplay
+        <video class="isla-mapa-vid" id="islaMapaVid" muted loop playsinline
                preload="none"
                poster="/fuzzy/isla-mapa.png"
                aria-label="Mapa animado de la isla, vista aérea">
@@ -593,7 +631,7 @@
     <section class="scene" id="s5" aria-label="Información para adultos">
       <!-- full-bleed beach video where Fuzzy waves goodbye -->
       <div class="s5-bg" aria-hidden="true">
-        <video id="s5Bg" muted loop playsinline autoplay
+        <video id="s5Bg" muted loop playsinline
                preload="none"
                poster="/fuzzy/fuzzy-wave.png">
           <source src="/fuzzy/video/fuzzy-wave.mp4" type="video/mp4" />
@@ -614,12 +652,20 @@
         <span class="trust">🇩🇴 Hecho en RD · Sin anuncios · Sin compromiso</span>
         <p class="social-proof">Únete a las primeras familias dominicanas.</p>
 
-        <form class="form" id="waitForm" novalidate>
+        <!-- Parent gate: a tiny adult check before revealing the email form.
+             This gates ONLY the waitlist — the kid's "¡Entra a jugar!" CTA above is always free. -->
+        <div class="parent-gate" id="parentGate">
+          <p class="parent-gate-q">Para los papás 👨‍👩‍👧 ¿Cuánto es 4 × 3?</p>
+          <div class="parent-gate-opts" id="parentGateOpts" role="group" aria-label="Para los papás: ¿cuánto es cuatro por tres?"></div>
+          <p class="parent-gate-msg" id="parentGateMsg" role="status" aria-live="polite"></p>
+        </div>
+
+        <form class="form" id="waitForm" novalidate hidden>
           <input type="email" id="email" inputmode="email" autocomplete="email"
                  placeholder="tucorreo@ejemplo.com" aria-label="Tu correo electrónico (de un adulto)" required />
           <button type="submit" class="btn" aria-label="Avísame cuando abra la isla">Avísame cuando abra la isla 🐚</button>
         </form>
-        <p class="privacy-note">Tu correo no se comparte — solo te avisamos cuando Fuzzy esté listo.</p>
+        <p class="privacy-note" id="privacyNote" hidden>Tu correo no se comparte — solo te avisamos cuando Fuzzy esté listo.</p>
 
         <div class="confirm" id="confirm" role="status" aria-live="polite">
           <span class="big" aria-hidden="true">🌅</span>
@@ -932,6 +978,11 @@
   function onEnter(id){
     AudioEngine.resume();
 
+    // Only the active scene's video plays — pause all others (incl. s1 bg).
+    pauseInactiveSceneVideos(id);
+    // Scene 1 owns bgVideo: resume it on return, it's paused when we leave s1.
+    if(id === "s1"){ tryPlay(bg); }
+
     // ---- Scene 2: looping Fuzzy-phone VIDEO (no shake) + ring SFX + ring-waves ----
     if(id === "s2"){
       var stage = $("s2Stage");
@@ -962,6 +1013,8 @@
       // leaving s2: reset answer button to a clean enabled state for replays
       var ans2 = $("answerBtn");
       if(ans2){ ans2.classList.remove("cta-locked"); ans2.classList.add("pulse-cta"); ans2.disabled = false; }
+      // hide the friendly advance button again so replays start clean
+      var adv = $("toIslandBtn"); if(adv){ adv.hidden = true; }
     }
 
     // ---- Scene 3: SILENT beach beat — Fuzzy already spoke on the phone ----
@@ -1015,6 +1068,30 @@
 
   function tryPlay(v){
     if(v && v.play){ var pr = v.play(); if(pr && pr.catch){ pr.catch(function(){}); } }
+  }
+
+  function pauseVid(v){
+    if(v && v.pause){ try{ v.pause(); }catch(e){} }
+  }
+
+  /* Per-scene video ownership: at any moment ONLY the active scene's video plays.
+     Pause every other scene's video (incl. the s1 bg + fallbacks) so non-active
+     clips never buffer/play on RD mobile data. Posters keep first paint intact. */
+  var sceneOwnedVideos = {
+    s1: ["bgVideo"],
+    s2: ["fuzzyPhoneVid"],
+    s3: ["fuzzyWaveVid"],
+    s4: ["islaMapaVid", "celebrateVid"],
+    s5: ["s5Bg"]
+  };
+  function pauseInactiveSceneVideos(activeId){
+    for(var sid in sceneOwnedVideos){
+      if(!sceneOwnedVideos.hasOwnProperty(sid) || sid === activeId) continue;
+      sceneOwnedVideos[sid].forEach(function(vid){ pauseVid($(vid)); });
+    }
+    // also pause the Scene-3 circular fallback video if present
+    var fb3 = $("fuzzy3");
+    if(fb3 && activeId !== "s3"){ pauseVid(fb3.querySelector("video")); }
   }
 
   /* ---------------- Haptics (guarded, silent no-op if unsupported) ---------------- */
@@ -1247,13 +1324,26 @@
     // telefono → saludo → chiste → then cross to the beach (Scene 3).
     var advanced = false;
     function showOnce(id){ if(advanced) return; advanced = true; show(id); }
+    // As soon as the 2nd line (saludo) starts, reveal a friendly skip button so
+    // the child is never trapped. Tapping it stops the voice and jumps to s3.
+    function revealAdvance(){
+      var b = $("toIslandBtn");
+      if(b){ b.hidden = false; }
+    }
     Voice.play(VOICE.telefono, null, function(){
-      Voice.play(VOICE.saludo, null, function(){
+      Voice.play(VOICE.saludo, revealAdvance, function(){
         Voice.play(VOICE.chiste, null, function(){ showOnce("s3"); });
       });
     });
     // single long backstop in case an mp3 never fires 'ended' (or is muted)
     setTimeout(function(){ showOnce("s3"); }, 16000);
+  });
+
+  // friendly "skip the call" button (appears on the 2nd voice line)
+  $("toIslandBtn").addEventListener("click", function(){
+    haptic(20);
+    Voice.stopAll();   // stop any voice currently playing
+    show("s3");        // jump to the beach immediately
   });
   $("yesBtn").addEventListener("click", function(){
     Voice.stopAll();
@@ -1287,6 +1377,61 @@
     this.setAttribute("aria-pressed", String(m));
   });
 
+  /* ---------------- Parent gate (gates ONLY the email/waitlist) ---------------- */
+  // The correct answer is 12 (4 × 3). Wrong = gentle nudge + reshuffle.
+  var GATE_CORRECT = 12;
+  var gatePassed = false;
+  function shuffle(arr){
+    for(var i = arr.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    return arr;
+  }
+  function renderParentGate(){
+    var opts = $("parentGateOpts");
+    if(!opts) return;
+    opts.innerHTML = "";
+    // one correct (12) + two plausible-but-wrong distractors
+    var choices = shuffle([GATE_CORRECT, 7, 9]);
+    choices.forEach(function(n){
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "gate-opt";
+      b.textContent = String(n);
+      b.setAttribute("aria-label", "Responder " + n);
+      b.addEventListener("click", function(){
+        if(n === GATE_CORRECT){
+          passParentGate();
+        }else{
+          var msg = $("parentGateMsg");
+          if(msg) msg.textContent = "casi, intenta de nuevo 🙂";
+          haptic(20);
+          renderParentGate(); // reshuffle on a wrong answer
+        }
+      });
+      opts.appendChild(b);
+    });
+  }
+  function passParentGate(){
+    gatePassed = true;
+    Sfx.play("sparkle", 0.4);
+    var gate = $("parentGate"); if(gate) gate.hidden = true;
+    var form = $("waitForm"); if(form) form.hidden = false;
+    var note = $("privacyNote"); if(note) note.hidden = false;
+    var email = $("email"); if(email){ try{ email.focus(); }catch(e){} }
+  }
+  function resetParentGate(){
+    gatePassed = false;
+    var gate = $("parentGate"); if(gate) gate.hidden = false;
+    var msg = $("parentGateMsg"); if(msg) msg.textContent = "";
+    var form = $("waitForm");
+    if(form){ form.style.display = ""; form.hidden = true; } // clear inline display so [hidden] applies
+    var note = $("privacyNote"); if(note) note.hidden = true;
+    renderParentGate();
+  }
+  renderParentGate(); // initial render so the gate is ready when scene 5 is reached
+
   $("waitForm").addEventListener("submit", function(e){
     e.preventDefault();
     var email = $("email").value.trim();
@@ -1302,12 +1447,11 @@
   });
 
   $("restartBtn").addEventListener("click", function(){
-    // reset scene 5 form
-    var f = $("waitForm");
-    f.style.display = "flex";
+    // reset scene 5 form + re-arm the parent gate
     $("email").value = "";
     $("email").style.borderColor = "#d9ceac";
     $("confirm").classList.remove("show");
+    resetParentGate(); // hide form behind the gate again (clears inline display), reshuffle answers
     // reset scene 4
     won = false;
     $("winMsg").classList.remove("show");

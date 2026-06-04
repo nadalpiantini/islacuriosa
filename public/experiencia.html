@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#3f7d52" />
+<link rel="manifest" href="/manifest.json" />
 <title>Isla Curiosa</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -648,7 +650,8 @@
       <div class="s5-foot">
         <a class="btn green" href="/mapa.html" target="_top" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none;margin:0 auto 16px;" aria-label="Entra a la isla a jugar">🌴 ¡Entra a jugar!</a>
         <p style="margin:0 0 12px;font-size:13px;font-weight:700;color:rgba(34,55,43,.6);letter-spacing:.5px;">— para los papás —</p>
-        <p class="parent-line">Tu hijo aprende jugando en un mundo dominicano.</p>
+        <p class="parent-line">Una pantalla que SÍ suma — sin culpa.</p>
+        <p style="margin:2px 0 10px;font-size:14px;font-weight:600;color:rgba(34,55,43,.82);line-height:1.35;">Tu hijo aprende jugando en un mundo dominicano. Cada semana te contamos qué aprendió con Fuzzy — vocales, números, geografía de RD.</p>
         <span class="trust">🇩🇴 Hecho en RD · Sin anuncios · Sin compromiso</span>
         <p class="social-proof">Únete a las primeras familias dominicanas.</p>
 
@@ -1471,6 +1474,13 @@
 
   // kick the bg video politely
   tryPlay(bg);
+
+  // offline / PWA: register the service worker (RD data-friendly)
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('/sw.js').catch(function () {});
+    });
+  }
 })();
 </script>
 </body>

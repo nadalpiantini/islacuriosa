@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#3f7d52"><link rel="manifest" href="/manifest.json">
 <title>🗺️ El Mapa — Fuzzy</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
@@ -13,8 +14,56 @@ section{padding:40px 20px;max-width:980px;margin:0 auto;}
 @keyframes bnc{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.12) rotate(2deg)}}
 @keyframes wig{0%,100%{transform:rotate(0)}25%{transform:rotate(-6deg)}75%{transform:rotate(6deg)}}
 @keyframes pop{0%{transform:scale(0) rotate(-15deg);opacity:0}70%{transform:scale(1.3);opacity:1}100%{transform:scale(1)}}
+
+/* ── UX upgrade: breathing / blink / wave / tap-bounce / stamp (all gentle, no jumping) ── */
+@keyframes fzBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
+@keyframes fzBlink{0%,92%,100%{filter:none}95%{filter:brightness(.78)}}
+@keyframes fzWave{0%,100%{transform:rotate(0)}20%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}80%{transform:rotate(-2deg)}}
+@keyframes fzTap{0%,100%{transform:scale(1)}40%{transform:scale(1.5)}}
+@keyframes stampIn{0%{opacity:0;transform:scale(1.6)}100%{opacity:1;transform:scale(1)}}
+.fz-breathe{animation:fzBreathe 4.5s ease-in-out infinite, fzBlink 6s linear infinite;transform-origin:50% 100%;}
+.fz-wave{animation:fzWave .9s ease-in-out 1;}
+.fz-tap{animation:fzTap .45s ease-out 1;}
+
+/* sticky progress bar */
+#fz-prog{position:sticky;top:0;z-index:9000;display:flex;align-items:center;justify-content:center;gap:10px;padding:9px 64px;background:rgba(10,22,40,.82);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-bottom:1px solid rgba(255,210,74,.18);}
+#fz-prog .fz-track{display:flex;align-items:center;gap:8px;}
+.fz-pdot{width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,.45);background:transparent;display:flex;align-items:center;justify-content:center;font-size:12px;color:rgba(255,255,255,.7);transition:background .35s,border-color .35s,transform .35s;font-family:'Fredoka One',cursive;}
+.fz-pdot.done{background:#4ECDC4;border-color:#4ECDC4;color:#0a2447;transform:scale(1.08);}
+.fz-pline{width:22px;height:3px;border-radius:2px;background:rgba(255,255,255,.22);transition:background .35s;}
+.fz-pline.done{background:#4ECDC4;}
+
+/* one-at-a-time focus: dim games not yet reached (soft, never hard-locked) */
+.fz-dim{opacity:.45;transition:opacity .5s ease;}
+.fz-focus{transition:opacity .5s ease;}
+
+/* passport / coleccionables */
+#fz-pass{max-width:600px;margin:8px auto 0;padding:18px 16px 26px;text-align:center;}
+#fz-pass h3{font-family:'Fredoka One',cursive;font-size:clamp(18px,4vw,24px);color:#FFD24A;margin:0 0 4px;text-shadow:0 0 14px rgba(255,210,74,.4);}
+#fz-pass p{font-size:13px;color:rgba(255,255,255,.7);font-weight:700;margin:0 0 16px;}
+#fz-stamps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:440px;margin:0 auto;}
+.fz-stamp{aspect-ratio:1;border-radius:18px;border:2px dashed rgba(255,255,255,.28);background:rgba(255,255,255,.05);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:6px;}
+.fz-stamp .fz-st-ico{font-size:clamp(26px,7vw,38px);opacity:.28;filter:grayscale(1);transition:opacity .4s,filter .4s;}
+.fz-stamp .fz-st-lbl{font-family:'Fredoka One',cursive;font-size:10px;color:rgba(255,255,255,.5);line-height:1.1;transition:color .4s;}
+.fz-stamp.earned{border:2px solid #4ECDC4;background:rgba(78,205,196,.12);box-shadow:0 0 16px rgba(78,205,196,.35);}
+.fz-stamp.earned .fz-st-ico{opacity:1;filter:none;animation:stampIn .55s ease-out 1;}
+.fz-stamp.earned .fz-st-lbl{color:#FFD24A;}
+#fz-pass-done{margin:18px auto 0;font-family:'Fredoka One',cursive;font-size:clamp(18px,4vw,24px);color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.4);display:none;}
+#fz-pass-done.on{display:block;animation:stampIn .6s ease-out 1;}
+@media(prefers-reduced-motion:reduce){
+  .fz-breathe,.fz-wave,.fz-tap{animation:none!important;}
+  .fz-stamp.earned .fz-st-ico,#fz-pass-done.on{animation:none!important;}
+}
 </style>
 </head><body>
+<nav id="fz-prog" aria-label="Progreso del mapa">
+  <div class="fz-track">
+    <span class="fz-pdot" id="pdot0" aria-label="Juego 1">1</span><span class="fz-pline" id="pline0"></span>
+    <span class="fz-pdot" id="pdot1" aria-label="Juego 2">2</span><span class="fz-pline" id="pline1"></span>
+    <span class="fz-pdot" id="pdot2" aria-label="Juego 3">3</span><span class="fz-pline" id="pline2"></span>
+    <span class="fz-pdot" id="pdot3" aria-label="Juego 4">4</span>
+  </div>
+</nav>
 <a href="/" target="_top" style="position:fixed;top:14px;left:14px;z-index:9999;background:rgba(255,255,255,.92);color:#3f7d52;text-decoration:none;font-family:system-ui,-apple-system,sans-serif;font-weight:800;font-size:15px;padding:12px 20px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.25);">← Volver</a>
 <button id="muteBtn" aria-label="Silenciar sonido" style="position:fixed;top:14px;right:14px;z-index:9999;width:56px;height:56px;background:rgba(255,255,255,.92);color:#16263a;border:none;font-size:26px;border-radius:50%;box-shadow:0 4px 14px rgba(0,0,0,.25);cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;-webkit-tap-highlight-color:transparent;">🔊</button>
 <script>
@@ -31,6 +80,27 @@ window.FZ = (function(){
     var a;
     try{ a = new Audio(src); a.preload='auto'; }catch(e){ a=null; }
     cache[src]=a; return a;
+  }
+  // Ambient bed: low, looping, mute-aware. Subtle (Sago standard, not overstimulating).
+  var ambStarted=false, ambBeds=[];
+  function ambient(){
+    if(ambStarted) return; ambStarted=true;
+    var beds=[{src:'/fuzzy/sfx/amb-beach.mp3',vol:0.12},{src:'/fuzzy/sfx/amb-birds.mp3',vol:0.08}];
+    beds.forEach(function(b){
+      try{
+        var a=new Audio(b.src); a.loop=true; a.preload='auto'; a.volume=b.vol;
+        a.__vol=b.vol; ambBeds.push(a);
+        if(!muted){ var p=a.play(); if(p&&p.catch)p.catch(function(){}); }
+      }catch(e){}
+    });
+  }
+  function ambSetMuted(m){
+    ambBeds.forEach(function(a){
+      try{
+        if(m){ a.pause(); }
+        else if(ambStarted){ a.volume=a.__vol; var p=a.play(); if(p&&p.catch)p.catch(function(){}); }
+      }catch(e){}
+    });
   }
   // Voice = narration / feedback speech. Stops any previous voice first.
   function voice(src){
@@ -55,6 +125,7 @@ window.FZ = (function(){
     var b=document.getElementById('muteBtn');
     if(b){ b.textContent=m?'🔈':'🔊'; b.setAttribute('aria-label', m?'Activar sonido':'Silenciar sonido'); }
     if(m) stopAll();
+    ambSetMuted(m);   // ambient bed follows the same mute toggle
   }
   // First gesture unlocks audio (browsers block autoplay sound until then).
   function unlock(){ if(unlocked) return; unlocked=true; }
@@ -66,7 +137,7 @@ window.FZ = (function(){
     if(b) b.addEventListener('click', function(e){ e.stopPropagation(); unlock(); setMuted(!muted); });
   });
   return {
-    voice:voice, sfx:sfx, stopAll:stopAll, unlock:unlock,
+    voice:voice, sfx:sfx, stopAll:stopAll, unlock:unlock, ambient:ambient,
     isMuted:function(){return muted;}, isReduced:function(){return REDUCED;},
     // smooth-scroll the next game into view (respects reduced motion); plays whoosh
     next:function(fromSection){
@@ -160,7 +231,7 @@ window.FZV='/juegos/voz/'; window.FZS='/fuzzy/sfx/';
     if(lk)return;
     if(name===Q[cur].zone){lk=true;flash(el,true);fz.src='/juegos/fuzzy-pointing-t.png';st[cur].classList.add('on');sc++;cur++;
       FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'sparkle.mp3');
-      if(cur>=Q.length){setTimeout(function(){document.getElementById('gh-fs').textContent=sc;win.classList.add('on');FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'cheer.mp3');setTimeout(function(){FZ.next('game-hotspot');},1400);},800);}
+      if(cur>=Q.length){setTimeout(function(){document.getElementById('gh-fs').textContent=sc;win.classList.add('on');FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'cheer.mp3');if(window.fzGameWon)window.fzGameWon('game-hotspot');setTimeout(function(){FZ.next('game-hotspot');},1400);},800);}
       else setTimeout(function(){setQ(cur,true);lk=false;},800);
     }else{lk=true;flash(el,false);fz.src='/juegos/fuzzy-confused-t.png';FZ.voice(FZV+'otravez.mp3');setTimeout(function(){fz.src='/juegos/fuzzy-pointing-t.png';lk=false;},560);}
   }
@@ -237,7 +308,7 @@ window.FZV='/juegos/voz/'; window.FZS='/fuzzy/sfx/';
     var m=document.createElement('div');m.className='dd-mini';m.textContent=f?f.textContent.trim():id;z.appendChild(m);
     z.classList.add('ok');sc++;upd();fz.src='/juegos/fuzzy-pointing-t.png';
     FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'sparkle.mp3');
-    if(sc===5)setTimeout(function(){win.classList.add('on');FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'cheer.mp3');setTimeout(function(){FZ.next('game-dragdrop');},1400);},500);}
+    if(sc===5)setTimeout(function(){win.classList.add('on');FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'cheer.mp3');if(window.fzGameWon)window.fzGameWon('game-dragdrop');setTimeout(function(){FZ.next('game-dragdrop');},1400);},500);}
   function wrong(f,z){z.classList.add('no');setTimeout(function(){z.classList.remove('no');},450);if(f)f.classList.add('sh');setTimeout(function(){if(f)f.classList.remove('sh');},420);fz.src='/juegos/fuzzy-confused-t.png';FZ.voice(FZV+'otravez.mp3');setTimeout(function(){fz.src='/juegos/fuzzy-pointing-t.png';},560);}
   var tStart=null,tMoved=false; // track touch to tell a tap from a drag
   flags.forEach(function(f){
@@ -312,7 +383,7 @@ window.FZV='/juegos/voz/'; window.FZS='/fuzzy/sfx/';
   function prog(){for(var i=0;i<4;i++){var d=document.getElementById('bd'+i);d.className='br-dot';if(i<cur){d.classList.add('done');d.textContent='✓';}else if(i===cur){d.classList.add('now');d.textContent=i+1;}else{d.classList.add('fut');d.textContent=i+1;}if(i<3){document.getElementById('bl'+i).className='br-ln'+(i<cur?' done':'');}}}
   function render(i){var s=S[i];img.src=s.img;document.getElementById('br-q').textContent=s.q;document.getElementById('brA').textContent=s.a.l;document.getElementById('brB').textContent=s.b.l;document.getElementById('br-hint').textContent='';document.getElementById('brA').disabled=false;document.getElementById('brB').disabled=false;lk=false;prog();}
   window.brPick=function(c){if(lk)return;lk=true;var s=S[cur],sel=c==='A'?s.a:s.b;document.getElementById('brA').disabled=true;document.getElementById('brB').disabled=true;
-    if(sel.ok){FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'sparkle.mp3');if(cur===3){setTimeout(function(){img.src='/juegos/fuzzy-celebrate.png';document.getElementById('br-win').classList.add('on');FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'cheer.mp3');setTimeout(function(){FZ.next('game-branching');},1500);},500);}else{setTimeout(function(){cur++;render(cur);},650);}}
+    if(sel.ok){FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'sparkle.mp3');if(cur===3){setTimeout(function(){img.src='/juegos/fuzzy-celebrate.png';document.getElementById('br-win').classList.add('on');FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'cheer.mp3');if(window.fzGameWon)window.fzGameWon('game-branching');setTimeout(function(){FZ.next('game-branching');},1500);},500);}else{setTimeout(function(){cur++;render(cur);},650);}}
     else{FZ.voice(FZV+'otravez.mp3');var fl=document.getElementById('br-flash');fl.classList.add('on');setTimeout(function(){fl.classList.remove('on');},480);document.getElementById('br-hint').textContent=sel.h;setTimeout(function(){document.getElementById('brA').disabled=false;document.getElementById('brB').disabled=false;lk=false;},700);}
   };
   window.brReset=function(){cur=0;document.getElementById('br-win').classList.remove('on');render(0);};
@@ -359,18 +430,132 @@ window.FZV='/juegos/voz/'; window.FZS='/fuzzy/sfx/';
     CARDS.forEach(function(c){var card=document.createElement('div');card.className='m-card';card.innerHTML='<div class="m-in"><div class="m-b">⚜️</div><div class="m-f '+c.t+'">'+c.c+'</div></div>';card.addEventListener('click',function(){pick(card,c);});g.appendChild(card);});}
   function pick(card,c){if(busy||card.classList.contains('flip')||card.classList.contains('match')||flip.length>=2)return;card.classList.add('flip');flip.push({card:card,d:c});
     if(flip.length===2){mv++;document.getElementById('m-mv').textContent=mv;busy=true;
-      if(flip[0].d.p===flip[1].d.p){FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'sparkle.mp3');setTimeout(function(){flip.forEach(function(f){f.card.classList.add('match');f.card.classList.remove('flip');});sc++;document.getElementById('m-sc').textContent=sc;var fz=document.getElementById('m-fz');fz.src='/juegos/fuzzy-celebrate.png';setTimeout(function(){fz.src='/juegos/fuzzy-pointing-t.png';},650);flip=[];busy=false;if(sc===8)setTimeout(function(){document.getElementById('m-fz').src='/juegos/fuzzy-celebrate.png';document.getElementById('m-win').classList.add('on');FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'cheer.mp3');setTimeout(function(){FZ.next('game-memory');},1500);},450);},320);}
+      if(flip[0].d.p===flip[1].d.p){FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'sparkle.mp3');setTimeout(function(){flip.forEach(function(f){f.card.classList.add('match');f.card.classList.remove('flip');});sc++;document.getElementById('m-sc').textContent=sc;var fz=document.getElementById('m-fz');fz.src='/juegos/fuzzy-celebrate.png';setTimeout(function(){fz.src='/juegos/fuzzy-pointing-t.png';},650);flip=[];busy=false;if(sc===8)setTimeout(function(){document.getElementById('m-fz').src='/juegos/fuzzy-celebrate.png';document.getElementById('m-win').classList.add('on');FZ.voice(FZV+'bien.mp3');FZ.sfx(FZS+'cheer.mp3');if(window.fzGameWon)window.fzGameWon('game-memory');setTimeout(function(){FZ.next('game-memory');},1500);},450);},320);}
       else{FZ.voice(FZV+'otravez.mp3');var fz=document.getElementById('m-fz');fz.src='/juegos/fuzzy-confused-t.png';flip.forEach(function(f){f.card.classList.add('sh');});setTimeout(function(){flip.forEach(function(f){f.card.classList.remove('flip','sh');});flip=[];busy=false;fz.src='/juegos/fuzzy-pointing-t.png';},900);}
     }}
   window.mInit=mInit;mInit();
   document.getElementById('game-memory').__fzIntro=function(){FZ.voice(FZV+'g4-intro.mp3');};
 })();</script>
 </section>
+<section id="fz-pass" aria-label="Mi pasaporte de la isla">
+  <h3>🛂 Mi pasaporte de la isla</h3>
+  <p>Gana un sello jugando cada juego del mapa</p>
+  <div id="fz-stamps">
+    <div class="fz-stamp" id="stamp0"><div class="fz-st-ico">🗺️</div><div class="fz-st-lbl">¿Dónde está?</div></div>
+    <div class="fz-stamp" id="stamp1"><div class="fz-st-ico">🚩</div><div class="fz-st-lbl">Coloca el mapa</div></div>
+    <div class="fz-stamp" id="stamp2"><div class="fz-st-ico">🧭</div><div class="fz-st-lbl">El viaje</div></div>
+    <div class="fz-stamp" id="stamp3"><div class="fz-st-ico">🃏</div><div class="fz-st-lbl">Encuentra el par</div></div>
+  </div>
+  <div id="fz-pass-done">¡Completaste el mapa! 🌟</div>
+</section>
 <div style="text-align:center;padding:30px 20px 10px;font-family:system-ui,-apple-system,sans-serif;">
   <p style="font-size:18px;font-weight:800;color:#fff;margin:0 0 14px;text-shadow:0 2px 8px rgba(0,0,0,.45);">¿Quieres más juegos de Isla Curiosa? 🌴</p>
   <a href="/" target="_top" style="display:inline-block;background:linear-gradient(180deg,#ffb938,#F5A623);color:#fff;text-decoration:none;font-weight:800;font-size:18px;padding:15px 30px;border-radius:999px;box-shadow:0 8px 0 #c9821a;">Pídele a tus papás que dejen el correo 🐚</a>
 </div>
 <footer style="text-align:center;padding:24px 20px 40px;opacity:0.5;font-size:13px;color:#4ECDC4;">Fuzzy's Home School — El Mapa 🗺️ · Isla Curiosa · 2026</footer>
+<script>
+/* ── UX upgrade controller: guided flow (progress + dimming), mundo vivo, passport ── */
+(function(){
+  var GAMES=['game-hotspot','game-dragdrop','game-branching','game-memory'];
+  var REDUCED=(window.FZ&&FZ.isReduced&&FZ.isReduced());
+  var reached=0;            // how many games are un-dimmed (current frontier)
+  var won={};               // games won this session
+  var stamps=load();        // persisted stamps {0..3:true}
+
+  function load(){try{return JSON.parse(localStorage.getItem('isla_stamps')||'{}')||{};}catch(e){return {};}}
+  function save(){try{localStorage.setItem('isla_stamps',JSON.stringify(stamps));}catch(e){}}
+
+  /* ---- progress bar + one-at-a-time dimming ---- */
+  function paintProgress(){
+    for(var i=0;i<4;i++){
+      var d=document.getElementById('pdot'+i); if(d){ if(won[GAMES[i]]){d.classList.add('done');d.textContent='✓';} }
+      if(i<3){var l=document.getElementById('pline'+i); if(l&&won[GAMES[i]])l.classList.add('done');}
+    }
+  }
+  function applyDim(){
+    GAMES.forEach(function(id,i){
+      var sec=document.getElementById(id); if(!sec)return;
+      sec.classList.add('fz-focus');
+      // reached frontier (and everything before) stays bright; future games dim — never hard-locked
+      if(i<=reached) sec.classList.remove('fz-dim'); else sec.classList.add('fz-dim');
+    });
+  }
+  function advanceFrontier(idx){ if(idx+1>reached){ reached=idx+1; applyDim(); } }
+
+  /* ---- passport stamps ---- */
+  function paintStamps(){
+    var all=true;
+    for(var i=0;i<4;i++){
+      var el=document.getElementById('stamp'+i);
+      if(stamps[i]){ if(el)el.classList.add('earned'); } else { all=false; }
+    }
+    var done=document.getElementById('fz-pass-done'); if(done){ if(all)done.classList.add('on'); else done.classList.remove('on'); }
+  }
+  function earnStamp(i){
+    if(stamps[i])return;            // already earned (persisted) → no re-animation
+    stamps[i]=true; save();
+    var el=document.getElementById('stamp'+i);
+    if(el)el.classList.add('earned'); // CSS animates (instant under reduced-motion)
+    if(FZ&&FZ.sfx)FZ.sfx('/fuzzy/sfx/sparkle.mp3');
+    var all=stamps[0]&&stamps[1]&&stamps[2]&&stamps[3];
+    if(all){
+      var done=document.getElementById('fz-pass-done'); if(done)done.classList.add('on');
+      if(FZ){ if(FZ.sfx)FZ.sfx('/fuzzy/sfx/cheer.mp3'); if(FZ.voice)FZ.voice('/juegos/voz/bien.mp3'); }
+    }
+  }
+
+  /* ---- win hook called by each game ---- */
+  window.fzGameWon=function(id){
+    var idx=GAMES.indexOf(id); if(idx<0)return;
+    won[id]=true;
+    paintProgress();
+    earnStamp(idx);
+    advanceFrontier(idx);   // un-dim the next game (existing auto-scroll handles the move)
+  };
+
+  /* ---- mundo vivo: idle Fuzzy (breathe/blink + one-time wave on idle) ---- */
+  var heroFz=document.querySelector('#episode-hero img');
+  if(heroFz){ heroFz.classList.add('fz-breathe'); }
+  var idleTimer=null, waved=false;
+  function armIdle(){
+    if(REDUCED||waved||!heroFz)return;
+    clearTimeout(idleTimer);
+    idleTimer=setTimeout(function(){
+      if(waved||!heroFz)return; waved=true;
+      heroFz.classList.add('fz-wave');
+      if(FZ&&FZ.sfx)FZ.sfx('/fuzzy/sfx/chime.mp3');
+      setTimeout(function(){heroFz.classList.remove('fz-wave');},1000);
+    },8000);
+  }
+  ['pointerdown','touchstart','keydown','scroll'].forEach(function(ev){
+    window.addEventListener(ev,function(){ if(!waved)armIdle(); }, {passive:true});
+  });
+  armIdle();
+
+  /* ---- mundo vivo: reactive floating emojis in hero ---- */
+  document.querySelectorAll('#episode-hero > div:first-child > span').forEach(function(sp){
+    sp.style.pointerEvents='auto'; sp.style.cursor='pointer';
+    function react(e){ if(e&&e.cancelable)e.preventDefault();
+      sp.classList.remove('fz-tap'); void sp.offsetWidth; sp.classList.add('fz-tap');
+      if(FZ){ if(FZ.sfx)FZ.sfx('/fuzzy/sfx/chime.mp3'); FZ.sfx&&FZ.sfx('/fuzzy/sfx/glow.mp3'); }
+      setTimeout(function(){sp.classList.remove('fz-tap');},460);
+    }
+    sp.addEventListener('click',react);
+    sp.addEventListener('touchstart',react,{passive:false});
+  });
+
+  /* ---- mundo vivo: low ambient bed after first gesture, mute-aware ---- */
+  function startAmbient(){ if(FZ&&FZ.ambient)FZ.ambient(); }
+  ['pointerdown','touchstart','click','keydown'].forEach(function(ev){
+    document.addEventListener(ev,startAmbient,{once:true,passive:true});
+  });
+
+  /* ---- init paint ---- */
+  paintStamps();
+  paintProgress();
+  applyDim();
+})();
+</script>
 <script>
 /* ── Per-game intro narration when a game scrolls into view (Fuzzy explains) ── */
 (function(){
@@ -402,4 +587,5 @@ window.FZV='/juegos/voz/'; window.FZS='/fuzzy/sfx/';
   });
 })();
 </script>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){});});}</script>
 </body></html>

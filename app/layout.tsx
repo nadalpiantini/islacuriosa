@@ -1,6 +1,11 @@
 import '../styles/globals.css'
 
+export const viewport = {
+  themeColor: '#3f7d52',
+}
+
 export const metadata = {
+  manifest: '/manifest.json',
   title: 'Isla Curiosa — Educacion animada del Caribe',
   description: 'Plataforma educativa animada para ninos con personajes del Caribe. Episodios, juegos y un tutor inteligente. Hecha en Republica Dominicana.',
   openGraph: {
